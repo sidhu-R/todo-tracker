@@ -1,0 +1,324 @@
+$(document).ready(function() {
+  $("#popup1").fadeOut(3000);
+  // $("#popuptext").removeClass("popuptext");
+  // $("#popup1").removeClass("overlay");
+  // $("#popup2").removeClass("popup");
+  
+ });
+ 
+
+
+//deactivate data
+$('#deleteBtn1').click(deleteData);
+function deleteData() {
+  var selectedRow = $('#tasktable tbody tr.selected');
+  if (selectedRow.length === 0) {
+    alert('Please select a row to delete.');
+    return;
+  }
+  if (confirm('Are you sure you want to deactivate this Task?')) {
+  
+  var id = selectedRow.data('id');
+  
+  $.ajax({
+    url: '/data/delete/' + id + '/',  
+    type: 'POST',
+    dataType: 'json',
+    success: function(response) {
+  
+      $('#tasktitle2').val('');
+      $('#taskdesc2').val('');
+      $('#duedate2').val('');
+      $('#priority2').val('');
+      $('#status2').val('');  
+  
+      alert('Task Deactivated');
+      // location.reload();
+      loadData('','');
+      $('#Closebtn2').click()
+
+    
+    }
+  });
+  }
+  }
+  
+  
+
+// load task
+// $(document).ready(function() {
+  function loadData(sortBy,sortBy2) {
+  $('#tasktable').DataTable().clear().destroy();
+
+  $.ajax({
+    url: '/data_task_view/',
+    type: 'POST',
+    data: {
+      'sort_by': sortBy,
+      'sort_by2':sortBy2,
+  },
+    success: function(data) {
+     
+      var tbody = $('#tasktable tbody');
+      tbody.empty();
+  
+      let num=1;
+      $.each(data, function(index, item) {  
+        var row = `<tr data-id="${item.id}">
+                        <td>${num}</td>
+                        <td>${item.task_title}</td>
+                        <td>${item.task_desc}</td>
+                        <td>${item.task_due}</td>
+                        <td>${item.task_priority}</td>
+                        <td>${item.task_status}</td>
+                        <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button></td>
+                      </tr>
+                        `;
+        tbody.append(row);
+  
+        
+        num++;
+  
+      });
+  
+      var dataTable = $('.datatable').DataTable({
+        "destroy": true,
+        "retrieve": true,
+        "info": false,
+
+        drawCallback: function(settings) {
+        var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+        pagination.toggle(this.api().page.info().pages > 1);
+        },
+        
+
+  
+      });
+      
+  
+      dataTable.columns().every(function() {
+      var column = this;
+  
+      $('.filter-column', this.footer()).on('keyup change', function() {
+        if (column.search() !== this.value) {
+          column
+            .search(this.value)
+            .draw();
+          this.focus();
+        }
+      });
+
+
+      });
+      
+  
+  
+    }
+  
+    
+  });
+
+  }
+  
+  loadData('','');
+  $('#task_date_submit').click(function() {
+    var sortBy = $('#min').val();
+    var sortBy2 = $('#max').val();
+    loadData(sortBy,sortBy2);
+  });
+  
+  
+  
+  
+   
+  // });
+
+
+
+
+
+//create
+$(document).ready(function() {
+   
+  $("#addform").validate({
+  rules: {
+    tasktitle:{
+      required:true,
+         },
+    taskdesc: {
+      required: true,
+    },
+    duedate: {
+      required: true,
+    },
+
+  },
+  messages: {
+    tasktitle:{
+      required:"Task title is required",
+    },
+
+    taskdesc:{
+      required:'Task  description please',
+    },
+    duedate: {
+      required:'Enter Due date please',
+    },
+  },
+  submitHandler: function(form) {
+    createData(form);
+    return false;
+  }
+
+});
+
+});
+
+
+function createData() {
+var title = $('#tasktitle').val();
+var desc = $('#taskdesc').val();
+var dte = $('#duedate').val();
+var prio = $('#priority').val();
+var status = $('#status').val();  
+
+$.ajax({
+  url: '/data/create/',
+  type: 'POST',
+  dataType: 'json',
+  data: {
+    title: title,
+    desc: desc,
+    dte:dte,
+    prio:prio,
+    status:status
+
+  },
+  success: function(response,) {
+
+    $('#tasktitle').val('');
+    $('#taskdesc').val('');
+    $('#duedate').val('');
+    $('#priority').val('');
+    $('#status').val('');  
+    
+
+    // $("#btnclose1").click()
+    // $("#fademsg").text("A message that will fadeout");
+    // $("#fademsg").fadeOut(3000);
+    alert('Task added');
+    $('#Closebtn1').click()
+    // location.reload()
+    loadData('','');
+  }
+});
+}
+
+
+
+
+//update
+$(document).ready(function() {
+   
+  $("#editform").validate({
+  rules: {
+    tasktitle2:{
+      required:true,
+         },
+    taskdesc2: {
+      required: true,
+    },
+    duedate2: {
+      required: true,
+    },
+
+  },
+  messages: {
+    tasktitle:{
+      required:"Task title is required",
+    },
+
+    taskdesc:{
+      required:'Task  description please',
+    },
+    duedate: {
+      required:'Enter Due date please',
+    },
+  },
+  submitHandler: function(form) {
+    updateData(form);
+    return false;
+  }
+
+});
+
+});
+
+function updateData() {
+var selectedRow = $('#tasktable tbody tr.selected');
+if (selectedRow.length === 0) {
+  alert('Please select a row to update.');
+  return;
+}
+
+var id = selectedRow.data('id');
+var title = $('#tasktitle2').val();
+var desc = $('#taskdesc2').val();
+var dte = $('#duedate2').val();
+var prio = $('#priority2').val();
+var status = $('#status2').val();  
+
+
+$.ajax({
+  url: '/data/update/' + id + '/',
+  type: 'POST',
+  dataType: 'json',
+  data: {
+    title: title,
+    desc: desc,
+    dte:dte,
+    prio:prio,
+    status:status,
+  },
+  success: function(response) {
+
+    $('#tasktitle2').val('');
+    $('#taskdesc2').val('');
+    $('#duedate2').val('');
+    $('#priority2').val('');
+    $('#status2').val('');  
+
+    alert('Task updated');
+    $('#Closebtn2').click();
+    // location.reload()
+    loadData('','');
+
+
+  }
+});
+}
+
+
+
+
+
+$(document).on('click', '#tasktable tbody tr', function() {
+$('#tasktable tbody tr').removeClass('selected');
+$(this).addClass('selected');
+
+var title = $(this).find('td:eq(1)').text();
+var desc = $(this).find('td:eq(2)').text();
+var dte = $(this).find('td:eq(3)').text();
+var prio = $(this).find('td:eq(4)').text();
+var status = $(this).find('td:eq(5)').text();
+
+$('#tasktitle2').val(title);
+$('#taskdesc2').val(desc);
+$('#duedate2').val(dte);
+$('#priority2').val(prio);
+$('#status2').val(status);
+});
+
+
+
+

@@ -1,0 +1,384 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+<style>
+  .datatable tfoot {
+  display: table-header-group;
+}
+
+.datatable tfoot .filter-column {
+  width: 100% !important;
+}
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>To Do List</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+          <li class="breadcrumb-item active">To Do</li>
+        </ol>
+      </nav>
+      <span style="color:rgb(27, 122, 255);" id="fademsg"></span>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">To Do</h5>
+              <p>Add your tasks here</p>
+
+          
+            <div class="card-body">
+            
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                Add 
+              </button>
+              <hr>
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add Item</h5>
+                      <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <div class="card-body">
+              <h5 class="card-title">Add Item</h5>
+
+              <!-- Vertical Form -->
+              <form class="row g-3" id="addform" method="post">
+                {% csrf_token %}
+                
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">Task Title</label>
+                  <input type="text" class="form-control" id="tasktitle" name="tasktitle" >
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">Task Description</label>
+                  <textarea class="form-control" placeholder="Description" id="taskdesc" name="taskdesc" style="height: 100px;" ></textarea>
+                </div>
+                <div class="col-12">
+                  <label for="inputPassword4" class="form-label">Due Date</label>
+                 <input type="date" class="form-control" name="duedate" id="duedate" >
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Priority</label>
+                  <select class="form-select" aria-label="Default select example" name="priority" id="priority" >
+                      <option value="High">High</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Low">Low</option>
+                    </select>
+			     </div>
+				 
+				     <div class="col-12">
+                  <label for="inputAddress" class="form-label">Status</label>
+                  <select class="form-select" aria-label="Default select example" name="status" id="status"  >
+                      <option value="In Progress">In Progress</option>
+                      <option value="Finished">Finished</option>
+                      <option value="Pending">Pending</option>
+                    </select>
+			     </div>
+                    <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn1">Close</button>
+                     <button type="submit" id="createBtn" class="btn btn-primary">Create</button>
+                    </div>
+              </form><!-- Vertical Form -->
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
+
+            </div>
+         
+		  
+		  
+
+            <table border="0" cellspacing="5" cellpadding="5">
+              <tbody><tr>
+                  <td>Starting date:</td>
+                  <td><input type="date" id="min" name="min"></td>
+              </tr>
+              <tr>
+                  <td>Ending date:</td>
+                  <td><input type="date" id="max" name="max"></td>
+                  <td><button class="btn btn-outline-primary" type="button" id="task_date_submit">Filter</button></td>
+              </tr>
+          </tbody></table>
+              <div class="container-fluid">
+                <table class="datatable table table-hover table-bordered" id="tasktable">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Task Title</th>
+                      <th>Description</th>
+                      <th>Due Date</th>
+                      <th>Priority</th>
+                      <th>Status</th>   
+                      <th>Actions</th>	
+                      
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>
+                        <!-- <input type="text" class="form-control input-sm filter-column"> -->
+                      </th>
+                      <th>
+                        <!-- <input type="text" class="form-control input-sm filter-column" /> -->
+                      </th>
+                      <th></th>
+                      <th>
+                        <select class="form-control input-sm filter-column">
+                          <option value="">All</option>
+                          <option value="High">High</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Low">Low</option>
+                        </select>
+                      </th>
+                      <th>          
+                      <select class="form-control input-sm filter-column">
+                        <option value="">All</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Finished">Finished</option>
+                      </select>
+                    </th>
+                      <th></th> 
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <!-- table data -->
+
+                  </tbody>
+                </table>
+                </div>
+
+
+                <div class="modal fade" id="basicModal2" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Update Item</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" action="" id="editform" method="post">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="inputNanme4" class="form-label">Task Title</label>
+                    <input type="text" class="form-control" id="tasktitle2" name="tasktitle2" required>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail4" class="form-label">Task Description</label>
+                    <textarea class="form-control" placeholder="Description" id="taskdesc2" name="taskdesc2" style="height: 100px;" required></textarea>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputPassword4" class="form-label">Due Date</label>
+                   <input type="date" class="form-control" name="duedate2" id="duedate2" required>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Priority</label>
+                    <select class="form-select" aria-label="Default select example" name="priority2" id="priority2" required>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                      </select>
+             </div>
+           
+               <div class="col-12">
+                    <label for="inputAddress" class="form-label">Status</label>
+                    <select class="form-select" aria-label="Default select example" name="status2" id="status2" required >
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Finished">Finished</option>
+                      </select>
+             </div>
+                      <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn2">Close</button>
+                       <button type="submit" id="updateBtn1" class="btn btn-primary">Update</button>
+                       <button type="button" class="btn btn-danger" id="deleteBtn1">Deactivate</button>
+                      </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Assigned Tasks</h5>
+              <p></p>
+              <hr>
+
+              <div class="filter">
+                <!-- <h5 class="card-title">Tasks <span id="taskspan"></span></h5> -->
+                <a class="icon" href="#" data-bs-toggle="dropdown"><span id="" style="color: grey;">| Today </span><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class=""><b class="dropdown-item" >Today</b></li>
+                  <li value="This Month" class=""><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class=""><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class=""><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                
+
+                <table class="table table-borderless dattable" id="">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Task Title</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Due Date</th>
+                      <th scope="col">Priority</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="">
+
+
+
+
+                  </tbody>
+                </table>
+
+
+
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/todotask.js' %}"></script>
+<script>
+
+// $(document).ready(function() {
+//       loadData();
+
+//       $('#createBtn').click(createData);
+//       $('#updateBtn').click(updateData);
+//       $('#deleteBtn').click(deleteData);
+//     });
+
+
+// function loadData() {
+//   $.ajax({
+//     url: '/data/',
+//     type: 'GET',
+//     dataType: 'json',
+//     success: function(data) {
+//       var tbody = $('#tasktable tbody');
+//       tbody.empty();
+
+//       data.forEach(function(item) {
+//         var row = '<tr data-id="' + item.id + '">';
+//         row += '<td>' + item.id + '</td>';
+//         row += '<td>' + item.task_title1 + '</td>';
+//         row += '<td>' + item.task_desc1 + '</td>';
+//         row += '<td>' + item.task_due1 + '</td>';
+//         row += '<td>' + item.task_priority1 + '</td>';
+//         row += '<td>' + item.task_status1 + '</td>';
+//         row +="<td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal'>Edit </button> </td>";
+//         row += '</tr>';
+//         tbody.append(row);
+//       });
+      
+
+//     }
+//   });
+// }
+
+
+// $(document).ready(function() {
+//   function loadData(sortBy,sortBy2) {
+
+// $('.datatable').dataTable( {
+//   "ajax": {
+//     "url": "/data_task_view/",
+//     "data": {
+//       'sort_by': sortBy,
+//       'sort_by2':sortBy2,
+//     },
+//     success: function(data) {
+//       var tbody = $('#tasktable tbody');
+//       tbody.empty();
+  
+//       let num=1;
+//       $.each(data, function(index, item) {  
+//         var row = `<tr data-id="${item.id}">
+//                         <td>${num}</td>
+//                         <td>${item.task_title}</td>
+//                         <td>${item.task_desc}</td>
+//                         <td>${item.task_due}</td>
+//                         <td>${item.task_priority}</td>
+//                         <td>${item.task_status}</td>
+//                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'>Edit </button> </td>
+//                       </tr>
+//                         `;
+//         tbody.append(row);
+  
+        
+//         num++;
+  
+//       });
+//     }
+//   }
+// } );
+
+
+//   }
+
+//   loadData('','');
+// });
+  
+
+</script>
+  
+  {% endblock content %}

@@ -1,0 +1,202 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<main id="main" class="main">
+  <h3>News and Updates</h3>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <!-- <li class="breadcrumb-item">Pages</li> -->
+      <li class="breadcrumb-item active">News and Updates</li>
+    </ol>
+  </nav>
+  <div class="pagetitle text-center">
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">News and Updates on our website</h5>
+          <p>Add your news here</p>
+
+
+
+
+      
+        <div class="card-body">
+        
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+            Add 
+          </button>
+          <hr>
+          <div class="modal fade" id="basicModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add News</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                 <div class="card-body">
+          <h5 class="card-title">Add News</h5>
+          
+
+          <!-- Vertical Form -->
+          <form class="row g-3" action="/create_news/" id="newsform" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-12">
+              <label for="newstitle" class="form-label">News Title</label>
+              <input type="text" class="form-control" id="newstitle" placeholder="News Title" name="newstitle" required>
+            </div>
+            <div class="col-12">
+              <label for="newsdesc" class="form-label">News Description</label>
+              <textarea class="form-control" placeholder="Description" id="newsdesc" name="newsdesc" style="height: 100px;" required></textarea>
+            </div>
+            <div class="col-12">
+              <label for="newscat" class="form-label">News Catagory</label>
+              <select class="form-control" id="newscat" name="newscat">
+                <option value="General">General</option>
+                  <option value="Featured">Featured</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <input type="file" id="newsimg" class="btn btn-primary btn-sm" name="newsimg" required >
+            </div>
+                <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="submit" id="" class="btn btn-primary">Add</button>
+                 <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                </div>
+          </form><!-- Vertical Form -->
+
+        </div>
+                </div>
+
+              </div>
+            </div>
+          </div><!-- End Basic Modal-->
+
+        </div>
+        <!-- stop -->
+
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#General-News">General News</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#Featured-News">Featured News</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+            <div class="tab-pane fade show active General-News" id="General-News">
+
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="search-input" placeholder="Search with News title">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" id="search-btn">Search</button>
+                </div>
+               </div>
+
+               <div class="form-group">
+                <label for="user-select">Sort By user:</label>
+                <select class="form-control" id="user-select">
+                  <option value="All">All</option>
+                  {% for us in uname %}
+                    <option value="{{us.id}}">{{us.username}}</option>
+                  {% endfor %}
+                    
+                </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="date-select">Sort By Date:</label>
+                    <input type="date" id="date-input" name="date-input">
+                <!-- </div>
+                
+                <div class="form-group"> -->
+                  <label for="date-select"><h6>Upto:</h6></label>
+                    <input type="date" id="date-input2" name="date-input2">
+                </div>
+                <button class="btn btn-outline-primary" type="button" id="date_submit">Search</button>
+                <hr>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="news-container">
+                  <h5>No news to display</h5>
+
+                </div>
+
+            </div>
+
+
+            <div class="tab-pane fade Featured-News pt-3" id="Featured-News">
+
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="search-input2" placeholder="Search with News title">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" id="search-btn2">Search</button>
+                </div>
+               </div>
+
+               <div class="form-group">
+                <label for="user-select">Sort By user:</label>
+                <select class="form-control" id="user-select2">
+                  <option value="All">All</option>
+                  {% for us in uname %}
+                    <option value="{{us.id}}">{{us.username}}</option>
+                  {% endfor %}
+                    
+                </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="#date-select">Sort By Date:</label>
+                    <input type="date" id="date-input3" name="date-input3">
+                <!-- </div>
+
+                <div class="form-group"> -->
+                  <label for="#date-select">Sort By Date:</label>
+                    <input type="date" id="date-input4" name="date-input4">
+                </div>
+                <button class="btn btn-outline-primary" type="button" id="date_submit2">Search</button>
+                <hr>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="news-container2">
+                  <h5>No news to display</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+      </div>
+
+ 
+        </div>
+
+
+
+        </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  </div><!-- End Page Title -->
+</main>
+<script src="{% static 'assets/js/newsupdates.js' %}"></script>
+
+
+{% endblock content %}
