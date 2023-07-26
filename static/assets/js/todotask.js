@@ -32,10 +32,17 @@ function deleteData() {
       $('#priority2').val('');
       $('#status2').val('');  
   
-      alert('Task Deactivated');
+      // alert('Task Deactivated');
       // location.reload();
       loadData('','');
       $('#Closebtn2').click()
+      var msg=`
+      <i class="fa fa-check"></i>
+      Task Deactivated.
+      `;
+      $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
+      $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+  
 
     
     }
@@ -199,16 +206,19 @@ $.ajax({
     $('#tasktitle').val('');
     $('#taskdesc').val('');
     $('#duedate').val('');
-    $('#priority').val('');
-    $('#status').val('');  
-    
+    // $('#priority').val('');
+    // $('#status').val('');  
 
-    // $("#btnclose1").click()
-    // $("#fademsg").text("A message that will fadeout");
-    // $("#fademsg").fadeOut(3000);
-    alert('Task added');
+    // alert('Task added');
     $('#Closebtn1').click()
     // location.reload()
+    var msg=`
+    <i class="fa fa-check"></i>
+    Task Created.
+    `;
+    $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
+    $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+
     loadData('','');
   }
 });
@@ -288,9 +298,18 @@ $.ajax({
     $('#priority2').val('');
     $('#status2').val('');  
 
-    alert('Task updated');
+    // alert('Task updated');
     $('#Closebtn2').click();
     // location.reload()
+    
+
+    var msg=`
+    <i class="fa fa-check"></i>
+    Task updated.
+    `;
+    $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
+    $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+
     loadData('','');
 
 

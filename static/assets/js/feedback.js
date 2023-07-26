@@ -14,6 +14,9 @@ $(document).ready(function() {
         required: true,
   
       },
+      country:{
+        required:true
+      },
   
     },
     messages: {
@@ -24,7 +27,10 @@ $(document).ready(function() {
       email: 'enter a valid email',
       subject:{
         required:'Enter a feedback description please',
-      }
+      },
+      country:{
+        required:'Please enter you country'
+      },
   
     },
     submitHandler: function(form) {
@@ -67,7 +73,14 @@ $(document).ready(function() {
         $('#duedate').val('');
         $('#country').val('');
         $('#subject').val('');
-        alert("THANK you very much")
+        // alert("THANK you very much")
+        var msg=`
+        <i class="fa fa-check"></i>
+        Feedback Send!.
+        `;
+        $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
+        $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+    
   
         
   

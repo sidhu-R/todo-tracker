@@ -15,6 +15,20 @@
 
 .datatable tfoot .filter-column {
   width: 100% !important;
+
+}
+
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+.success-msg
+{
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+}
+.success-msg {
+  color: #270;
+  background-color: #DFF2BF;
 }
 
 </style>
@@ -28,7 +42,10 @@
           <li class="breadcrumb-item active">To Do</li>
         </ol>
       </nav>
-      <span style="color:rgb(27, 122, 255);" id="fademsg"></span>
+
+      <div style="text-align: right" id="popupdiv">
+      </div>
+
     </div><!-- End Page Title -->
 
     <section class="section">

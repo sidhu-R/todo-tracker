@@ -49,7 +49,7 @@
             
         .container {    
           border-radius: 5px;    
-          background-color: #f2f2f2;    
+          background-color: #fff;    
           padding: 20px;    
         }    
             
@@ -70,6 +70,18 @@
           content: "";    
           display: table;    
           clear: both;    
+        }
+
+        @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+        .success-msg
+        {
+          margin: 10px 0;
+          padding: 10px;
+          border-radius: 3px 3px 3px 3px;
+        }
+        .success-msg {
+          color: #270;
+          background-color: #DFF2BF;
         }    
             
         /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */    
@@ -77,8 +89,12 @@
 <main id="main" class="main">
 
   <div class="pagetitle text-center">
-    <h1>Your feedbacks please!</h1>       
-        <div class="container"> 
+    <h1>Your Feedbacks Please!</h1>
+    
+    <div style="text-align: right" id="popupdiv">
+    </div>
+
+        <div class="container">
           
           <form id="feedbform" method="post" onsubmit="">
             {% csrf_token %}    
@@ -104,7 +120,7 @@
                 <label for="country">Country</label>    
               </div>    
               <div class="col-75">    
-                <input type="text" id="country" name="country" placeholder="country *optional" >  
+                <input type="text" id="country" name="country" placeholder="country" >  
               </div>    
             </div>    
             <div class="row">    
