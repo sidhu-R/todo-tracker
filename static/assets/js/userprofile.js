@@ -87,6 +87,7 @@
         submitHandler: function(form) {
           
           form.submit();
+          alert('Changes saved successfully')
         }
       });
       

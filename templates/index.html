@@ -4,7 +4,37 @@
 {% load static %}
 
 {% block content %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+.display-date {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
 
+.display-time {
+  /* display: flex; */
+  text-align: center;
+  font-size: 3.2rem;
+  font-weight: bold;
+  border: 2px solid #0d6efd;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: ease-in-out 0.1s;
+  transition-property: background, box-shadow, color;
+  /* -webkit-box-reflect: below 2px
+    linear-gradient(transparent, rgba(255, 255, 255, 0.05)); */
+}
+
+.display-time:hover {
+  background: #0d6efd;
+  box-shadow: 0 0 30px#a4bbdc;
+  color: #272727;
+  cursor: pointer;
+}
+
+</style>
   <main id="main" class="main">
 
     <div class="pagetitle">
@@ -179,12 +209,20 @@
             <!--extra card-->
             <div class="col-xxl-8">
 
-              <!-- <div class="card info-card customers-card">
+              <div class="card info-card customers-card time-card">
+                <div class="container">
+                  <div class="display-date">
+                    <span id="day">day</span>,
+                    <span id="daynum">00</span>
+                    <span id="month">month</span>
+                    <span id="year">0000</span>
+                  </div>
+                  <div class="display-time"></div>
+                </div>
 
-
-                <div class="card-body">
-                  <h5 class="card-title">In Progress</h5>
-
+                <!-- <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="fa-solid fa-spinner"></i>
@@ -193,10 +231,10 @@
 
                     </div>
                   </div>
+                </div> -->
 
-                </div>
-              </div> -->
-
+              </div>
+              
             </div><!--extra card-->
             
 

@@ -513,7 +513,7 @@ def search_sort_gennews(request):
         if sort_by=='' and sort_by2=='':
 
             if user_by=='All':    
-                data = news_updates.objects.filter(news_title__icontains=search_query,news_created__day=day,news_created__year=year,news_catagory='General').order_by('-news_created')
+                data = news_updates.objects.filter(news_title__icontains=search_query,news_created__day=day,news_created__month=month,news_created__year=year,news_catagory='General').order_by('-news_created')
                 response_data = []
                 for item in data:
                     # print(item.news_created)
@@ -524,7 +524,7 @@ def search_sort_gennews(request):
                     'news_created':item.news_created,
                     })
             else:
-                data = news_updates.objects.filter(news_title__icontains=search_query,user=user_by,news_created__day=day,news_created__year=year,news_catagory='General').order_by('-news_created')
+                data = news_updates.objects.filter(news_title__icontains=search_query,user=user_by,news_created__day=day,news_created__month=month,news_created__year=year,news_catagory='General').order_by('-news_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -626,7 +626,7 @@ def search_sort_featnews(request):
         if sort_by=='' and sort_by2=='':
 
             if user_by=='All':    
-                data = news_updates.objects.filter(news_title__icontains=search_query,news_created__day=day,news_created__year=year,news_catagory='Featured').order_by('-news_created')
+                data = news_updates.objects.filter(news_title__icontains=search_query,news_created__day=day,news_created__month=month,news_created__year=year,news_catagory='Featured').order_by('-news_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -636,7 +636,7 @@ def search_sort_featnews(request):
                     'news_created':item.news_created,
                     })
             else:
-                data = news_updates.objects.filter(news_title__icontains=search_query,user=user_by,news_created__day=day,news_created__year=year,news_catagory='Featured').order_by('-news_created')
+                data = news_updates.objects.filter(news_title__icontains=search_query,user=user_by,news_created__day=day,news_created__month=month,news_created__year=year,news_catagory='Featured').order_by('-news_created')
                 response_data = []
                 for item in data:
                     response_data.append({

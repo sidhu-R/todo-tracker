@@ -42,7 +42,7 @@ function deleteData() {
       Task Deactivated.
       `;
       $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-      $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+      $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
   
 
     
@@ -218,7 +218,7 @@ $.ajax({
     Task Created.
     `;
     $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-    $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+    $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
 
     loadData('','');
   }
@@ -309,7 +309,7 @@ $.ajax({
     Task updated.
     `;
     $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-    $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+    $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
 
     loadData('','');
 
@@ -321,7 +321,7 @@ $.ajax({
 
 
 
-
+//select a row and pass it
 $(document).on('click', '#tasktable tbody tr', function() {
 $('#tasktable tbody tr').removeClass('selected');
 $(this).addClass('selected');
@@ -361,9 +361,9 @@ $('#status2').val(status);
               $.each(data, function(index, item) {
                   var cardHtml = `
                       <tr>
-                        <th scope="row"><a href="#">${num}</a></th>
+                        <th scope="row">${num}</th>
                         <td>${item.task_title}</td>
-                        <td><a href="#" class="text-primary">${item.task_desc}</a></td>
+                        <td>${item.task_desc}</td>
                         <td>${item.task_due}</td>
                         <td><span class="badg">${item.task_priority}</span></td>
                         <td><span class="badg">${item.task_status}</span></td>
@@ -371,6 +371,8 @@ $('#status2').val(status);
                   `;
                   cardsContainer.append(cardHtml);
                   num++;
+                  $('#deactive-table td').css('color', 'red');
+                  // $('#deactive-table td').css('text-decoration', 'line-through');
               });
           }
       });
