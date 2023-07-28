@@ -798,7 +798,7 @@ def deactive_task_table(request):
                 })
 
         elif sort_by=='Today':
-            data = task1.objects.filter(user1=user,task_created__day=day,task_activation='deactive').order_by('-task_updated')
+            data = task1.objects.filter(user1=user,task_updated__day=day,task_activation='deactive').order_by('-task_updated')
             response_data = []
             for item in data:
                 response_data.append({
@@ -811,7 +811,7 @@ def deactive_task_table(request):
                 })
 
         elif sort_by=='This Month':
-            data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year,task_activation='deactive').order_by('-task_updated')
+            data = task1.objects.filter(user1=user,task_updated__month=month,task_updated__year=year,task_activation='deactive').order_by('-task_updated')
             response_data = []
             for item in data:
                 response_data.append({
@@ -824,7 +824,7 @@ def deactive_task_table(request):
                 })
 
         elif sort_by=='This Year':
-            data = task1.objects.filter(user1=user,task_created__year=year,task_activation='deactive').order_by('-task_updated')
+            data = task1.objects.filter(user1=user,task_updated__year=year,task_activation='deactive').order_by('-task_updated')
             response_data = []
             for item in data:
                 response_data.append({
