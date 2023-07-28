@@ -30,6 +30,11 @@
   color: #270;
   background-color: #DFF2BF;
 }
+.success-msg{
+    position: fixed;
+    z-index: 10;
+    margin-left: 465px;
+};
 
 </style>
   <main id="main" class="main">
@@ -260,29 +265,29 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Assigned Tasks</h5>
+              <h5 class="card-title">Deactivated Tasks</h5>
               <p></p>
               <hr>
 
               <div class="filter">
                 <!-- <h5 class="card-title">Tasks <span id="taskspan"></span></h5> -->
-                <a class="icon" href="#" data-bs-toggle="dropdown"><span id="" style="color: grey;">| Today </span><i class="bi bi-three-dots"></i></a>
+                <a class="icon" href="#" data-bs-toggle="dropdown"><span id="deactfilter" style="color: grey;">| Today </span><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
                     <h6>Filter</h6>
                   </li>
 
-                  <li value="Today" class=""><b class="dropdown-item" >Today</b></li>
-                  <li value="This Month" class=""><a class="dropdown-item" href="#">This Month</a></li>
-                  <li value="This Year" class=""><a class="dropdown-item" href="#">This Year</a></li>
-                  <li value="All" class=""><a class="dropdown-item" href="#">All</a></li>
+                  <li value="Today" class="deactbtn1"><b class="dropdown-item" >Today</b></li>
+                  <li value="This Month" class="deactbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="deactbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="deactbtn4"><a class="dropdown-item" href="#">All</a></li>
                 </ul>
               </div>
 
               <div class="card-body">
                 
 
-                <table class="table table-borderless dattable" id="">
+                <table class="table table-borderless datable" id="">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -293,7 +298,7 @@
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
-                  <tbody id="">
+                  <tbody id="deactive-table">
 
 
 

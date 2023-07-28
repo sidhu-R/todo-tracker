@@ -32,6 +32,7 @@ urlpatterns = [
     path('data_task_view/', views.task_list, name='data_list'),
     path('data/delete/<int:pk>/', views.delete_task, name='data_delete'),
     path('data/update/<int:pk>/', views.update_task, name='data_update'),
+    path('data/deactive', views.deactive_task_table, name='deactivelist'),
 
     # feedback------------------------
     path('feed/',views.feed,name="feed"),

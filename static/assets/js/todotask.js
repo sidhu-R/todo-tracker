@@ -35,6 +35,7 @@ function deleteData() {
       // alert('Task Deactivated');
       // location.reload();
       loadData('','');
+      fecthDeactive('All')
       $('#Closebtn2').click()
       var msg=`
       <i class="fa fa-check"></i>
@@ -341,3 +342,91 @@ $('#status2').val(status);
 
 
 
+
+
+
+//deativated tasks
+
+  function fecthDeactive(sortBy) {
+      $.ajax({
+          url: '/data/deactive',
+          type: 'POST',
+          data: {
+              'sort_by': sortBy
+          },
+          success: function(data) {
+              var cardsContainer = $('#deactive-table');
+              cardsContainer.empty();
+              let num=1;
+              $.each(data, function(index, item) {
+                  var cardHtml = `
+                      <tr>
+                        <th scope="row"><a href="#">${num}</a></th>
+                        <td>${item.task_title}</td>
+                        <td><a href="#" class="text-primary">${item.task_desc}</a></td>
+                        <td>${item.task_due}</td>
+                        <td><span class="badg">${item.task_priority}</span></td>
+                        <td><span class="badg">${item.task_status}</span></td>
+                      </tr>
+                  `;
+                  cardsContainer.append(cardHtml);
+                  num++;
+              });
+          }
+      });
+  }
+
+  fecthDeactive('All');
+
+  var newsfilter=$('#deactfilter');
+  newsfilter.empty();
+  newshtml=`| All `;
+  newsfilter.append(newshtml);
+
+
+
+  $(".deactbtn1").click(function(){
+      var sortBy=$(this).attr("value");
+      // alert(sortBy)
+      fecthDeactive(sortBy);
+      var newsfilter=$('#deactfilter');
+      newsfilter.empty();
+      newshtml=`| Today `;
+      newsfilter.append(newshtml);
+
+  });
+
+  $(".deactbtn2").click(function(){
+      var sortBy=$(this).attr("value");
+      // alert(sortBy)
+      fecthDeactive(sortBy);
+      var newsfilter=$('#deactfilter');
+      newsfilter.empty();
+      newshtml=`| This Month `;
+      newsfilter.append(newshtml);
+
+  });
+
+  $(".deactbtn3").click(function(){
+      var sortBy=$(this).attr("value");
+      // alert(sortBy)
+      fecthDeactive(sortBy);
+      var newsfilter=$('#deactfilter');
+      newsfilter.empty();
+      newshtml=`| This year `;
+      newsfilter.append(newshtml);
+
+       
+  });
+
+  $(".deactbtn4").click(function(){
+      var sortBy=$(this).attr("value");
+      // alert(sortBy)
+      fecthDeactive(sortBy);
+      var newsfilter=$('#deactfilter');
+      newsfilter.empty();
+      newshtml=`| All `;
+      newsfilter.append(newshtml);
+
+       
+  });

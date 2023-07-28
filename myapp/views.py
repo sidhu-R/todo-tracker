@@ -771,73 +771,72 @@ def feed(request):
 
 
 
-# @csrf_exempt
-# def deactive_task_table(request):
-#     user=request.user
-#     if request.method == 'POST':
-#         sort_by = request.POST.get('sort_by')
-#         today = datetime.today()
-#         year = today.year
-#         month = today.month
-#         day = today.day
-#         # print(sort_by)
-#         # print(day)
+@csrf_exempt
+def deactive_task_table(request):
+    user=request.user
+    if request.method == 'POST':
+        sort_by = request.POST.get('sort_by')
+        today = datetime.today()
+        year = today.year
+        month = today.month
+        day = today.day
+        # print(sort_by)
+        # print(day)
 
+        if sort_by=='All':    
+            data = task1.objects.filter(user1=user,task_activation='deactive').order_by('-task_updated')
+            # print(data)
+            response_data = []
+            for item in data:
+                response_data.append({
+                'id':item.id,
+                'task_title': item.task_title1,
+                'task_desc': item.task_desc1,
+                'task_due': item.task_due1,
+                'task_priority': item.task_priority1,
+                'task_status': item.task_status1,
+                })
 
-#         if sort_by=='All':    
-#             data = task1.objects.filter(user1=user).exclude(task_activation='deactive').order_by('-task_created')
-#             # print(data)
-#             response_data = []
-#             for item in data:
-#                 response_data.append({
-#                 'id':item.id,
-#                 'task_title': item.task_title1,
-#                 'task_desc': item.task_desc1,
-#                 'task_due': item.task_due1,
-#                 'task_priority': item.task_priority1,
-#                 'task_status': item.task_status1,
-#                 })
+        elif sort_by=='Today':
+            data = task1.objects.filter(user1=user,task_created__day=day,task_activation='deactive').order_by('-task_updated')
+            response_data = []
+            for item in data:
+                response_data.append({
+                'id':item.id,
+                'task_title': item.task_title1,
+                'task_desc': item.task_desc1,
+                'task_due': item.task_due1,
+                'task_priority': item.task_priority1,
+                'task_status': item.task_status1,
+                })
 
-#         elif sort_by=='Today':
-#             data = task1.objects.filter(user1=user,task_created__day=day).exclude(task_activation='deactive').order_by('-task_created')
-#             response_data = []
-#             for item in data:
-#                 response_data.append({
-#                 'id':item.id,
-#                 'task_title': item.task_title1,
-#                 'task_desc': item.task_desc1,
-#                 'task_due': item.task_due1,
-#                 'task_priority': item.task_priority1,
-#                 'task_status': item.task_status1,
-#                 })
+        elif sort_by=='This Month':
+            data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year,task_activation='deactive').order_by('-task_updated')
+            response_data = []
+            for item in data:
+                response_data.append({
+                'id':item.id,
+                'task_title': item.task_title1,
+                'task_desc': item.task_desc1,
+                'task_due': item.task_due1,
+                'task_priority': item.task_priority1,
+                'task_status': item.task_status1,
+                })
 
-#         elif sort_by=='This Month':
-#             data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
-#             response_data = []
-#             for item in data:
-#                 response_data.append({
-#                 'id':item.id,
-#                 'task_title': item.task_title1,
-#                 'task_desc': item.task_desc1,
-#                 'task_due': item.task_due1,
-#                 'task_priority': item.task_priority1,
-#                 'task_status': item.task_status1,
-#                 })
-
-#         elif sort_by=='This Year':
-#             data = task1.objects.filter(user1=user,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
-#             response_data = []
-#             for item in data:
-#                 response_data.append({
-#                 'id':item.id,
-#                 'task_title': item.task_title1,
-#                 'task_desc': item.task_desc1,
-#                 'task_due': item.task_due1,
-#                 'task_priority': item.task_priority1,
-#                 'task_status': item.task_status1,
-#                 })
-#         # print(response_data)
-#         return JsonResponse(response_data, safe=False)
+        elif sort_by=='This Year':
+            data = task1.objects.filter(user1=user,task_created__year=year,task_activation='deactive').order_by('-task_updated')
+            response_data = []
+            for item in data:
+                response_data.append({
+                'id':item.id,
+                'task_title': item.task_title1,
+                'task_desc': item.task_desc1,
+                'task_due': item.task_due1,
+                'task_priority': item.task_priority1,
+                'task_status': item.task_status1,
+                })
+        # print(response_data)
+        return JsonResponse(response_data, safe=False)
     
 
 
