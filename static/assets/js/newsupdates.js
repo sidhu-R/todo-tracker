@@ -27,17 +27,47 @@ $(document).ready(function() {
       },
     },
     submitHandler: function(form) {
-      
-      form.submit();
-      alert('News added successfully')
+        createNews(form);
+        // return false;
+      function createNews(form) {
+        var formData = new FormData(form);
+        $.ajax({
+                url:'/create_news/',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                // alert('success')
+                fetchData('', '','','All');
+                fetchFeat('', '','','All');
+                
+                $('#newstitle').val('');
+                $('#newsdesc').val('');
+                $('#newsimg').val('');
+                $('#closebtn').click()
+                // location.reload()
+                var msg=`
+                <i class="fa fa-check"></i>
+                News added.
+                `;
+                $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
+                $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+            
+                },
+                error: function (response) {
+                    alert('error')
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+        });
+        };
+         
+        
     }
   });
   
   });
-
-
-
-$(document).ready(function() {
+  
 
 function fetchData(searchQuery, sortBy,sortBy2,userBy) {
     $.ajax({
@@ -107,115 +137,76 @@ $('#date_submit').click(function() {
 });
 
 
-// $(".newsbtn1").click(function(){
-//       var sortBy=$(this).attr("value");
-//       // alert(sortBy)
-//       fetchData('',sortBy);
-//       var newsfilter=$('#newsupspan');
-//       newsfilter.empty();
-//       newshtml=`| Today`;
-//       newsfilter.append(newshtml);
-
-//   });
-
-//   $(".newsbtn2").click(function(){
-//       var sortBy=$(this).attr("value");
-//       // alert(sortBy)
-//       fetchData('',sortBy);
-//       var newsfilter=$('#newsupspan');
-//       newsfilter.empty();
-//       newshtml=`| This Month`;
-//       newsfilter.append(newshtml);
-
-//   });
-
-//   $(".newsbtn3").click(function(){
-//       var sortBy=$(this).attr("value");
-//       // alert(sortBy)
-//       fetchData('',sortBy);
-//       var newsfilter=$('#newsupspan');
-//       newsfilter.empty();
-//       newshtml=`| This year`;
-//       newsfilter.append(newshtml);
-
-        
-//   });
-
-
-});
 
 
 
-$(document).ready(function() {
-
-    function fetchFeat(searchQuery, sortBy,sortBy2,userBy) {
-        $.ajax({
-            url: '/search_sort_feat/',
-            type: 'POST',
-            data: {
-                'search_query': searchQuery,
-                'sort_by': sortBy,
-                'sort_by2':sortBy2,
-                'user_by':userBy
-            },
-            success: function(data) {
-                var cardsContainer = $('#news-container2');
-                cardsContainer.empty();
-                
-                $.each(data, function(index, item) {
-                    var cardHtml = `
-                        <div class="col">
-                            <div class="card">
-                                <img src="${item.image_url}" class="card-img-top" alt="News">
-                                <div class="card-body">
-                                    <h5 class="card-title"> ${item.news_title}</h5>
-                                    <p class="card-text">${item.news_created}</p>
-                                    <p class="card-text">${item.news_desc}</p>
-                                </div>
+function fetchFeat(searchQuery, sortBy,sortBy2,userBy) {
+    $.ajax({
+        url: '/search_sort_feat/',
+        type: 'POST',
+        data: {
+            'search_query': searchQuery,
+            'sort_by': sortBy,
+            'sort_by2':sortBy2,
+            'user_by':userBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#news-container2');
+            cardsContainer.empty();
+            
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                    <div class="col">
+                        <div class="card">
+                            <img src="${item.image_url}" class="card-img-top" alt="News">
+                            <div class="card-body">
+                                <h5 class="card-title"> ${item.news_title}</h5>
+                                <p class="card-text">${item.news_created}</p>
+                                <p class="card-text">${item.news_desc}</p>
                             </div>
                         </div>
-                    `;
-                    cardsContainer.append(cardHtml);
-                });
-            }
-        });
-    }
-
-      fetchFeat('', '','','All');
-
-    //   var newsfilter=$('#newsupspan');
-    //   newsfilter.empty();
-    //   newshtml=`| Today`;
-    //   newsfilter.append(newshtml);
-  
-
-
-    $('#search-btn2').click(function() {
-        var searchQuery = $('#search-input2').val();
-        var sortBy = $('#date-input3').val();
-        var sortBy2 = $('#date-input4').val();
-        var userBy = $('#user-select2').val();
-        fetchFeat(searchQuery,sortBy,sortBy2, userBy);
-    })
-
-    $('#user-select2').change(function() {
-        var searchQuery = $('#search-input2').val();
-        var sortBy = $('#date-input3').val();
-        var sortBy2 = $('#date-input4').val();
-        var userBy = $(this).val();
-        fetchFeat(searchQuery,sortBy,sortBy2, userBy);
+                    </div>
+                `;
+                cardsContainer.append(cardHtml);
+            });
+        }
     });
+}
 
+    fetchFeat('', '','','All');
 
-    $('#date_submit2').click(function() {
-        var searchQuery = $('#search-input2').val();
-        var sortBy = $('#date-input3').val();
-        var sortBy2 = $('#date-input4').val();
-        var userBy = $('#user-select2').val();
-        fetchFeat(searchQuery,sortBy,sortBy2, userBy);
-    });
-
+//   var newsfilter=$('#newsupspan');
+//   newsfilter.empty();
+//   newshtml=`| Today`;
+//   newsfilter.append(newshtml);
 
 
 
+$('#search-btn2').click(function() {
+    var searchQuery = $('#search-input2').val();
+    var sortBy = $('#date-input3').val();
+    var sortBy2 = $('#date-input4').val();
+    var userBy = $('#user-select2').val();
+    fetchFeat(searchQuery,sortBy,sortBy2, userBy);
+})
+
+$('#user-select2').change(function() {
+    var searchQuery = $('#search-input2').val();
+    var sortBy = $('#date-input3').val();
+    var sortBy2 = $('#date-input4').val();
+    var userBy = $(this).val();
+    fetchFeat(searchQuery,sortBy,sortBy2, userBy);
 });
+
+
+$('#date_submit2').click(function() {
+    var searchQuery = $('#search-input2').val();
+    var sortBy = $('#date-input3').val();
+    var sortBy2 = $('#date-input4').val();
+    var userBy = $('#user-select2').val();
+    fetchFeat(searchQuery,sortBy,sortBy2, userBy);
+});
+
+
+
+

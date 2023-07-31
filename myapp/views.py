@@ -725,7 +725,7 @@ def news_up(request):
         ttle=request.POST['newstitle']
         dsc=request.POST['newsdesc']
         cat=request.POST['newscat']
-        newimage=request.FILES['newsimg']
+        newimage=request.FILES.get('newsimg')
         news_updates.objects.create(user=user,
                                     news_title=ttle,
                                     news_desc=dsc,
@@ -734,8 +734,9 @@ def news_up(request):
                                     )
         activity=Activity.objects.create(user=user,activity_done="news created")
         activity.save()
-        return redirect(news)
-    return render(request,"news.html")
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({"Message":""})
+
 
 
 @login_required(login_url='/log')

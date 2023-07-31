@@ -5,6 +5,25 @@
 
 {% block content %}
 
+<style>
+  @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+.success-msg
+{
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+}
+.success-msg {
+  color: #270;
+  background-color: #DFF2BF;
+}
+.success-msg{
+    position: fixed;
+    z-index: 10;
+    margin-left: 465px;
+};
+</style>
 <main id="main" class="main">
   <h3>News and Updates</h3>
   <nav>
@@ -14,6 +33,10 @@
       <li class="breadcrumb-item active">News and Updates</li>
     </ol>
   </nav>
+  
+  <div style="text-align: right" id="popupdiv">
+  </div>
+
   <div class="pagetitle text-center">
 
 <section class="section">
@@ -48,7 +71,7 @@
           
 
           <!-- Vertical Form -->
-          <form class="row g-3" action="/create_news/" id="newsform" method="post" enctype="multipart/form-data">
+          <form class="row g-3" action="" id="newsform" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col-12">
               <label for="newstitle" class="form-label">News Title</label>
@@ -69,7 +92,7 @@
               <input type="file" id="newsimg" class="btn btn-primary btn-sm" name="newsimg" required >
             </div>
                 <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closebtn">Close</button>
                  <button type="submit" id="" class="btn btn-primary">Add</button>
                  <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
                 </div>
