@@ -34,15 +34,14 @@ $(document).ready(function() {
         $.ajax({
                 url:'/create_news/',
                 type: 'POST',
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken")
+                  },
                 data: formData,
                 success: function (response) {
                 // alert('success')
                 fetchData('', '','','All');
                 fetchFeat('', '','','All');
-                
-                $('#newstitle').val('');
-                $('#newsdesc').val('');
-                $('#newsimg').val('');
                 $('#closebtn').click()
                 // location.reload()
                 var msg=`
@@ -73,6 +72,9 @@ function fetchData(searchQuery, sortBy,sortBy2,userBy) {
     $.ajax({
         url: '/search_sort_data/',
         type: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
         data: {
             'search_query': searchQuery,
             'sort_by': sortBy,
@@ -140,10 +142,16 @@ $('#date_submit').click(function() {
 
 
 
+
+
+
 function fetchFeat(searchQuery, sortBy,sortBy2,userBy) {
     $.ajax({
         url: '/search_sort_feat/',
         type: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+          },
         data: {
             'search_query': searchQuery,
             'sort_by': sortBy,
@@ -210,3 +218,19 @@ $('#date_submit2').click(function() {
 
 
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+  const csrftoken = getCookie('csrftoken');

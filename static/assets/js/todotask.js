@@ -23,6 +23,9 @@ function deleteData() {
   $.ajax({
     url: '/data/delete/' + id + '/',  
     type: 'POST',
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken")
+    },
     dataType: 'json',
     success: function(response) {
   
@@ -61,6 +64,9 @@ function deleteData() {
   $.ajax({
     url: '/data_task_view/',
     type: 'POST',
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken")
+    },
     data: {
       'sort_by': sortBy,
       'sort_by2':sortBy2,
@@ -135,7 +141,7 @@ function deleteData() {
     loadData(sortBy,sortBy2);
   });
   
-  
+
   
   
    
@@ -194,6 +200,9 @@ $.ajax({
   url: '/data/create/',
   type: 'POST',
   dataType: 'json',
+  headers: {
+    "X-CSRFToken": getCookie("csrftoken")
+  },
   data: {
     title: title,
     desc: desc,
@@ -284,6 +293,9 @@ $.ajax({
   url: '/data/update/' + id + '/',
   type: 'POST',
   dataType: 'json',
+  headers: {
+    "X-CSRFToken": getCookie("csrftoken")
+  },
   data: {
     title: title,
     desc: desc,
@@ -347,88 +359,109 @@ $('#status2').val(status);
 
 //deativated tasks
 
-  function fecthDeactive(sortBy) {
-      $.ajax({
-          url: '/data/deactive',
-          type: 'POST',
-          data: {
-              'sort_by': sortBy
-          },
-          success: function(data) {
-              var cardsContainer = $('#deactive-table');
-              cardsContainer.empty();
-              let num=1;
-              $.each(data, function(index, item) {
-                  var cardHtml = `
-                      <tr>
-                        <th scope="row">${num}</th>
-                        <td>${item.task_title}</td>
-                        <td>${item.task_desc}</td>
-                        <td>${item.task_due}</td>
-                        <td><span class="badg">${item.task_priority}</span></td>
-                        <td><span class="badg">${item.task_status}</span></td>
-                      </tr>
-                  `;
-                  cardsContainer.append(cardHtml);
-                  num++;
-                  $('#deactive-table td').css('color', 'red');
-                  // $('#deactive-table td').css('text-decoration', 'line-through');
-              });
+function fecthDeactive(sortBy) {
+    $.ajax({
+        url: '/data/deactive',
+        type: 'POST',
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        data: {
+            'sort_by': sortBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#deactive-table');
+            cardsContainer.empty();
+            let num=1;
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                    <tr>
+                      <th scope="row">${num}</th>
+                      <td>${item.task_title}</td>
+                      <td>${item.task_desc}</td>
+                      <td>${item.task_due}</td>
+                      <td><span class="badg">${item.task_priority}</span></td>
+                      <td><span class="badg">${item.task_status}</span></td>
+                    </tr>
+                `;
+                cardsContainer.append(cardHtml);
+                num++;
+                $('#deactive-table td').css('color', 'red');
+                // $('#deactive-table td').css('text-decoration', 'line-through');
+            });
+        }
+    });
+}
+
+fecthDeactive('All');
+
+var newsfilter=$('#deactfilter');
+newsfilter.empty();
+newshtml=`| All `;
+newsfilter.append(newshtml);
+
+
+
+$(".deactbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthDeactive(sortBy);
+    var newsfilter=$('#deactfilter');
+    newsfilter.empty();
+    newshtml=`| Today `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".deactbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthDeactive(sortBy);
+    var newsfilter=$('#deactfilter');
+    newsfilter.empty();
+    newshtml=`| This Month `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".deactbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthDeactive(sortBy);
+    var newsfilter=$('#deactfilter');
+    newsfilter.empty();
+    newshtml=`| This year `;
+    newsfilter.append(newshtml);
+
+      
+});
+
+$(".deactbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthDeactive(sortBy);
+    var newsfilter=$('#deactfilter');
+    newsfilter.empty();
+    newshtml=`| All `;
+    newsfilter.append(newshtml);
+
+      
+});
+
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
           }
-      });
+      }
   }
-
-  fecthDeactive('All');
-
-  var newsfilter=$('#deactfilter');
-  newsfilter.empty();
-  newshtml=`| All `;
-  newsfilter.append(newshtml);
-
-
-
-  $(".deactbtn1").click(function(){
-      var sortBy=$(this).attr("value");
-      // alert(sortBy)
-      fecthDeactive(sortBy);
-      var newsfilter=$('#deactfilter');
-      newsfilter.empty();
-      newshtml=`| Today `;
-      newsfilter.append(newshtml);
-
-  });
-
-  $(".deactbtn2").click(function(){
-      var sortBy=$(this).attr("value");
-      // alert(sortBy)
-      fecthDeactive(sortBy);
-      var newsfilter=$('#deactfilter');
-      newsfilter.empty();
-      newshtml=`| This Month `;
-      newsfilter.append(newshtml);
-
-  });
-
-  $(".deactbtn3").click(function(){
-      var sortBy=$(this).attr("value");
-      // alert(sortBy)
-      fecthDeactive(sortBy);
-      var newsfilter=$('#deactfilter');
-      newsfilter.empty();
-      newshtml=`| This year `;
-      newsfilter.append(newshtml);
-
-       
-  });
-
-  $(".deactbtn4").click(function(){
-      var sortBy=$(this).attr("value");
-      // alert(sortBy)
-      fecthDeactive(sortBy);
-      var newsfilter=$('#deactfilter');
-      newsfilter.empty();
-      newshtml=`| All `;
-      newsfilter.append(newshtml);
-
-       
-  });
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
