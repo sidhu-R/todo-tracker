@@ -1,12 +1,3 @@
-$(document).ready(function() {
-  // $("#popup1").fadeOut(3000);
-  // $("#popuptext").removeClass("popuptext");
-  // $("#popup1").removeClass("overlay");
-  // $("#popup2").removeClass("popup");
-  
- });
- 
-
 
 //deactivate data
 $('#deleteBtn1').click(deleteData);

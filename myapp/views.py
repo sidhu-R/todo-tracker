@@ -16,6 +16,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
+
 # function to view and filter Activitylog in dahsboard                 
 class Dashactvitylogview(View):
     def post(self,request):
