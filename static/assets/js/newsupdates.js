@@ -40,6 +40,7 @@ $(document).ready(function() {
                 data: formData,
                 success: function (response) {
                 // alert('success')
+                $('#newsform')[0].reset();
                 fetchData('', '','','All');
                 fetchFeat('', '','','All');
                 $('#closebtn').click()
