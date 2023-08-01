@@ -31,10 +31,18 @@
               <h2>{{prof.name3}}</h2>
               <h3>{{prof.job3}}</h3>
               <div class="social-links mt-2">
+                {% if prof.twitter3 %}
                 <a href="{{prof.twitter3}}" class="twitter"><i class="bi bi-twitter"></i></a>
+                {% endif %}
+                {% if prof.facebook3 %}
                 <a href="{{prof.facebook3}}" class="facebook"><i class="bi bi-facebook"></i></a>
+                {% endif %}
+                {% if prof.instagram3 %}
                 <a href="{{prof.instagram3}}" class="instagram"><i class="bi bi-instagram"></i></a>
+                {% endif %}
+                {% if prof.linkdin3 %}
                 <a href="{{prof.linkdin3}}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -268,7 +276,7 @@
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary" onclick="alert('Changes Saved');">Save Changes</button>
                     </div>
                   </form><!-- End settings Form -->
 

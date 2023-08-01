@@ -39,7 +39,6 @@
   
         submitHandler: function(form) {
           form.submit();
-          alert('Password Changed')
         }
       });
       

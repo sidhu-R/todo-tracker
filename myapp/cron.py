@@ -6,11 +6,6 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from .models import user_profile3
 
-
-
-
-
-
 def due_reminder():
     users=User.objects.all()
     today = datetime.today()

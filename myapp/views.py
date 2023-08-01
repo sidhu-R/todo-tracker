@@ -16,7 +16,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
-                        
+# function to view and filter Activitylog in dahsboard                 
 class Dashactvitylogview(View):
     def post(self,request):
         user=request.user
@@ -63,7 +63,8 @@ class Dashactvitylogview(View):
             # print(response_data)
             return JsonResponse(response_data, safe=False)
 
- 
+
+# function to view and filter announment recieved
 class AnnounceRecieveview(View):
     def post(self,request):
         user=request.user
@@ -113,6 +114,7 @@ class AnnounceRecieveview(View):
             return JsonResponse(response_data, safe=False)
 
 
+# function to view and filter Announcement send
 class AnnouceSendview(View):
     def post(self,request):
         user=request.user
@@ -161,6 +163,7 @@ class AnnouceSendview(View):
             # print(response_data)
             return JsonResponse(response_data, safe=False)
 
+# function to view Announcement in notification bar
 class AnnounceNotifbarview(View):
     def get(self,request):
         user=request.user
@@ -186,6 +189,7 @@ class AnnounceNotifbarview(View):
         return JsonResponse(response_data, safe=False)
 
 
+# function to create announcement
 class Announcementcreateview(View):
     def post(self,request):
         user=request.user
@@ -199,6 +203,8 @@ class Announcementcreateview(View):
         else:
             return JsonResponse({"error": ""}, status=400)
 
+
+# function to view and filter Task list in dahsboard  
 class Dashtasktableview(View):
     def post(self,request):
         user=request.user
@@ -268,7 +274,7 @@ class Dashtasktableview(View):
             return JsonResponse(response_data, safe=False)
         
 
-
+# function to view and filter count of Tasks in progress in dahsboard  
 class Dashtaskprogressview(View):
     def post(self,request):
         user=request.user
@@ -314,7 +320,7 @@ class Dashtaskprogressview(View):
             return JsonResponse(response_data , safe=False)
 
 
-
+# function to view and filter count of Tasks in pending in dahsboard  
 class Dashtaskpendingview(View):
     def post(self,request):
         user=request.user
@@ -359,7 +365,7 @@ class Dashtaskpendingview(View):
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
-
+# function to view and filter count of Finished tasks in dahsboard  
 class Dashtaskfinishedview(View):
     def post(self,request):
         user=request.user
@@ -404,7 +410,7 @@ class Dashtaskfinishedview(View):
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
-
+# function to view and filter count of All tasks in dahsboard  
 class Dashtasknumview(View):
     def post(self,request):
         user=request.user
@@ -450,6 +456,7 @@ class Dashtasknumview(View):
             return JsonResponse(response_data , safe=False)
 
 
+# function to view and filter featured news dahsboard  
 class Dashnewsfilterview(View):
     def post(self,request):
         if request.method == 'POST':
@@ -494,6 +501,7 @@ class Dashnewsfilterview(View):
 
 
 
+# function to view and filter general news in News updates page
 class Generalnewssortview(View):
     def post(self,request):
         user=request.user
@@ -606,7 +614,7 @@ class Generalnewssortview(View):
             return JsonResponse(response_data, safe=False)
 
 
-
+# function to view and filter Featured news in News updates page
 class Featurenewssortview(View):
     def post(self,request):
         user=request.user
@@ -718,6 +726,7 @@ class Featurenewssortview(View):
             return JsonResponse(response_data, safe=False)
 
 
+# function to create news in News updates page
 class Createnewsview(View):
     @method_decorator(login_required(login_url='/log'))
     def post(self,request):
@@ -738,7 +747,7 @@ class Createnewsview(View):
             return JsonResponse({'status': 'success'})
         return JsonResponse({"Message":""})
 
-
+# function to send feedback in feedback page
 class Feedbackview(View):
     @method_decorator(login_required(login_url='/log'))
     def post(self,request):
@@ -771,7 +780,7 @@ class Feedbackview(View):
             return JsonResponse({"error": ""}, status=400)
 
 
-
+# function to view deactivated tasks list in todo page
 class Deactivetasklistview(View):
     def post(self,request):
         user=request.user
@@ -838,8 +847,9 @@ class Deactivetasklistview(View):
                     })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
-    
 
+
+# function to deactivate tasks in todo page
 class Deactivatetaskview(View):
     def post(self,request, pk):
         user=request.user
@@ -848,7 +858,9 @@ class Deactivatetaskview(View):
             activity=Activity.objects.create(user=user,activity_done="Task deactivated")
             activity.save()
             return JsonResponse({'status': 'success'})
-    
+
+
+# function to update tasks in todo page
 class Updatetaskview(View):
     def post(self,request, pk):
         user=request.user
@@ -863,6 +875,7 @@ class Updatetaskview(View):
             activity.save()
             return JsonResponse({'status': 'success'})
 
+# function to create tasks in todo page
 class Createtaskview(View):
     def post(self,request):
         user=request.user
@@ -880,6 +893,7 @@ class Createtaskview(View):
         else:
             return JsonResponse({"error": ""}, status=400)
 
+# function to view and filter tasks in todo page
 class Tasklistview(View):
     def post(self,request):
         user=request.user
@@ -945,7 +959,7 @@ class Tasklistview(View):
             return JsonResponse(response_data, safe=False)
 
 
-
+# function to turn notification on or off in userprofile page
 class Notificationview(View):
     @method_decorator(login_required(login_url='/log'))
     def post(self,request):
@@ -956,6 +970,8 @@ class Notificationview(View):
 
         return render(request,"users-profile.html",{"profile":profile})
 
+
+# function to change password in userprofile page
 class Changepassview(View):
     @method_decorator(login_required(login_url='/log'))
     @method_decorator(csrf_protect)
@@ -1000,6 +1016,7 @@ class Changepassview(View):
 
         return render(request,"users-profile.html")
 
+# function to delete image in userprofile page
 class Deleteimageview(View):
     def post(self,request):
         user=request.user
@@ -1013,12 +1030,7 @@ class Deleteimageview(View):
                 return JsonResponse({'message': 'No images to delete.'})
         return JsonResponse({'message': 'Invalid request.'})
 
-
-def profile_data(request):
-    user=request.user
-    data = user_profile3.objects.filter(user3=user).values()
-    return JsonResponse(list(data), safe=False)
-
+# function to view and update user profile in userprofile page
 class Profiledataview(View):
     @method_decorator(login_required(login_url='/log'))
     @method_decorator(csrf_protect)
@@ -1083,6 +1095,7 @@ class Profiledataview(View):
         return render(request,"users-profile.html",{"profile": profile})
 
 
+# function to check username already exists in signup page
 class Checkusername(View):
     @method_decorator(csrf_protect)
     def get(self,request):
@@ -1098,6 +1111,7 @@ class Checkusername(View):
         return JsonResponse({}, status = 400)
 
 
+# function to create account in signup page
 class Signupview(View):
     @method_decorator(csrf_protect)
     def post(self,request):
@@ -1116,6 +1130,7 @@ class Signupview(View):
         return render(request,"pages-register.html")
 
 
+# function to login
 class Loginview(View):
     @method_decorator(csrf_protect)
     def post(self,request):
@@ -1126,16 +1141,6 @@ class Loginview(View):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                user=request.user
-                em=user_profile3.objects.filter(user3=user).values_list('email3')
-    #             print(em[0])
-    #             send_mail(
-    #     'logged in',
-    #     'your account has been logged in,if not done by you please secure your account!',
-    #     'sidharth.work10@gmail.com',
-    #     em[0],
-    #     fail_silently=False,
-    # )
                 activity=Activity.objects.create(user=user1,activity_done="Logged in")
                 activity.save()
                 return redirect('/')
@@ -1145,6 +1150,8 @@ class Loginview(View):
         else:
             return render(request,"pages-login.html")
 
+
+# function to logout 
 class Logoutview(View):
     def get(self,request):
         user=request.user
@@ -1154,31 +1161,36 @@ class Logoutview(View):
 
         return redirect('/log')
 
-
+# function to load index page
 class Indexpageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
         return render(request,"index.html")
 
+# function to load todo page
 class Todopageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
         return render(request, "toDO.html")
 
+# function to load login page
 class Loginpageview(View):
     def get(self,request):
         return render(request,"pages-login.html")
 
+# function to load signup page
 class Signuppageview(View):
     def get(self,request):
         return render(request,"pages-register.html")
 
+# function to load faqpage
 class Faqpageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
         fq=faq.objects.all()
         return render(request,"pages-faq.html",{"fq":fq})
 
+# function to load profile page
 class Profilepageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
@@ -1187,12 +1199,13 @@ class Profilepageview(View):
         # print(user_profile3.objects.filter(user3=user).values()) 
         return render(request, "users-profile.html", {"profile": profile})
 
-
+# function to load feedback page
 class Feedbackpageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
         return render(request,"feedback.html")
 
+# function to load newsupdates page
 class Newspageview(View): 
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
