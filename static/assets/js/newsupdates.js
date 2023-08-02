@@ -101,6 +101,9 @@ function fetchData(searchQuery, sortBy,sortBy2,userBy) {
                 `;
                 cardsContainer.append(cardHtml);
             });
+            if(data==''){
+                cardsContainer.append(`<h5>No news to display on this day</h5>`);
+            }
         }
     });
 }
@@ -178,6 +181,9 @@ function fetchFeat(searchQuery, sortBy,sortBy2,userBy) {
                 `;
                 cardsContainer.append(cardHtml);
             });
+            if(data==''){
+                cardsContainer.append(`<h5>No news to display on this day</h5>`);
+            }
         }
     });
 }
