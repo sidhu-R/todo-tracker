@@ -86,7 +86,7 @@ class news_updates(models.Model):
     news_title=models.CharField(max_length=100)
     news_desc=models.CharField(max_length=500)
     news_img=models.ImageField(upload_to='news',blank=True)
-    news_created=models.DateTimeField(auto_now=True)
+    news_created=models.DateField(auto_now=True)
     news_catagory=models.CharField(max_length=100,choices=CATAGORY_CHOICES)
     def __str__(self):
         return self.news_title
@@ -96,7 +96,7 @@ class Announce(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     ann_title=models.CharField(max_length=200)
     ann_desc=models.CharField(max_length=300)
-    ann_created=models.DateTimeField(auto_now_add=True)
+    ann_created=models.DateField(auto_now_add=True)
     def __str__(self):
         return self.ann_title
 
