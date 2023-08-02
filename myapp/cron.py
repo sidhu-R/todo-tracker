@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from .models import user_profile3
 
+# reminder for due tasks
 def due_reminder():
     users=User.objects.all()
     today = datetime.today()
@@ -18,7 +19,7 @@ def due_reminder():
                     if check==chck[0]:
                             send_mail(
                     'pending',
-                    'There are pending tasks and due date is over please look on to it'+user.username +'' '!',
+                    'There are pending tasks and due date is over please look on to it '+user.username +'' '!',
                     'sidharth.work10@gmail.com',
                     [user.email],
                     fail_silently=False,
