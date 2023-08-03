@@ -46,55 +46,55 @@
   
   
   
-      // user profile validate
-      $(document).ready(function() {
-        $.validator.methods.email = function( value, element ) {   return this.optional( element ) || /^.+@.+\..+$/.test( value ); }
-        $("#aboutform").validate({
-        rules: {
-          name: {
-            required: true,
-          },
-          // img:{
-          //   accept:"image/*",
-          // },
-          email: {
-            required: true,
-            email: true,
-          },
-          phone:{
-            digits:true
-          },
-          twitter:{
-            url:true,
-          },
-          facebook:{
-            url:true,
-          },
-          instagram:{
-            url:true,
-          },
-          linkedin:{
-            url:true,
-          },
-  
-        },
-        messages: {
-          name: {
-            required: 'name is required'
-          },
-          email: "Enter a valid email"
-        },
-        submitHandler: function(form) {
-          
-          form.submit();
-          alert('Changes saved successfully')
-        }
-      });
-      
-      
-      });
-  
-  
+// user profile validate
+$(document).ready(function() {
+  $.validator.methods.email = function( value, element ) {   return this.optional( element ) || /^.+@.+\..+$/.test( value ); }
+  $("#aboutform").validate({
+  rules: {
+    name: {
+      required: true,
+    },
+    // img:{
+    //   accept:"image/*",
+    // },
+    email: {
+      required: true,
+      email: true,
+    },
+    phone:{
+      digits:true
+    },
+    twitter:{
+      url:true,
+    },
+    facebook:{
+      url:true,
+    },
+    instagram:{
+      url:true,
+    },
+    linkedin:{
+      url:true,
+    },
+
+  },
+  messages: {
+    name: {
+      required: 'name is required'
+    },
+    email: "Enter a valid email"
+  },
+  submitHandler: function(form) {
+    
+    form.submit();
+    alert('Changes saved successfully')
+  }
+});
+
+
+});
+
+
   
   
   $(document).ready(function() {
