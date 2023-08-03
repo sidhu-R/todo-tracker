@@ -766,6 +766,10 @@ h6 {
   background-color: #4154f1;
 }
 
+.ajs-message.ajs-custom { 
+  color: white; 
+  background-color: rgba(13, 110, 253, 0.9);
+  border-color: #31708f; }
 /*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/

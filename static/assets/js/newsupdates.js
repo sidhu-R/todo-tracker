@@ -39,18 +39,14 @@ $(document).ready(function() {
                   },
                 data: formData,
                 success: function (response) {
-                // alert('success')
+                    
                 $('#newsform')[0].reset();
                 fetchData('', '','','All');
                 fetchFeat('', '','','All');
                 $('#closebtn').click()
                 // location.reload()
-                var msg=`
-                <i class="fa fa-check"></i>
-                News added.
-                `;
-                $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-                $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+                alertify.set('notifier','position', 'top-right');
+                alertify.notify('News Added', 'custom', 2, function(){console.log('dismissed');});
             
                 },
                 error: function (response) {

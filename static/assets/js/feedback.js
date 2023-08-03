@@ -78,12 +78,8 @@ $(document).ready(function() {
         $('#country').val('');
         $('#subject').val('');
         // alert("THANK you very much")
-        var msg=`
-        <i class="fa fa-check"></i>
-        Feedback Send!.
-        `;
-        $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-        $("#popupdiv").fadeOut(2000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Feedback Send', 'custom', 2, function(){console.log('dismissed');});
     
   
         

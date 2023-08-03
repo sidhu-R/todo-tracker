@@ -31,12 +31,8 @@ function deleteData() {
       loadData('','');
       fecthDeactive('All')
       $('#Closebtn2').click()
-      var msg=`
-      <i class="fa fa-check"></i>
-      Task Deactivated.
-      `;
-      $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-      $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
+      alertify.set('notifier','position', 'top-right');
+      alertify.notify('Task Deactivated', 'custom', 2, function(){console.log('dismissed');});
   
 
     
@@ -213,13 +209,8 @@ $.ajax({
     // alert('Task added');
     $('#Closebtn1').click()
     // location.reload()
-    var msg=`
-    <i class="fa fa-check"></i>
-    Task Created.
-    `;
-    $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-    $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
-
+    alertify.set('notifier','position', 'top-right');
+    alertify.notify('Task Created', 'custom', 2, function(){console.log('dismissed');});
     loadData('','');
   }
 });
@@ -306,15 +297,9 @@ $.ajax({
     $('#Closebtn2').click();
     // location.reload()
     
-
-    var msg=`
-    <i class="fa fa-check"></i>
-    Task updated.
-    `;
-    $("#popupdiv").fadeIn(100,function(){$(this).addClass("success-msg", 2000);$("#popupdiv").append(msg);});
-    $("#popupdiv").fadeOut(3000, function(){$(this).removeClass("success-msg", 2000);$("#popupdiv").empty();});
-
-    loadData('','');
+    alertify.set('notifier','position', 'top-right');
+    alertify.notify('Task Updated', 'custom', 2, function(){console.log('dismissed');});
+    
 
 
   }
