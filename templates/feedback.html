@@ -81,12 +81,21 @@
     background-color: #DFF2BF;
   }    
       
-  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */    
+  .ajaxspinner{
+  display: none;
+}
+.ajaxspinner img{
+  height: 65px;
+}
 </style>
 <main id="main" class="main">
 
   <div class="pagetitle text-center">
     <h1>Your Feedbacks Please!</h1>
+
+    <div class="ajaxspinner">
+      <img src="{% static 'assets/img/Spinner.gif' %}" alt="">
+    </div>
     
     <div style="text-align: right" id="popupdiv">
     </div>

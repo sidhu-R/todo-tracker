@@ -53,6 +53,7 @@ $(document).ready(function() {
     var mail = $('#email').val();
     var country = $('#country').val();
     var desc = $('#subject').val();
+    $(".ajaxspinner").show();
   
     $.ajax({
   
@@ -70,7 +71,7 @@ $(document).ready(function() {
   
       },
       success: function(response) {
-  
+        $(".ajaxspinner").hide();
         $('#fname').val('');
         $('#email').val('');
         $('#duedate').val('');
