@@ -770,6 +770,13 @@ h6 {
   color: white; 
   background-color: rgba(13, 110, 253, 0.9);
   border-color: #31708f; }
+
+  .ajaxspinner{
+    display: none;
+  }
+  .ajaxspinner img{
+    height: 65px;
+  }
 /*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/

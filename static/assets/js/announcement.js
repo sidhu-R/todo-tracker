@@ -72,6 +72,7 @@ success: function(data) {
 
 //notification send
 function loadsendAnnoun(sortBy) {
+  $(".ajaxspinner").show();
   $.ajax({
       url: '/send_view_announce/',
       type: 'POST',
@@ -82,6 +83,7 @@ function loadsendAnnoun(sortBy) {
           'sort_by': sortBy
       },
       success: function(data) {
+        $(".ajaxspinner").hide();
         var body2=$('#sendann')
         body2.empty()
           
@@ -147,6 +149,7 @@ $(".annbtn3").click(function(){
 
 //notification recieved
 function loadreciveAnnoun(sortBy) {
+  $(".ajaxspinner").show();
 $.ajax({
     url: '/recieve_view_announce/',
     type: 'POST',
@@ -157,6 +160,7 @@ $.ajax({
         'sort_by': sortBy
     },
     success: function(data) {
+      $(".ajaxspinner").hide();
       var body2=$('#recieveann')
       body2.empty()
         
