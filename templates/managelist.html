@@ -1,0 +1,172 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+<style>
+  .datatable2 tfoot {
+  display: table-header-group;
+}
+
+.datatable2 tfoot .filter-column {
+  width: 100% !important;
+
+}
+
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Lists</h1>
+      <nav>
+        <ol class="breadcrumb" id="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+          {% for i in proname %}          
+          <li class="breadcrumb-item ">{{i.project_title}}</li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Manage List</li>
+          {% endfor %}
+        </ol>
+      </nav>
+
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Projects Lists</h5>
+              {% if user.is_staff %}
+              <p>Add new list here</p>
+              {% endif %}
+
+          
+            <div class="card-body">
+              {% if user.is_staff %}
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                Add 
+              </button>
+              {% endif %}
+              <hr>
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add List</h5>
+                      <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <div class="card-body">
+              <h5 class="card-title">Add List</h5>
+
+              <!-- Vertical Form -->
+              <form class="row g-3" id="createlist" method="post">
+                {% csrf_token %}
+                
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">List Name</label>
+                  <input type="text" class="form-control" id="listname" name="listname" >
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">List Description</label>
+                  <textarea class="form-control" placeholder="Description" id="listdesc" name="listdesc" style="height: 100px;" ></textarea>
+                </div>
+                <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn3">Close</button>
+                      <button type="submit" id="" class="btn btn-primary">Create</button>
+                </div>
+              </form><!-- Vertical Form -->
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
+
+            </div>
+         
+		  
+              <div class="container-fluid">
+                <table class="datatable2 table table-hover table-bordered" id="listtable">
+                  <thead>
+                    <tr>
+                      <th>List Name</th>
+                      <th>Description</th> 
+                      <th>Actions</th>	
+                      
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <!-- table data -->
+
+                  </tbody>
+                </table>
+                </div>
+
+
+                <div class="modal fade" id="basicModal2" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Update Item</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" action="" id="editlist" method="post">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="inputNanme4" class="form-label">List Name</label>
+                    <input type="text" class="form-control" id="listname2" name="listname2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail4" class="form-label">List Description</label>
+                    <textarea class="form-control" placeholder="Description" id="listdesc2" name="listdesc2" style="height: 100px;" ></textarea>
+                  </div>
+                      <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="listupclose">Close</button>
+                       <button type="submit" id="ddd222" class="btn btn-primary">Update</button>
+                       <button type="button" class="btn btn-danger" id="listdeactivate">Deactivate</button>
+                      </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/managelist.js' %}"></script>
+  
+  {% endblock content %}

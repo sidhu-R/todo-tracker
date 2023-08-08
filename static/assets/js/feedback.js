@@ -39,10 +39,6 @@ $(document).ready(function() {
     }
   
   
-  
-  
-  
-  
   });
   
   });

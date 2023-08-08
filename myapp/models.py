@@ -52,6 +52,8 @@ class task1(models.Model):
     task_created=models.DateTimeField(auto_now_add=True)
     task_updated=models.DateTimeField(auto_now=True)
     task_activation=models.CharField(max_length=30,blank=True,null=True)
+    task_attach=models.FileField(upload_to='taskattach',blank=True,null=True)
+    # task_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
         return  self.task_title1
@@ -108,3 +110,67 @@ class Activity(models.Model):
     activity_time=models.TimeField(auto_now_add=True)
     def __str__(self):
         return str(self.user)
+    
+
+class Project(models.Model):
+    TYPE_CHOICES=[
+        ('Type1',"Type1"),
+        ('Type2',"Type2"),
+        ('Type3',"Type3"),
+
+    ]
+    PROJECT_STATUS=[
+        ('Pending',"Pending"),
+        ('On Hold',"On Hold"),
+        ('Complete,',"Complete,"),
+        ('Cancelled',"Cancelled")
+    ]
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    project_title=models.CharField(max_length=150)
+    project_type=models.CharField(max_length=100,choices=TYPE_CHOICES)
+    project_desc=models.CharField(max_length=300)
+    project_start=models.DateField()
+    project_end=models.DateField()
+    duration=models.CharField(max_length=30)
+    hours=models.IntegerField()
+    project_status=models.CharField(max_length=50,choices=PROJECT_STATUS)
+    project_created=models.DateTimeField(auto_now_add=True)
+    project_activation=models.CharField(max_length=30,blank=True,null=True)
+    def __str__(self):
+        return str(self.project_title)
+
+
+class Projectlist(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    Project=models.ForeignKey(Project,on_delete=models.CASCADE)
+    list_name=models.CharField(max_length=50)
+    list_desc=models.CharField(max_length=300)
+    list_created=models.DateTimeField(auto_now_add=True)
+    list_activation=models.CharField(max_length=30,blank=True,null=True)
+    def __str__(self):
+        return str(self.list_name)
+
+
+class Issue(models.Model):
+    ISSUE_STATUS=[
+        ('Open',"Open"),
+        ('In Progress',"In Progress"),
+        ('Resolved,',"Resolved,")
+    ]
+    ISSUE_PRIORITY=[
+        ('High',"High"),
+        ('Medium',"Medium"),
+        ('Low',"Low")
+    ]
+    Projectlist=models.ForeignKey(Projectlist,on_delete=models.CASCADE)
+    issue_title=models.CharField(max_length=100)
+    issue_desc=models.CharField(max_length=500)
+    issue_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+    issue_status=models.CharField(max_length=50,choices=ISSUE_STATUS)
+    issue_priority=models.CharField(max_length=50,choices=ISSUE_PRIORITY)
+    issue_attach=models.FileField(upload_to='issueattach',blank=True)
+    issue_activation=models.CharField(max_length=30,blank=True,null=True)
+    issue_created=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.issue_title)
+

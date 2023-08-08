@@ -4,7 +4,7 @@ from django.core import serializers
 import json
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
-from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity
+from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -30,36 +30,72 @@ class Dashactvitylogview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='Today':
-                data = Activity.objects.filter(user=user,activity_date__day=day,activity_date__year=year).order_by('-activity_time')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'activity_done': item.activity_done,
-                    'activity_date': item.activity_date,
-                    'activity_time': item.activity_time,
-                    })
+            if user.is_staff:
+                if sort_by=='Today':
+                    data = Activity.objects.filter(activity_date__day=day,activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        'user_name':item.user.username,
+                        })
 
-            elif sort_by=='This Month':
-                data = Activity.objects.filter(user=user,activity_date__month=month,activity_date__year=year).order_by('-activity_time')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'activity_done': item.activity_done,
-                    'activity_date': item.activity_date,
-                    'activity_time': item.activity_time,
-                    })
+                elif sort_by=='This Month':
+                    data = Activity.objects.filter(activity_date__month=month,activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        'user_name':item.user.username,
+                        })
 
 
-            elif sort_by=='This Year':
-                data = Activity.objects.filter(user=user,activity_date__year=year).order_by('-activity_time')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'activity_done': item.activity_done,
-                    'activity_date': item.activity_date,
-                    'activity_time': item.activity_time,
-                    })
+                elif sort_by=='This Year':
+                    data = Activity.objects.filter(activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        'user_name':item.user.username,
+                        })
+
+            else:
+                if sort_by=='Today':
+                    data = Activity.objects.filter(user=user,activity_date__day=day,activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Activity.objects.filter(user=user,activity_date__month=month,activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        })
+
+
+                elif sort_by=='This Year':
+                    data = Activity.objects.filter(user=user,activity_date__year=year).order_by('-activity_time')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'activity_done': item.activity_done,
+                        'activity_date': item.activity_date,
+                        'activity_time': item.activity_time,
+                        })
 
             # print(response_data)
             return JsonResponse(response_data, safe=False)
@@ -781,6 +817,285 @@ class Feedbackview(View):
             return JsonResponse({"error": ""}, status=400)
 
 
+
+class Issuedataview(View):
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            projectlist_id = request.GET.get('projectlist')
+            if user.is_staff:
+            # print(projectlist_id)
+                data = Issue.objects.filter(Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(issue_activation='deactive').order_by('-issue_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            else:
+                data = Issue.objects.filter(Projectlist=Projectlist.objects.get(id=projectlist_id),issue_assign=user).exclude(issue_activation='deactive').order_by('-issue_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+
+# function to create list
+class CreateIssue(View):
+    def post(self,request):
+        user=request.user
+        if request.method == "POST":
+            title=request.POST.get('issuetitle')
+            desc=request.POST.get('issuedesc')
+            status=request.POST.get('issuestatus')
+            priority=request.POST.get('issuepriority')
+            projectlist_id=request.POST.get('projectlist')
+            assign=request.POST.get('issueassign')
+
+            Issue.objects.create(issue_assign=User.objects.get(id=assign),Projectlist=Projectlist.objects.get(id=projectlist_id),issue_title=title,issue_desc=desc,issue_status=status,issue_priority=priority,issue_activation='active')
+            activity=Activity.objects.create(user=user,activity_done="Issue created")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({"error": ""}, status=400)
+
+
+# funtion to load issue page
+class Issuepageview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request,pk):
+        listname=Projectlist.objects.filter(id=pk).all()
+        uname=User.objects.all()
+
+        return render(request, "issue.html",{"uname":uname,"listname":listname})
+
+
+
+# function to deactivate list in managelist page
+class DeactivateListview(View):
+    def post(self,request, pk):
+        user=request.user
+        if request.method == 'POST':
+            Projectlist.objects.filter(id=pk).update(list_activation='deactive')
+            activity=Activity.objects.create(user=user,activity_done="List deactivated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
+
+
+# function to update List in managelist page
+class UpdateListView(View):
+    def post(self,request,pk):
+        user=request.user
+        if request.method == 'POST':
+            name=request.POST.get('name')
+            desc=request.POST.get('desc')
+
+            Projectlist.objects.filter(id=pk).update(list_name=name,list_desc=desc)
+            activity=Activity.objects.create(user=user,activity_done="List updated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
+
+
+# function to view  list inside project data
+class listdataview(View):
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            project_id = request.GET.get('project')
+            # print(project_id)
+            data = Projectlist.objects.filter(Project=Project.objects.get(id=project_id)).exclude(list_activation='deactive').order_by('-list_created')
+            response_data = []
+            for item in data:
+                response_data.append({
+                    'id':item.id,
+                    'list_name': item.list_name,
+                    'list_desc': item.list_desc,
+                    })
+            # print(response_data)
+        return JsonResponse(response_data, safe=False)
+
+
+# function to create list
+class CreateList(View):
+    def post(self,request):
+        user=request.user
+        if request.method == "POST":
+            name=request.POST.get('listname')
+            desc=request.POST.get('listdesc')
+            project_name=request.POST.get('project')
+            Projectlist.objects.create(user=user,Project=Project.objects.get(id=project_name),list_name=name,list_desc=desc,list_activation='active')
+            activity=Activity.objects.create(user=user,activity_done="List created")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({"error": ""}, status=400)
+
+
+# function to load Manage list page
+class Listpageview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request,pk):
+        proname=Project.objects.filter(id=pk).all()
+
+        return render(request, "managelist.html",{"proname":proname})
+
+
+# function to deactivate project in todo page
+class Deactivateprojectview(View):
+    def post(self,request, pk):
+        user=request.user
+        if request.method == 'POST':
+            Project.objects.filter(id=pk).update(project_activation='deactive')
+            activity=Activity.objects.create(user=user,activity_done="Task deactivated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
+     
+# function to update project in todo page
+class UpdateProjectView(View):
+    def post(self,request,pk):
+        user=request.user
+        if request.method == 'POST':
+            title=request.POST.get('title')
+            desc=request.POST.get('desc')
+            start_dte=request.POST.get('start_dte')
+            end_dte=request.POST.get('end_dte')
+            hour=request.POST.get('hour')
+            protype=request.POST.get('protype')
+            status=request.POST.get('status')
+            Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration="10",project_status=status,hours=hour)
+            activity=Activity.objects.create(user=user,activity_done="Project updated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
+
+
+# function to create project in todo page
+class CreateProject(View):
+    def post(self,request):
+        user=request.user
+        if request.method == "POST":
+            title=request.POST.get('protitle')
+            desc=request.POST.get('prodesc')
+            start_dte=request.POST.get('prostart')
+            end_dte=request.POST.get('proend')
+            hour=request.POST.get('prohours')
+            protype=request.POST.get('protype')
+            status=request.POST.get('prostatus')
+
+            Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration="10",project_status=status,hours=hour,project_activation='active')
+            activity=Activity.objects.create(user=user,activity_done="Project created")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({"error": ""}, status=400)
+
+
+# function to view and filter project in todo page
+class Projectdataview(View):
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            sort_by = request.GET.get('sort_by')
+            sort_by2 = request.GET.get('sort_by2')
+            print(sort_by)
+            print(sort_by2)
+
+            # both deos not have values
+            if sort_by=='' and sort_by2=='':
+                data = Project.objects.filter(user=user).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                    'id':item.id,
+                    'pro_title': item.project_title,
+                    'pro_desc': item.project_desc,
+                    'pro_start': item.project_start,
+                    'pro_end': item.project_end,
+                    'pro_hours': item.hours,
+                    'pro_type':item.project_type,
+                    'pro_status':item.project_status,
+                    })
+            # both have values
+            elif sort_by!='' and sort_by2!='':
+                data = Project.objects.filter(user=user,project_end__gte=(sort_by),project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                    'id':item.id,
+                    'pro_title': item.project_title,
+                    'pro_desc': item.project_desc,
+                    'pro_start': item.project_start,
+                    'pro_end': item.project_end,
+                    'pro_hours': item.hours,
+                    'pro_type':item.project_type,
+                    'pro_status':item.project_status,
+                    })
+            # starting date have value
+            elif sort_by!='' and sort_by2=='':
+                data = Project.objects.filter(user=user,project_end__gte=(sort_by)).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                    'id':item.id,
+                    'pro_title': item.project_title,
+                    'pro_desc': item.project_desc,
+                    'pro_start': item.project_start,
+                    'pro_end': item.project_end,
+                    'pro_hours': item.hours,
+                    'pro_type':item.project_type,
+                    'pro_status':item.project_status,
+                    })
+            # ending date have value
+            elif sort_by=='' and sort_by2!='':
+                data = Project.objects.filter(user=user,project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                    'id':item.id,
+                    'pro_title': item.project_title,
+                    'pro_desc': item.project_desc,
+                    'pro_start': item.project_start,
+                    'pro_end': item.project_end,
+                    'pro_hours': item.hours,
+                    'pro_type':item.project_type,
+                    'pro_status':item.project_status,
+                    })
+            elif sort_by==None and sort_by2==None:
+                data = Project.objects.filter(user=user).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                    'id':item.id,
+                    'pro_title': item.project_title,
+                    'pro_desc': item.project_desc,
+                    'pro_start': item.project_start,
+                    'pro_end': item.project_end,
+                    'pro_hours': item.hours,
+                    'pro_type':item.project_type,
+                    'pro_status':item.project_status,
+                    })
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+
 # function to view deactivated tasks list in todo page
 class Deactivetasklistview(View):
     def post(self,request):
@@ -1169,10 +1484,10 @@ class Indexpageview(View):
         return render(request,"index.html")
 
 # function to load todo page
-class Todopageview(View):
+class Projectpageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
-        return render(request, "toDO.html")
+        return render(request, "project.html")
 
 # function to load login page
 class Loginpageview(View):

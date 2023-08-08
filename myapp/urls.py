@@ -6,10 +6,10 @@ urlpatterns = [
     # page load only-----------------
     # path('',views.logi,name="login"),
     path('',views.Indexpageview.as_view(),name="home"),
-    path('todotask',views.Todopageview.as_view(),name="todo"),
     path('log',views.Loginpageview.as_view(),name="logi"),
     path('sign',views.Signuppageview.as_view(),name="signup"),
     path('uprofile',views.Profilepageview.as_view(),name="uprofile"),
+    path('todoproject',views.Projectpageview.as_view(),name="todo"),
     path('newsup',views.Newspageview.as_view(),name="news"),
     path('feedb',views.Feedbackpageview.as_view(),name="feed"),
     path('faqs',views.Faqpageview.as_view(),name="faq"),
@@ -33,6 +33,24 @@ urlpatterns = [
     path('data/delete/<int:pk>/', views.Deactivatetaskview.as_view(), name='data_delete'),
     path('data/update/<int:pk>/', views.Updatetaskview.as_view(), name='data_update'),
     path('data/deactive', views.Deactivetasklistview.as_view(), name='deactivelist'),
+
+    # project page--------------------
+    path('data_project_view/',views.Projectdataview.as_view(), name='project_list'),
+    path('project_create_view',views.CreateProject.as_view(), name='create_project'),
+    path('project_update/<int:pk>/',views.UpdateProjectView.as_view(), name='project_update'),
+    path('project_delete/<int:pk>/', views.Deactivateprojectview.as_view(), name='project_delete'),
+
+    # List page-----------------------
+    path('managelist/<int:pk>/',views.Listpageview.as_view(),name='managelist'),
+    path('create_list/',views.CreateList.as_view(),name='createlist'),
+    path('view_projectlistdata/',views.listdataview.as_view(),name='viewprojectlist'),
+    path('list_update/<int:pk>/',views.UpdateListView.as_view(), name='List_update'),
+    path('list_deactivate/<int:pk>/', views.DeactivateListview.as_view(), name='list_delete'),
+
+    # Issue page----------------------
+    path('issuepage/<int:pk>/',views.Issuepageview.as_view(),name='issuepage'),
+    path('create_issue/',views.CreateIssue.as_view(),name='createissue'),
+    path('view_issuepagedata/',views.Issuedataview.as_view(),name='viewissuelist'),
 
     # feedback------------------------
     path('feed/',views.Feedbackview.as_view(),name="feed"),

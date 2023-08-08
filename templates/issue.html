@@ -1,0 +1,249 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+<style>
+  .datatable3 tfoot {
+  display: table-header-group;
+}
+
+.datatable3 tfoot .filter-column {
+  width: 100% !important;
+
+}
+
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Issues</h1>
+      <nav>
+        <ol class="breadcrumb" id="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+          {% for i in listname %}
+          <li class="breadcrumb-item ">{{i.Project}}</li>          
+          <li class="breadcrumb-item ">{{i.list_name}}</li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Issues</li>
+          {% endfor %}
+        </ol>
+      </nav>
+
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Current Issues</h5>
+              <p>Add new Issue here</p>
+
+
+          
+            <div class="card-body">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                Add 
+              </button>
+              <hr>
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add Issue</h5>
+                      <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <div class="card-body">
+              <h5 class="card-title">Add Issue</h5>
+
+              <!-- Vertical Form -->
+              <form class="row g-3" id="issueadd" method="post">
+                {% csrf_token %}
+                
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">Issue Title</label>
+                  <input type="text" class="form-control" id="issuetitle" name="issuetitle" >
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">Issue Description</label>
+                  <textarea class="form-control" placeholder="Description" id="issuedesc" name="issuedesc" style="height: 100px;" ></textarea>
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Assign</label>
+                  <select class="form-select" aria-label="Default select example" name="issueassign" id="issueassign" >
+                    {% for i in uname%}
+                    <option value="{{i.id}}">{{i.username}}</option>
+                    {% endfor %}
+                    </select>
+			     </div>
+				 
+				    <div class="col-12">
+                  <label for="inputAddress" class="form-label">Status</label>
+                  <select class="form-select" aria-label="Default select example" name="issuestatus" id="issuestatus"  >
+                      <option value="Open">Open</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Resolved">Resolved</option>
+                    </select>
+			      </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Priority</label>
+                    <select class="form-select" aria-label="Default select example" name="issuepriority" id="issuepriority" >
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                      </select>
+                   </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn4">Close</button>
+                      <button type="submit" id="" class="btn btn-primary">Create</button>
+                    </div>
+              </form><!-- Vertical Form -->
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
+
+            </div>
+         
+		  
+
+          </tbody></table>
+              <div class="container-fluid">
+                <table class="datatable3 table table-hover table-bordered" id="issuetable">
+                  <thead>
+                    <tr>
+                      <th>Issue Title</th>
+                      <th>Description</th>
+                      <th>Assignee</th>
+                      <th>Status</th>
+                      <th>Priority</th>   
+                      <th>Actions</th>	
+                      
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>
+                      </th>
+                      <th>
+                      </th>
+                      <th>
+                        <select class="form-control input-sm filter-column">
+                            <option value="">All</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                      </th>
+                      <th>
+                        <select class="form-control input-sm filter-column">
+                            <option value="">All</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                          </select>
+                      </th>
+                      <th>
+                      </th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <!-- table data -->
+
+                  </tbody>
+                </table>
+                </div>
+
+
+                <div class="modal fade" id="basicModal2" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Update Item</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" action="" id="editissue" method="post">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="inputNanme4" class="form-label">Issue Title</label>
+                    <input type="text" class="form-control" id="issuetitle2" name="issuetitle2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail4" class="form-label">Issue Description</label>
+                    <textarea class="form-control" placeholder="Description" id="issuedesc2" name="issuedesc2" style="height: 100px;" ></textarea>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Assign</label>
+                    <select class="form-select" aria-label="Default select example" name="issueassign2" id="issueassign2" >
+                        {% for i in uname%}
+                        <option value="{{i.id}}">{{i.username}}</option>
+                        {% endfor %}
+                      </select>
+                   </div>
+                   
+                      <div class="col-12">
+                    <label for="inputAddress" class="form-label">Status</label>
+                    <select class="form-select" aria-label="Default select example" name="issuestatus2" id="issuestatus2"  >
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                      </select>
+                    </div>
+                    <div class="col-12">
+                      <label for="inputAddress" class="form-label">Priority</label>
+                      <select class="form-select" aria-label="Default select example" name="issuepriority2" id="issuepriority2" >
+                          <option value="High">High</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Low">Low</option>
+                        </select>
+                     </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn4">Close</button>
+                        <button type="submit" id="" class="btn btn-primary">Create</button>
+                      </div>
+                      <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="issueupclose">Close</button>
+                       <button type="submit" id="ddd222" class="btn btn-primary">Update</button>
+                       <button type="button" class="btn btn-danger" id="issuedeactivate">Deactivate</button>
+                      </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/issue.js' %}"></script>
+  
+  {% endblock content %}

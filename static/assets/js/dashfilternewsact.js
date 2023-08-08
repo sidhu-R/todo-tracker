@@ -15,17 +15,35 @@ $(document).ready(function() {
                 cardsContainer.empty();
                 
                 $.each(data, function(index, item) {
-                    var cardHtml = `
-                    <div class="activity-item d-flex">
-                    <div class="activite-label">${item.activity_time},${item.activity_date}</div>
-                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                    <div class="activity-content">
-                        ${item.activity_done}<a href="#" class="fw-bold text-dark"></a> 
-                    </div>
-                    </div>
-    
-                    `;
-                    cardsContainer.append(cardHtml);
+                    if(item.user_name!=null){
+                        var cardHtml = `
+                        <div class="activity-item d-flex">
+                        <div class="activite-label">${item.activity_time},${item.activity_date}</div>
+                        <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                        <div class="activity-content">
+                            ${item.activity_done}<a href="#" class="fw-bold text-dark"></a>
+                            <p>--${item.user_name}</p>
+                        </div>
+                        </div>
+        
+                        `;
+                        cardsContainer.append(cardHtml);
+                    }
+                    else{
+                        var cardHtml = `
+                        <div class="activity-item d-flex">
+                        <div class="activite-label">${item.activity_time},${item.activity_date}</div>
+                        <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                        <div class="activity-content">
+                            ${item.activity_done}<a href="#" class="fw-bold text-dark"></a>
+                        </div>
+                        </div>
+        
+                        `;
+                        cardsContainer.append(cardHtml);
+                    }
+                    
+                    
                 });
             }
         });

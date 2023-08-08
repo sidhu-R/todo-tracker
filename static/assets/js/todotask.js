@@ -296,6 +296,7 @@ $.ajax({
     // alert('Task updated');
     $('#Closebtn2').click();
     // location.reload()
+    loadData('','');
     
     alertify.set('notifier','position', 'top-right');
     alertify.notify('Task Updated', 'custom', 2, function(){console.log('dismissed');});

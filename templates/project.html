@@ -1,0 +1,270 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+<style>
+  .datatable1 tfoot {
+  display: table-header-group;
+}
+
+.datatable1 tfoot .filter-column {
+  width: 100% !important;
+
+}
+
+
+</style>
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Projects</h1>
+      <nav>
+        <ol class="breadcrumb" id="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+          <li class="breadcrumb-item active">Projects</li>
+        </ol>
+      </nav>
+
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Current Projects</h5>
+              {% if user.is_staff %}
+              <p>Add new project here</p>
+              {% endif %}
+
+          
+            <div class="card-body">
+              {% if user.is_staff %}
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                Add 
+              </button>
+              {% endif %}
+              <hr>
+              <div class="modal fade" id="basicModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add Project</h5>
+                      <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <div class="card-body">
+              <h5 class="card-title">Add Project</h5>
+
+              <!-- Vertical Form -->
+              <form class="row g-3" id="projectadd" method="post">
+                {% csrf_token %}
+                
+                <div class="col-12">
+                  <label for="inputNanme4" class="form-label">Project Title</label>
+                  <input type="text" class="form-control" id="protitle" name="protitle" >
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">Project Description</label>
+                  <textarea class="form-control" placeholder="Description" id="prodesc" name="prodesc" style="height: 100px;" ></textarea>
+                </div>
+                <div class="col-12">
+                  <label for="inputPassword4" class="form-label">Start Date</label>
+                 <input type="date" class="form-control" name="prostart" id="prostart" >
+                </div>
+                <div class="col-12">
+                    <label for="inputPassword4" class="form-label">End Date</label>
+                   <input type="date" class="form-control" name="proend" id="proend" >
+                </div>
+                <div class="col-12">
+                  <label for="inputPassword4" class="form-label">Estimated Hours</label>
+                 <input type="text" class="form-control" name="prohours" id="prohours" >
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Type</label>
+                  <select class="form-select" aria-label="Default select example" name="protype" id="protype" >
+                      <option value="Type1">Type1</option>
+                      <option value="Type2">Type2</option>
+                      <option value="Type3">Type3</option>
+                    </select>
+			     </div>
+				 
+				    <div class="col-12">
+                  <label for="inputAddress" class="form-label">Status</label>
+                  <select class="form-select" aria-label="Default select example" name="prostatus" id="prostatus"  >
+                      <option value="On Hold">On Hold</option>
+                      <option value="Complete">Complete</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+			      </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn2">Close</button>
+                      <button type="submit" id="" class="btn btn-primary">Create</button>
+                    </div>
+              </form><!-- Vertical Form -->
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
+
+            </div>
+         
+		  
+
+            <table border="0" cellspacing="5" cellpadding="5">
+              <tbody><tr>
+                  <td>Starting date:</td>
+                  <td><input type="date" id="min" name="min"></td>
+              </tr>
+              <tr>
+                  <td>Ending date:</td>
+                  <td><input type="date" id="max" name="max"></td>
+                  <td><button class="btn btn-outline-primary" type="button" id="task_date_submit">Filter</button></td>
+              </tr>
+          </tbody></table>
+              <div class="container-fluid">
+                <table class="datatable1 table table-hover table-bordered" id="projecttable">
+                  <thead>
+                    <tr>
+                      <th>Project Title</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Description</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Estimated Hours</th>   
+                      <th>Actions</th>	
+                      
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>
+                      <select class="form-control input-sm filter-column">
+                        <option value="">All</option>
+                        <option value="Type1">Type1</option>
+                        <option value="Type2">Type2</option>
+                        <option value="Type3">Type3</option>
+                      </select>
+                      </th>
+                      <th>
+                      <select class="form-control input-sm filter-column">
+                        <option value="">All</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Complete">Complete</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                      </th>
+                      <th>
+                        <!-- <input type="text" class="form-control input-sm filter-column" /> -->
+                      </th>
+                      <th></th>
+                      <th>
+                      </th>
+                      <th>       
+                    </th>
+                      <th></th> 
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <!-- table data -->
+
+                  </tbody>
+                </table>
+                </div>
+
+
+                <div class="modal fade" id="basicModal2" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Update Item</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" action="" id="editpro" method="post">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="inputNanme4" class="form-label">Project Title</label>
+                    <input type="text" class="form-control" id="protitle2" name="protitle2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail4" class="form-label">Project Description</label>
+                    <textarea class="form-control" placeholder="Description" id="prodesc2" name="prodesc2" style="height: 100px;" ></textarea>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputPassword4" class="form-label">Start Date</label>
+                   <input type="date" class="form-control" name="prostart2" id="prostart2" >
+                  </div>
+                  <div class="col-12">
+                      <label for="inputPassword4" class="form-label">End Date</label>
+                     <input type="date" class="form-control" name="proend2" id="proend2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputPassword4" class="form-label">Estimated Hours</label>
+                   <input type="text" class="form-control" name="prohours2" id="prohours2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Type</label>
+                    <select class="form-select" aria-label="Default select example" name="protype2" id="protype2" >
+                        <option value="Type1">Type1</option>
+                        <option value="Type2">Type2</option>
+                        <option value="Type3">Type3</option>
+                      </select>
+                  </div>
+           
+              <div class="col-12">
+                    <label for="inputAddress" class="form-label">Status</label>
+                    <select class="form-select" aria-label="Default select example" name="prostatus2" id="prostatus2"  >
+                        <option value="On Hold">On Hold</option>
+                        <option value="Complete">Complete</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+              </div>
+                      <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="proupclose">Close</button>
+                       <button type="submit" id="ddd222" class="btn btn-primary">Update</button>
+                       <button type="button" class="btn btn-danger" id="prodeactivate">Deactivate</button>
+                      </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/demoproject.js' %}"></script>
+  
+  {% endblock content %}
