@@ -124,7 +124,7 @@ function loadList() {
 
 
 
-// //update project
+// //update list
 $(document).ready(function() {
   $("#editlist").validate({
   rules: {
@@ -226,7 +226,7 @@ function deactivatelist() {
     alert('Please select a row to delete.');
     return;
   }
-  if (confirm('Are you sure you want to deactivate this Project ?')) {
+  if (confirm('Are you sure you want to deactivate this List ?')) {
   
   var id = selectedRow.data('id');
   

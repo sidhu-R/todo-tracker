@@ -1,0 +1,258 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Issues</h1>
+      <nav>
+        <ol class="breadcrumb" id="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+
+          <li class="breadcrumb-item ">/</li>          
+          <li class="breadcrumb-item ">/</li>
+          {% for i in issuename %}
+          <li class="breadcrumb-item ">{{i.issue_title}}</li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Issue Detail</li>
+          {% endfor %}
+        </ol>
+      </nav>
+
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Issue Details</h5>
+         
+		  
+<!-- 
+              <div class="container-fluid">
+                <table class="datatable3 table table-hover table-bordered" id="issuetable">
+                  <thead>
+                    <tr>
+                      <th>Issue Title</th>
+                      <th>Description</th>
+                      <th>Assignee</th>
+                      <th>Status</th>
+                      <th>Priority</th>   
+                      <th>Actions</th>	
+                      
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>
+                      </th>
+                      <th>
+                      </th>
+                      <th>
+                        <select class="form-control input-sm filter-column">
+                            <option value="">All</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                      </th>
+                      <th>
+                        <select class="form-control input-sm filter-column">
+                            <option value="">All</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                          </select>
+                      </th>
+                      <th>
+                      </th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    
+
+                  </tbody>
+                </table>
+                </div> -->
+
+
+            <!-- task table -->
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+  
+                  <div class="card-body">
+                    <h5 class="card-title">Issue</h5>
+  
+                    <table class="table table-borderless dattable" id="issuedetailtable">
+                      <thead>
+                        <tr>
+                        <th>Issue Title</th>
+                        <th>Description</th>
+                        <th>Assignee</th>
+                        <th>Status</th>
+                        <th>Priority</th>   
+                        <th>Actions</th>	
+                        </tr>
+                      </thead>
+                      <tbody>
+
+  
+                      </tbody>
+                    </table>
+  
+                  </div>
+  
+                </div>
+              </div><!-- End Recent Sales -->
+
+
+                <div class="modal fade" id="basicModal2" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Update Item</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" action="" id="editissuedetail" method="post">
+                  {% csrf_token %}
+                  <div class="col-12">
+                    <label for="inputNanme4" class="form-label">Issue Title</label>
+                    <input type="text" class="form-control" id="issuetitle2" name="issuetitle2" >
+                  </div>
+                  <div class="col-12">
+                    <label for="inputEmail4" class="form-label">Issue Description</label>
+                    <textarea class="form-control" placeholder="Description" id="issuedesc2" name="issuedesc2" style="height: 100px;" ></textarea>
+                  </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Assign</label>
+                    <select class="form-select" aria-label="Default select example" name="issueassign2" id="issueassign2" >
+                        {% for i in uname%}
+                        <option value="{{i.username}}">{{i.username}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                   
+                    <div class="col-12">
+                    <label for="inputAddress" class="form-label">Status</label>
+                    <select class="form-select" aria-label="Default select example" name="issuestatus2" id="issuestatus2"  >
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                      </select>
+                    </div>
+                    <div class="col-12">
+                      <label for="inputAddress" class="form-label">Priority</label>
+                      <select class="form-select" aria-label="Default select example" name="issuepriority2" id="issuepriority2" >
+                          <option value="High">High</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Low">Low</option>
+                        </select>
+                     </div>
+                      <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="issueupclose">Close</button>
+                       <button type="submit" id="" class="btn btn-primary">Update</button>
+                      </div>
+                </form><!-- Vertical Form -->
+  
+              </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Attachements</h5>
+                <p></p>
+
+                <div class="card-body">
+        
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                      Add 
+                    </button>
+                    <div class="modal fade" id="basicModal" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Add Attachements</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                           <div class="card-body">
+                    <h5 class="card-title">Add Attachements</h5>
+                    
+          
+                    <!-- Vertical Form -->
+                    <form class="row g-3" action="" id="attachmentform" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="col-12">
+                        <input type="file" id="attachimg" class="btn btn-primary btn-sm" name="attachimg" accept="image/*">
+                      </div>
+                          <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="attachformclose">Close</button>
+                           <button type="submit" id="" class="btn btn-primary">Add</button>
+                           <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                          </div>
+                    </form><!-- Vertical Form -->
+          
+                  </div>
+                          </div>
+          
+                        </div>
+                      </div>
+                    </div><!-- End Basic Modal-->
+          
+                  </div>
+
+                <hr>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="attach">
+                    <h5>No</h5>
+  
+                </div>
+
+  
+  
+               </div>
+  
+            </div>
+          </div>
+        </div>
+  
+      </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/issuedetail.js' %}"></script>
+  
+  {% endblock content %}

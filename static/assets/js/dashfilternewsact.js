@@ -3,6 +3,7 @@
 $(document).ready(function() {
   
     function fetchActivity(sortBy) {
+        $(".ajaxspinner").show();
         $.ajax({
             url: '/sort_activity/',
             type: 'POST',
@@ -11,6 +12,7 @@ $(document).ready(function() {
                 'sort_by': sortBy
             },
             success: function(data) {
+                $(".ajaxspinner").hide();
                 var cardsContainer = $('#activitycard');
                 cardsContainer.empty();
                 
@@ -101,6 +103,7 @@ $(document).ready(function() {
     $(document).ready(function() {
     
     function fetchNews(searchQuery, sortBy) {
+        $(".ajaxspinner2").show();
         $.ajax({
             url: '/sort_news_dash/',
             type: 'POST',
@@ -110,6 +113,7 @@ $(document).ready(function() {
                 'sort_by': sortBy
             },
             success: function(data) {
+                $(".ajaxspinner2").hide();
                 var cardsContainer = $('#dashboard-news');
                 cardsContainer.empty();
                 

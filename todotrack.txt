@@ -1,24 +1,5 @@
 https://github.com/sidhu-R/todo-tracker.git
 
-class CreateProject(View):
-    def post(self,request):
-        user=request.user
-        if request.method == "POST":
-            title=request.POST.get('title')
-            desc=request.POST.get('desc')
-            start_dte=request.POST.get('start_dte')
-            end_dte=request.POST.get('end_dte')
-            hour=request.POST.get('hour')
-            protype=request.POST.get('protype')
-            status=request.POST.get('status')
-
-            Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration="10",project_status=status,hours=hour)
-            activity=Activity.objects.create(user=user,activity_done="Project created")
-            activity.save()
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({"error": ""}, status=400)
-
 
 
 

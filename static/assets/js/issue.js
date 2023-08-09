@@ -87,8 +87,9 @@ function loadIssue() {
                         <td>${item.issue_assign}</td>
                         <td>${item.issue_status}</td>
                         <td>${item.issue_priority}</td>
-                        <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-primary"><a href=""><i class="fa-solid fa-arrow-up"></i></a></button>
+                        <td>
+                        <button class="btn btn-primary"><a href="/issuedetailpage/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
+                        <button id='but1' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
                         `;
@@ -136,6 +137,60 @@ function loadIssue() {
 
 }
   loadIssue();
+
+
+
+$('#issuedeactivate').click(deactivateissue);
+  function deactivateissue() {
+    var selectedRow = $('#issuetable tbody tr.selected');
+    if (selectedRow.length === 0) {
+      alert('Please select a row to delete.');
+      return;
+    }
+    if (confirm('Are you sure you want to deactivate this Issue ?')) {
+    
+    var id = selectedRow.data('id');
+    
+    $.ajax({
+      url: '/issue_deactivate/' + id + '/',  
+      type: 'POST',
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      dataType: 'json',
+      success: function(response) {
+    
+    
+        loadIssue();
+        $('#issudeactclose').click()
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Issue Deactivated', 'custom', 2, function(){console.log('dismissed');});
+    
+  
+      
+    }
+  });
+  }
+}
+  
+
+$(document).on('click', '#issuetable tbody tr', function() {
+  $('#issuetable tbody tr').removeClass('selected');
+  $(this).addClass('selected');
+  
+  var title = $(this).find('td:eq(0)').text();
+  var desc = $(this).find('td:eq(1)').text();
+  var assignee = $(this).find('td:eq(2)').text();
+  var status = $(this).find('td:eq(3)').text();
+  var prio = $(this).find('td:eq(4)').text();
+  
+  
+  $('#issuetitle3').val(title);
+  $('#issuedesc3').val(desc);
+  $('#issueassign3').val(assignee);
+  $('#issuestatus3').val(status);
+  $('#issuepriority3').val(prio);
+});
 
 
 

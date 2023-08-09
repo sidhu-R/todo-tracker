@@ -179,28 +179,28 @@
                 <h5 class="card-title">Update Item</h5>
   
                 <!-- Vertical Form -->
-                <form class="row g-3" action="" id="editissue" method="post">
+                <form class="row g-3" action="" id="" method="post">
                   {% csrf_token %}
                   <div class="col-12">
                     <label for="inputNanme4" class="form-label">Issue Title</label>
-                    <input type="text" class="form-control" id="issuetitle2" name="issuetitle2" >
+                    <input type="text" class="form-control" id="issuetitle3" name="issuetitle3" >
                   </div>
                   <div class="col-12">
                     <label for="inputEmail4" class="form-label">Issue Description</label>
-                    <textarea class="form-control" placeholder="Description" id="issuedesc2" name="issuedesc2" style="height: 100px;" ></textarea>
+                    <textarea class="form-control" placeholder="Description" id="issuedesc3" name="issuedesc3" style="height: 100px;" ></textarea>
                   </div>
                   <div class="col-12">
                     <label for="inputAddress" class="form-label">Assign</label>
-                    <select class="form-select" aria-label="Default select example" name="issueassign2" id="issueassign2" >
+                    <select class="form-select" aria-label="Default select example" name="issueassign3" id="issueassign3" >
                         {% for i in uname%}
-                        <option value="{{i.id}}">{{i.username}}</option>
+                        <option value="{{i.i.username}}">{{i.username}}</option>
                         {% endfor %}
                       </select>
                    </div>
                    
                       <div class="col-12">
                     <label for="inputAddress" class="form-label">Status</label>
-                    <select class="form-select" aria-label="Default select example" name="issuestatus2" id="issuestatus2"  >
+                    <select class="form-select" aria-label="Default select example" name="issuestatus3" id="issuestatus3"  >
                         <option value="Open">Open</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Resolved">Resolved</option>
@@ -208,19 +208,14 @@
                     </div>
                     <div class="col-12">
                       <label for="inputAddress" class="form-label">Priority</label>
-                      <select class="form-select" aria-label="Default select example" name="issuepriority2" id="issuepriority2" >
+                      <select class="form-select" aria-label="Default select example" name="issuepriority3" id="issuepriority3" >
                           <option value="High">High</option>
                           <option value="Medium">Medium</option>
                           <option value="Low">Low</option>
                         </select>
                      </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn4">Close</button>
-                        <button type="submit" id="" class="btn btn-primary">Create</button>
-                      </div>
-                      <div class="modal-footer">
-                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="issueupclose">Close</button>
-                       <button type="submit" id="ddd222" class="btn btn-primary">Update</button>
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="issudeactclose">Close</button>
                        <button type="button" class="btn btn-danger" id="issuedeactivate">Deactivate</button>
                       </div>
                 </form><!-- Vertical Form -->

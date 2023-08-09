@@ -4,7 +4,7 @@ from django.core import serializers
 import json
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
-from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue
+from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue,Attachements
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -817,7 +817,114 @@ class Feedbackview(View):
             return JsonResponse({"error": ""}, status=400)
 
 
+# function to create news in News updates page
+class CreateAttachementview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def post(self,request):
+        user=request.user
+        if request.method=="POST":
+            issue_id = request.POST.get('issue')
+            image=request.FILES.get('attachimg')
+            Attachements.objects.create(issue=Issue.objects.get(id=issue_id),
+                                        attach_issues=image
+                                        )
+            activity=Activity.objects.create(user=user,activity_done="news created")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({"Message":""})
 
+
+# function to view  list inside project data
+class Issueattachmentview(View):
+    def get(self,request):
+        if request.method=='GET':
+            issue_id = request.GET.get('issue')
+            # print(project_id)
+            data = Attachements.objects.filter(issue=issue_id).order_by("-attach_created")
+            response_data = []
+            for item in data:
+                response_data.append({
+                    'id':item.id,
+                    'image_url': item.attach_issues.url,
+                    })
+            # print(response_data)
+        return JsonResponse(response_data, safe=False)
+
+
+# function to update issue in issue detail page
+class UpdateIssueView(View):
+    def post(self,request,pk):
+        user=request.user
+        if request.method == 'POST':
+            title=request.POST.get('title')
+            desc=request.POST.get('desc')
+            status=request.POST.get('status')
+            priority=request.POST.get('priority')
+            assign=request.POST.get('assign')
+            Issue.objects.filter(id=pk).update(issue_title=title,issue_desc=desc,issue_assign=User.objects.values_list('id', flat=True).get(username=assign),issue_status=status,issue_priority=priority)
+            activity=Activity.objects.create(user=user,activity_done="Issue updated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
+# function to load isseu details in issue detail page
+class IssueDetaildataview(View):
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            issue_id = request.GET.get('issue')
+            if user.is_staff:
+            # print(projectlist_id)
+                data = Issue.objects.filter(id=issue_id).exclude(issue_activation='deactive').order_by('-issue_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            else:
+                data = Issue.objects.filter(id=issue_id,issue_assign=user).exclude(issue_activation='deactive').order_by('-issue_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+
+# funtion to load issue detail page
+class IssueDetailpageview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request,pk):
+        issuename=Issue.objects.filter(id=pk).all()
+        uname=User.objects.all()
+
+        return render(request, "issuedetail.html",{'issuename':issuename,"uname":uname})
+
+
+
+# function to deactivate issue in issue page
+class DeactivateIssueview(View):
+    def post(self,request, pk):
+        user=request.user
+        if request.method == 'POST':
+            Issue.objects.filter(id=pk).update(issue_activation='deactive')
+            activity=Activity.objects.create(user=user,activity_done="Issue deactivated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        
+# function to load issues list in issue page
 class Issuedataview(View):
     def get(self,request):
         user=request.user
@@ -854,7 +961,7 @@ class Issuedataview(View):
 
 
 
-# function to create list
+# function to create issue
 class CreateIssue(View):
     def post(self,request):
         user=request.user
@@ -1488,6 +1595,12 @@ class Projectpageview(View):
     @method_decorator(login_required(login_url='/log'))
     def get(self,request):
         return render(request, "project.html")
+    
+# function to load todo page
+class Taskpageview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request):
+        return render(request, "toDO.html")
 
 # function to load login page
 class Loginpageview(View):

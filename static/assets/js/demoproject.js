@@ -296,8 +296,8 @@ $(document).on('click', '#projecttable tbody tr', function() {
   $('#prostart2').val(dte);
   $('#proend2').val(dte2);
   $('#prohours2').val(hour);
-  $('#status2').val(status);
-  $('#protype').val(type);
+  $('#prostatus2').val(status);
+  $('#protype2').val(type);
 });
   
 

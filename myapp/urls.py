@@ -10,6 +10,7 @@ urlpatterns = [
     path('sign',views.Signuppageview.as_view(),name="signup"),
     path('uprofile',views.Profilepageview.as_view(),name="uprofile"),
     path('todoproject',views.Projectpageview.as_view(),name="todo"),
+    path('todotask',views.Taskpageview.as_view(),name="todotask"),
     path('newsup',views.Newspageview.as_view(),name="news"),
     path('feedb',views.Feedbackpageview.as_view(),name="feed"),
     path('faqs',views.Faqpageview.as_view(),name="faq"),
@@ -51,6 +52,15 @@ urlpatterns = [
     path('issuepage/<int:pk>/',views.Issuepageview.as_view(),name='issuepage'),
     path('create_issue/',views.CreateIssue.as_view(),name='createissue'),
     path('view_issuepagedata/',views.Issuedataview.as_view(),name='viewissuelist'),
+    path('issue_deactivate/<int:pk>/', views.DeactivateIssueview.as_view(), name='issue_delete'),
+
+    # Issue detail page--------------
+    path('issuedetailpage/<int:pk>/',views.IssueDetailpageview.as_view(),name='issuedetailpage'),
+    path('view_issuedetailpagedata/',views.IssueDetaildataview.as_view(),name='viewissuedetaillist'),
+    path('issue_update/<int:pk>/',views.UpdateIssueView.as_view(), name='Issue_update'),
+    path('issue_attachement/',views.Issueattachmentview.as_view(), name='Issue_attachview'),
+    path('add_issue_attachement/',views.CreateAttachementview.as_view(), name='Issue_add_attachview'),
+
 
     # feedback------------------------
     path('feed/',views.Feedbackview.as_view(),name="feed"),

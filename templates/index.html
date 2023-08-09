@@ -14,7 +14,6 @@
 }
 
 .display-time {
-  /* display: flex; */
   text-align: center;
   font-size: 3.2rem;
   font-weight: bold;
@@ -23,8 +22,6 @@
   border-radius: 5px;
   transition: ease-in-out 0.1s;
   transition-property: background, box-shadow, color;
-  /* -webkit-box-reflect: below 2px
-    linear-gradient(transparent, rgba(255, 255, 255, 0.05)); */
 }
 
 .display-time:hover {
@@ -33,7 +30,19 @@
   color: #272727;
   cursor: pointer;
 }
+.ajaxspinner{
+  display: none;
+}
+.ajaxspinner img{
+  height: 65px;
+}
 
+.ajaxspinner2{
+  display: none;
+}
+.ajaxspinner2 img{
+  height: 65px;
+}
 </style>
   <main id="main" class="main">
 
@@ -392,6 +401,10 @@
             <div class="card-body">
               <h5 class="card-title">Recent Activity <span id="recentspan"></span></h5>
 
+              <div class="ajaxspinner">
+                <img src="{% static 'assets/img/Spinner.gif' %}" alt="">
+              </div>
+
               <div class="activity" id="activitycard">
 
                 <!-- End activity item-->
@@ -570,6 +583,10 @@
 
             <div class="card-body pb-0">
               <h5 class="card-title">News &amp; Updates <span id="newsspan"></span></h5>
+
+              <div class="ajaxspinner2">
+                <img src="{% static 'assets/img/Spinner.gif' %}" alt="">
+              </div>
               
               <div class="news" id="dashboard-news">
 

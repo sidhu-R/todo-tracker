@@ -25,39 +25,6 @@ class user_profile3(models.Model):
         return self.name3
 
 
-# tasks model
-class task1(models.Model):
-    STATUS_CHOICES=[
-        ('Pending',"Pending"),
-        ('In Progress',"In Progress"),
-        ('Finished',"Finished")
-    ]
-
-    PRIORITY_CHOICES=[
-        ('High',"High"),
-        ('Medium',"Medium"),
-        ('Low',"Low")
-    ]
-
-    user1=models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
-    task_title1=models.CharField(max_length=50)
-    task_desc1=models.CharField(max_length=150)
-    task_priority1=models.CharField(max_length=20,choices=PRIORITY_CHOICES)
-    task_status1=models.CharField(max_length=20,choices=STATUS_CHOICES)
-    task_due1=models.DateField()
-    # ----------------------------------------------------
-    task_created_date=models.DateTimeField(auto_now=True)
-    # ----------------------------------------------------
-
-    task_created=models.DateTimeField(auto_now_add=True)
-    task_updated=models.DateTimeField(auto_now=True)
-    task_activation=models.CharField(max_length=30,blank=True,null=True)
-    task_attach=models.FileField(upload_to='taskattach',blank=True,null=True)
-    # task_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
-
-    def __str__(self):
-        return  self.task_title1
-
 
 # faq model
 class faq(models.Model):
@@ -168,9 +135,47 @@ class Issue(models.Model):
     issue_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     issue_status=models.CharField(max_length=50,choices=ISSUE_STATUS)
     issue_priority=models.CharField(max_length=50,choices=ISSUE_PRIORITY)
-    issue_attach=models.FileField(upload_to='issueattach',blank=True)
     issue_activation=models.CharField(max_length=30,blank=True,null=True)
     issue_created=models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return str(self.issue_title)
+    
+class Attachements(models.Model):
+    issue=models.ForeignKey(Issue,on_delete=models.CASCADE,blank=True,null=True)
+    attach_issues=models.FileField(upload_to='attachements',blank=True,null=True)
+    attach_created=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.issue)
 
+# tasks model
+class task1(models.Model):
+    STATUS_CHOICES=[
+        ('Pending',"Pending"),
+        ('In Progress',"In Progress"),
+        ('Finished',"Finished")
+    ]
+
+    PRIORITY_CHOICES=[
+        ('High',"High"),
+        ('Medium',"Medium"),
+        ('Low',"Low")
+    ]
+
+    user1=models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
+    task_title1=models.CharField(max_length=50)
+    task_desc1=models.CharField(max_length=150)
+    task_priority1=models.CharField(max_length=20,choices=PRIORITY_CHOICES)
+    task_status1=models.CharField(max_length=20,choices=STATUS_CHOICES)
+    task_due1=models.DateField()
+    # ----------------------------------------------------
+    task_created_date=models.DateTimeField(auto_now=True)
+    # ----------------------------------------------------
+
+    task_created=models.DateTimeField(auto_now_add=True)
+    task_updated=models.DateTimeField(auto_now=True)
+    task_activation=models.CharField(max_length=30,blank=True,null=True)
+    task_attach=models.FileField(upload_to='taskattach',blank=True,null=True)
+    # task_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+
+    def __str__(self):
+        return  self.task_title1
