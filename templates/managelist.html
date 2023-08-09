@@ -28,7 +28,7 @@
         <ol class="breadcrumb" id="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
           {% for i in proname %}          
-          <li class="breadcrumb-item ">{{i.project_title}}</li>
+          <li class="breadcrumb-item "><a href="/todoproject">{{i.project_title}}</a></li>
           <li class="breadcrumb-item active" data-id="{{i.id}}">Manage List</li>
           {% endfor %}
         </ol>

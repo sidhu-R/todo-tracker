@@ -161,6 +161,7 @@ class task1(models.Model):
         ('Low',"Low")
     ]
 
+    Projectlist=models.ForeignKey(Projectlist,on_delete=models.CASCADE)
     user1=models.ForeignKey(User,on_delete=models.CASCADE,blank=True)
     task_title1=models.CharField(max_length=50)
     task_desc1=models.CharField(max_length=150)
@@ -170,12 +171,9 @@ class task1(models.Model):
     # ----------------------------------------------------
     task_created_date=models.DateTimeField(auto_now=True)
     # ----------------------------------------------------
-
     task_created=models.DateTimeField(auto_now_add=True)
     task_updated=models.DateTimeField(auto_now=True)
     task_activation=models.CharField(max_length=30,blank=True,null=True)
-    task_attach=models.FileField(upload_to='taskattach',blank=True,null=True)
-    # task_assign=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
         return  self.task_title1

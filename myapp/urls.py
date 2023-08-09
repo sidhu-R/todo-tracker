@@ -10,7 +10,6 @@ urlpatterns = [
     path('sign',views.Signuppageview.as_view(),name="signup"),
     path('uprofile',views.Profilepageview.as_view(),name="uprofile"),
     path('todoproject',views.Projectpageview.as_view(),name="todo"),
-    path('todotask',views.Taskpageview.as_view(),name="todotask"),
     path('newsup',views.Newspageview.as_view(),name="news"),
     path('feedb',views.Feedbackpageview.as_view(),name="feed"),
     path('faqs',views.Faqpageview.as_view(),name="faq"),
@@ -29,6 +28,7 @@ urlpatterns = [
     path('deleteim/', views.Deleteimageview.as_view(), name='delete_image'),
 
     # todo page-----------------------
+    path('todotask/<int:pk>/',views.Taskpageview.as_view(),name="todotask"),
     path('data/create/', views.Createtaskview.as_view(), name='data_create'),
     path('data_task_view/', views.Tasklistview.as_view(), name='data_list'),
     path('data/delete/<int:pk>/', views.Deactivatetaskview.as_view(), name='data_delete'),

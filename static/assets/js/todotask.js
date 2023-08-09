@@ -22,6 +22,7 @@ function deleteData() {
   
       $('#tasktitle2').val('');
       $('#taskdesc2').val('');
+      $('#taskassign2').val('');
       $('#duedate2').val('');
       $('#priority2').val('');
       $('#status2').val('');  
@@ -46,6 +47,7 @@ function deleteData() {
 // load task
 // $(document).ready(function() {
   function loadData(sortBy,sortBy2) {
+  let dataId = $(".breadcrumb .active").data('id');
   $('#tasktable').DataTable().clear().destroy();
 
   $.ajax({
@@ -57,6 +59,7 @@ function deleteData() {
     data: {
       'sort_by': sortBy,
       'sort_by2':sortBy2,
+      'projectlist': dataId,
   },
     success: function(data) {
      
@@ -69,10 +72,13 @@ function deleteData() {
                         <td>${num}</td>
                         <td>${item.task_title}</td>
                         <td>${item.task_desc}</td>
+                        <td>${item.assignee}</td>
                         <td>${item.task_due}</td>
                         <td>${item.task_priority}</td>
                         <td>${item.task_status}</td>
-                        <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button></td>
+                        <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-primary"><a href=""><i class="fa-solid fa-arrow-up"></i></a></button>
+                        </td>
                       </tr>
                         `;
         tbody.append(row);
@@ -86,6 +92,11 @@ function deleteData() {
         "destroy": true,
         "retrieve": true,
         "info": false,
+        // "pageLength":5,
+        // "lengthMenu": [[5, 10, 20, -1], [5, 10, 20,]],
+        "language": {
+          "emptyTable": "No Tasks assigned to you yet"
+        },
 
         drawCallback: function(settings) {
         var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
@@ -177,8 +188,10 @@ $(document).ready(function() {
 
 
 function createData() {
+let dataId = $(".breadcrumb .active").data('id');
 var title = $('#tasktitle').val();
 var desc = $('#taskdesc').val();
+var assignee = $('#taskassign').val();
 var dte = $('#duedate').val();
 var prio = $('#priority').val();
 var status = $('#status').val();  
@@ -193,9 +206,11 @@ $.ajax({
   data: {
     title: title,
     desc: desc,
+    taskassign:assignee,
     dte:dte,
     prio:prio,
-    status:status
+    status:status,
+    projectlist:dataId,
 
   },
   success: function(response,) {
@@ -266,6 +281,7 @@ if (selectedRow.length === 0) {
 var id = selectedRow.data('id');
 var title = $('#tasktitle2').val();
 var desc = $('#taskdesc2').val();
+var assign=$('#taskassign2').val();
 var dte = $('#duedate2').val();
 var prio = $('#priority2').val();
 var status = $('#status2').val();  
@@ -281,6 +297,7 @@ $.ajax({
   data: {
     title: title,
     desc: desc,
+    taskassign:assign,
     dte:dte,
     prio:prio,
     status:status,
@@ -289,6 +306,7 @@ $.ajax({
 
     $('#tasktitle2').val('');
     $('#taskdesc2').val('');
+    $('#taskassign2').val('');
     $('#duedate2').val('');
     $('#priority2').val('');
     $('#status2').val('');  
@@ -317,12 +335,14 @@ $(this).addClass('selected');
 
 var title = $(this).find('td:eq(1)').text();
 var desc = $(this).find('td:eq(2)').text();
-var dte = $(this).find('td:eq(3)').text();
-var prio = $(this).find('td:eq(4)').text();
-var status = $(this).find('td:eq(5)').text();
+var assign=$(this).find('td:eq(3)').text();
+var dte = $(this).find('td:eq(4)').text();
+var prio = $(this).find('td:eq(5)').text();
+var status = $(this).find('td:eq(6)').text();
 
 $('#tasktitle2').val(title);
 $('#taskdesc2').val(desc);
+$('#taskassign2').val(assign);
 $('#duedate2').val(dte);
 $('#priority2').val(prio);
 $('#status2').val(status);
@@ -337,6 +357,7 @@ $('#status2').val(status);
 //deativated tasks
 
 function fecthDeactive(sortBy) {
+  let dataId = $(".breadcrumb .active").data('id');
     $.ajax({
         url: '/data/deactive',
         type: 'POST',
@@ -344,7 +365,8 @@ function fecthDeactive(sortBy) {
           "X-CSRFToken": getCookie("csrftoken")
         },
         data: {
-            'sort_by': sortBy
+            'sort_by': sortBy,
+            'projectlist':dataId,
         },
         success: function(data) {
             var cardsContainer = $('#deactive-table');

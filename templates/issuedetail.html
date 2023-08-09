@@ -16,11 +16,13 @@
       <nav>
         <ol class="breadcrumb" id="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+          {% for i in proname %} 
+          <li class="breadcrumb-item "><a href="/todoproject">{{i.Project}}</a></li>
+          <li class="breadcrumb-item "><a href="/managelist/{{i.Project.id}}/">{{i.list_name}}</a></li>
+          {% endfor %}
 
-          <li class="breadcrumb-item ">/</li>          
-          <li class="breadcrumb-item ">/</li>
-          {% for i in issuename %}
-          <li class="breadcrumb-item ">{{i.issue_title}}</li>
+          {% for i in issuename %} 
+          <li class="breadcrumb-item "><a href="/issuepage/{{i.Projectlist.id}}/">{{i.issue_title}}</a></li>
           <li class="breadcrumb-item active" data-id="{{i.id}}">Issue Detail</li>
           {% endfor %}
         </ol>

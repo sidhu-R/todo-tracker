@@ -27,7 +27,11 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
-          <li class="breadcrumb-item active">To Do</li>
+          {% for i in listname %}
+          <li class="breadcrumb-item "><a href="/todoproject">{{i.Project}}</a></li>          
+          <li class="breadcrumb-item "><a href="/managelist/{{i.Project.id}}/">{{i.list_name}}</a></li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Tasks</li>
+          {% endfor %}
         </ol>
       </nav>
 
@@ -72,6 +76,14 @@
                   <label for="inputEmail4" class="form-label">Task Description</label>
                   <textarea class="form-control" placeholder="Description" id="taskdesc" name="taskdesc" style="height: 100px;" ></textarea>
                 </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Assignee</label>
+                  <select class="form-select" aria-label="Default select example" name="taskassign" id="taskassign" >
+                    {% for i in uname%}
+                    <option value="{{i.id}}">{{i.username}}</option>
+                    {% endfor %}
+                    </select>
+			          </div>
                 <div class="col-12">
                   <label for="inputPassword4" class="form-label">Due Date</label>
                  <input type="date" class="form-control" name="duedate" id="duedate" >
@@ -129,6 +141,7 @@
                       <th>No</th>
                       <th>Task Title</th>
                       <th>Description</th>
+                      <th>Assignee</th>
                       <th>Due Date</th>
                       <th>Priority</th>
                       <th>Status</th>   
@@ -138,6 +151,7 @@
                   </thead>
                   <tfoot>
                     <tr>
+                      <th></th>
                       <th></th>
                       <th>
                         <!-- <input type="text" class="form-control input-sm filter-column"> -->
@@ -195,6 +209,14 @@
                     <label for="inputEmail4" class="form-label">Task Description</label>
                     <textarea class="form-control" placeholder="Description" id="taskdesc2" name="taskdesc2" style="height: 100px;" required></textarea>
                   </div>
+                  <div class="col-12">
+                    <label for="inputAddress" class="form-label">Assign</label>
+                    <select class="form-select" aria-label="Default select example" name="taskassign2" id="taskassign2" >
+                        {% for i in uname%}
+                        <option value="{{i.username}}">{{i.username}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
                   <div class="col-12">
                     <label for="inputPassword4" class="form-label">Due Date</label>
                    <input type="date" class="form-control" name="duedate2" id="duedate2" required>

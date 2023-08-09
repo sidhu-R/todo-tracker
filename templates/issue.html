@@ -28,8 +28,8 @@
         <ol class="breadcrumb" id="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
           {% for i in listname %}
-          <li class="breadcrumb-item ">{{i.Project}}</li>          
-          <li class="breadcrumb-item ">{{i.list_name}}</li>
+          <li class="breadcrumb-item "><a href="/todoproject">{{i.Project}}</a></li>          
+          <li class="breadcrumb-item "><a href="/managelist/{{i.Project.id}}/">{{i.list_name}}</a></li>
           <li class="breadcrumb-item active" data-id="{{i.id}}">Issues</li>
           {% endfor %}
         </ol>
@@ -83,7 +83,7 @@
                     <option value="{{i.id}}">{{i.username}}</option>
                     {% endfor %}
                     </select>
-			     </div>
+			          </div>
 				 
 				    <div class="col-12">
                   <label for="inputAddress" class="form-label">Status</label>
