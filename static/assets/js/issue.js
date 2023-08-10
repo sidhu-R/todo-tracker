@@ -243,7 +243,7 @@ $('#issuedeactivate').click(deactivateissue);
       dataType: 'json',
       success: function(response) {
     
-    
+        fetchIssueDeactive('All');
         loadIssue();
         $('#issueupclose').click()
         alertify.set('notifier','position', 'top-right');
@@ -273,6 +273,100 @@ $(document).on('click', '#issuetable tbody tr', function() {
   $('#issueassign2').val(assignee);
   $('#issuestatus2').val(status);
   $('#issuepriority2').val(prio);
+});
+
+
+
+
+//deativated issues
+function fetchIssueDeactive(sortBy) {
+  let dataId = $(".breadcrumb .active").data('id');
+    $.ajax({
+        url: '/view_deactiveissues/',
+        type: 'POST',
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        data: {
+            'sort_by': sortBy,
+            'projectlist':dataId,
+        },
+        success: function(data) {
+            var cardsContainer = $('#issuedeactive-table');
+            cardsContainer.empty();
+            let num=1;
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                    <tr>
+                    <td>${item.issue_title}</td>
+                    <td>${item.issue_desc}</td>
+                    <td>${item.issue_assign}</td>
+                    <td>${item.issue_status}</td>
+                    <td>${item.issue_priority}</td>
+                    </tr>
+                `;
+                cardsContainer.append(cardHtml);
+                num++;
+                $('#issuedeactive-table td').css('color', 'red');
+                // $('#deactive-table td').css('text-decoration', 'line-through');
+            });
+        }
+    });
+}
+
+fetchIssueDeactive('All');
+
+var newsfilter=$('#issuedeactfilter');
+newsfilter.empty();
+newshtml=`| All `;
+newsfilter.append(newshtml);
+
+
+
+$(".issuedeactbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchIssueDeactive(sortBy);
+    var newsfilter=$('#issuedeactfilter');
+    newsfilter.empty();
+    newshtml=`| Today `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".issuedeactbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchIssueDeactive(sortBy);
+    var newsfilter=$('#issuedeactfilter');
+    newsfilter.empty();
+    newshtml=`| This Month `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".issuedeactbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchIssueDeactive(sortBy);
+    var newsfilter=$('#issuedeactfilter');
+    newsfilter.empty();
+    newshtml=`| This year `;
+    newsfilter.append(newshtml);
+
+      
+});
+
+$(".issuedeactbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchIssueDeactive(sortBy);
+    var newsfilter=$('#issuedeactfilter');
+    newsfilter.empty();
+    newshtml=`| All `;
+    newsfilter.append(newshtml);
+
+      
 });
 
 

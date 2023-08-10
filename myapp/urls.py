@@ -63,6 +63,7 @@ urlpatterns = [
     path('view_issuepagedata/',views.Issuedataview.as_view(),name='viewissuelist'),
     path('issue_update/<int:pk>/',views.UpdateIssueView.as_view(), name='Issue_update'),
     path('issue_deactivate/<int:pk>/', views.DeactivateIssueview.as_view(), name='issue_delete'),
+    path('view_deactiveissues/', views.Deactiveissuelistview.as_view(), name='issue_deactivelist'),
 
     # Issue detail page--------------
     path('issuedetailpage/<int:pk>/',views.IssueDetailpageview.as_view(),name='issuedetailpage'),

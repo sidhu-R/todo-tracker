@@ -122,7 +122,7 @@ class Issue(models.Model):
     ISSUE_STATUS=[
         ('Open',"Open"),
         ('In Progress',"In Progress"),
-        ('Resolved,',"Resolved,")
+        ('Resolved',"Resolved")
     ]
     ISSUE_PRIORITY=[
         ('High',"High"),

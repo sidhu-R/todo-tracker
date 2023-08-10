@@ -282,7 +282,8 @@ loadAnnoun();
 loadsendAnnoun('Today')
 loadreciveAnnoun('Today')
 
-alert('Announced')
+alertify.set('notifier','position', 'top-right');
+alertify.notify('Announced', 'custom', 2, function(){console.log('dismissed');});
 $('#Closebtn').click()
 }
 });

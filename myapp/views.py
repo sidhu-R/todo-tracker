@@ -1256,6 +1256,124 @@ class IssueDetailpageview(View):
 
 
 
+
+# function to view deactivated issues list in issue page
+class Deactiveissuelistview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            projectlist_id = request.POST.get('projectlist')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = Issue.objects.filter(issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_created__day=day,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_created__year=year,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = Issue.objects.filter(issue_assign=user,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year,issue_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+
 # function to deactivate issue in issue page
 class DeactivateIssueview(View):
     def post(self,request, pk):
