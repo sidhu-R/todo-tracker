@@ -43,17 +43,13 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Projects Lists</h5>
-              {% if user.is_staff %}
               <p>Add new list here</p>
-              {% endif %}
 
           
             <div class="card-body">
-              {% if user.is_staff %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
                 Add 
               </button>
-              {% endif %}
               <hr>
               <div class="modal fade" id="basicModal" tabindex="-1">
                 <div class="modal-dialog">

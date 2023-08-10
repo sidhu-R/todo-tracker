@@ -88,8 +88,8 @@ function loadIssue() {
                         <td>${item.issue_status}</td>
                         <td>${item.issue_priority}</td>
                         <td>
-                        <button class="btn btn-primary"><a href="/issuedetailpage/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
-                        <button id='but1' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="bi bi-trash"></i></button>
+                        <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/issuedetailpage/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
                         </td>
                       </tr>
                         `;
@@ -140,6 +140,89 @@ function loadIssue() {
 
 
 
+// //update issue
+$(document).ready(function() {
+  $("#editissuedetail").validate({
+  rules: {
+    issuetitle2:{
+      required:true,
+         },
+    issuedesc2: {
+      required: true,
+    },
+
+  },
+  messages: {
+    issuetitle2:{
+      required:"Issue Title is required",
+    },
+
+    issuedesc2:{
+      required:'Issue description please',
+    },
+    },
+    submitHandler: function(form) {
+    updateIssue(form);
+    return false;
+    
+  }
+
+});
+
+});
+
+
+function updateIssue() {
+  var selectedRow = $('#issuetable tbody tr.selected');
+  if (selectedRow.length === 0) {
+    alert('Please select a row to update.');
+    return;
+  }
+  
+  var id = selectedRow.data('id');
+  var title = $('#issuetitle2').val();
+  var desc = $('#issuedesc2').val();
+  var assign = $('#issueassign2').val();
+  var status = $('#issuestatus2').val();
+  var priority = $('#issuepriority2').val();
+  
+  
+  $.ajax({
+  
+  url: '/issue_update/' + id + '/',
+  type: 'POST',
+  dataType: 'json',
+  headers: {
+    "X-CSRFToken": getCookie("csrftoken"),
+  },
+  data: {
+    title:title,
+    desc:desc,
+    status:status,
+    priority:priority,
+    assign:assign,
+  },
+  success: function(response) {
+  
+    $('#issuetitle2').val('');
+    $('#issuedesc2').val('');
+
+    // alert('Task updated');
+    $('#issueupclose').click();
+    loadIssue();
+    // location.reload()
+    
+    alertify.set('notifier','position', 'top-right');
+    alertify.notify('Issue Updated', 'custom', 2, function(){console.log('dismissed');});
+      
+  
+  }
+});
+}
+
+
+
+
 $('#issuedeactivate').click(deactivateissue);
   function deactivateissue() {
     var selectedRow = $('#issuetable tbody tr.selected');
@@ -162,7 +245,7 @@ $('#issuedeactivate').click(deactivateissue);
     
     
         loadIssue();
-        $('#issudeactclose').click()
+        $('#issueupclose').click()
         alertify.set('notifier','position', 'top-right');
         alertify.notify('Issue Deactivated', 'custom', 2, function(){console.log('dismissed');});
     
@@ -185,11 +268,11 @@ $(document).on('click', '#issuetable tbody tr', function() {
   var prio = $(this).find('td:eq(4)').text();
   
   
-  $('#issuetitle3').val(title);
-  $('#issuedesc3').val(desc);
-  $('#issueassign3').val(assignee);
-  $('#issuestatus3').val(status);
-  $('#issuepriority3').val(prio);
+  $('#issuetitle2').val(title);
+  $('#issuedesc2').val(desc);
+  $('#issueassign2').val(assignee);
+  $('#issuestatus2').val(status);
+  $('#issuepriority2').val(prio);
 });
 
 

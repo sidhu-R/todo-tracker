@@ -85,8 +85,8 @@ function loadList() {
                         <td>${item.list_name}</td>
                         <td>${item.list_desc}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-primary"><a href="/todotask/${item.id}/">Tasks</a></button>
-                        <button class="btn btn-primary"><a href="/issuepage/${item.id}/">Issue</a></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/todotask/${item.id}/">Tasks</a></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/issuepage/${item.id}/">Issue</a></button>
                         </td>
                       </tr>
                         `;

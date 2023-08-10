@@ -104,7 +104,7 @@
                       <option value="Finished">Finished</option>
                       <option value="Pending">Pending</option>
                     </select>
-			     </div>
+			        </div>
                     <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Closebtn1">Close</button>
                      <button type="submit" id="createBtn" class="btn btn-primary">Create</button>
@@ -157,7 +157,14 @@
                         <!-- <input type="text" class="form-control input-sm filter-column"> -->
                       </th>
                       <th>
-                        <!-- <input type="text" class="form-control input-sm filter-column" /> -->
+                        {% if user.is_staff%}
+                        <select class="form-control input-sm filter-column">
+                          <option value="">All</option>                          
+                          {% for i in uname%}
+                          <option value="{{i.username}}">{{i.username}}</option>
+                          {% endfor %}
+                          </select>
+                          {% endif %}
                       </th>
                       <th></th>
                       <th>

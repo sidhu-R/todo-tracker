@@ -1,6 +1,5 @@
 // load Issue
 function loadIssueDetail() {
-  $('#issuetable').DataTable().clear().destroy();
   let dataId = $(".breadcrumb .active").data('id');
 
   $.ajax({
@@ -24,8 +23,6 @@ function loadIssueDetail() {
                         <td>${item.issue_assign}</td>
                         <td>${item.issue_status}</td>
                         <td>${item.issue_priority}</td>
-                        <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        </td>
                       </tr>
                         `;
         tbody.append(row);
@@ -72,91 +69,6 @@ function loadIssueDetail() {
 
 }
 loadIssueDetail();
-
-
-
-
-
-// //update issue
-$(document).ready(function() {
-  $("#editissuedetail").validate({
-  rules: {
-    issuetitle2:{
-      required:true,
-         },
-    issuedesc2: {
-      required: true,
-    },
-
-  },
-  messages: {
-    issuetitle2:{
-      required:"Issue Title is required",
-    },
-
-    issuedesc2:{
-      required:'Issue description please',
-    },
-    },
-    submitHandler: function(form) {
-    updateIssue(form);
-    return false;
-    
-  }
-
-});
-
-});
-
-
-function updateIssue() {
-  var selectedRow = $('#issuedetailtable tbody tr.selected');
-  if (selectedRow.length === 0) {
-    alert('Please select a row to update.');
-    return;
-  }
-  
-  var id = selectedRow.data('id');
-  var title = $('#issuetitle2').val();
-  var desc = $('#issuedesc2').val();
-  var assign = $('#issueassign2').val();
-  var status = $('#issuestatus2').val();
-  var priority = $('#issuepriority2').val();
-  
-  
-  $.ajax({
-  
-  url: '/issue_update/' + id + '/',
-  type: 'POST',
-  dataType: 'json',
-  headers: {
-    "X-CSRFToken": getCookie("csrftoken"),
-  },
-  data: {
-    title:title,
-    desc:desc,
-    status:status,
-    priority:priority,
-    assign:assign,
-  },
-  success: function(response) {
-  
-    $('#issuetitle2').val('');
-    $('#issuedesc2').val('');
-
-    // alert('Task updated');
-    $('#issueupclose').click();
-    loadIssueDetail();
-    // location.reload()
-    
-    alertify.set('notifier','position', 'top-right');
-    alertify.notify('Issue Updated', 'custom', 2, function(){console.log('dismissed');});
-      
-  
-  }
-});
-}
-
 
 
 

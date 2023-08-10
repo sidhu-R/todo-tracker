@@ -177,3 +177,21 @@ class task1(models.Model):
 
     def __str__(self):
         return  self.task_title1
+    
+class Taskattach(models.Model):
+    task=models.ForeignKey(task1,on_delete=models.CASCADE,blank=True,null=True)
+    attach_task=models.FileField(upload_to='taskattach',blank=True,null=True)
+    attachment_created=models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return str(self.task)
+    
+class Subtask(models.Model):
+    SUBSTATUS_CHOICES=[
+        ('Pending',"Pending"),
+        ('In Progress',"In Progress"),
+        ('Finished',"Finished")
+    ]
+    task=models.ForeignKey(task1,on_delete=models.CASCADE)
+    subtask_title=models.CharField(max_length=100)
+    subtask_status=models.CharField(max_length=50,choices=SUBSTATUS_CHOICES)
+    subtask_created=models.DateTimeField(auto_now_add=True)

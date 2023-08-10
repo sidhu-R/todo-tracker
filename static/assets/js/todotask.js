@@ -77,7 +77,7 @@ function deleteData() {
                         <td>${item.task_priority}</td>
                         <td>${item.task_status}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-primary"><a href=""><i class="fa-solid fa-arrow-up"></i></a></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/taskdetails/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
                         </td>
                       </tr>
                         `;

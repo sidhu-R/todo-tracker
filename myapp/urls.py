@@ -3,8 +3,7 @@ from .import views
 from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
-    # page load only-----------------
-    # path('',views.logi,name="login"),
+    # main pages load only-----------
     path('',views.Indexpageview.as_view(),name="home"),
     path('log',views.Loginpageview.as_view(),name="logi"),
     path('sign',views.Signuppageview.as_view(),name="signup"),
@@ -27,7 +26,7 @@ urlpatterns = [
     path('notif', views.Notificationview.as_view(), name='notification'),
     path('deleteim/', views.Deleteimageview.as_view(), name='delete_image'),
 
-    # todo page-----------------------
+    # task page-----------------------
     path('todotask/<int:pk>/',views.Taskpageview.as_view(),name="todotask"),
     path('data/create/', views.Createtaskview.as_view(), name='data_create'),
     path('data_task_view/', views.Tasklistview.as_view(), name='data_list'),
@@ -35,6 +34,15 @@ urlpatterns = [
     path('data/update/<int:pk>/', views.Updatetaskview.as_view(), name='data_update'),
     path('data/deactive', views.Deactivetasklistview.as_view(), name='deactivelist'),
 
+    # task detail page----------------
+    path('taskdetails/<int:pk>/',views.TaskDetailpageview.as_view(),name='taskDetail'),
+    path('viewtaskdetailpage_data/',views.TaskDetaildataview.as_view(),name='taskDatadetail'),
+    path('add_task_attachement/',views.CreateTaskAttachementview.as_view(), name='task_add_attach'),
+    path('task_attachement/',views.Taskattachmentview.as_view(), name='Task_attachview'),
+    path('subtask_data/',views.Subtaskdataview.as_view(), name='subtask_view'),
+    path('add_subtask/',views.CreateSubtaskview.as_view(), name='subtask_add'),
+    path('subtask_update/<int:pk>/',views.UpdateSubtaskview.as_view(), name='Subtask_update'),
+    
     # project page--------------------
     path('data_project_view/',views.Projectdataview.as_view(), name='project_list'),
     path('project_create_view',views.CreateProject.as_view(), name='create_project'),
@@ -52,14 +60,14 @@ urlpatterns = [
     path('issuepage/<int:pk>/',views.Issuepageview.as_view(),name='issuepage'),
     path('create_issue/',views.CreateIssue.as_view(),name='createissue'),
     path('view_issuepagedata/',views.Issuedataview.as_view(),name='viewissuelist'),
+    path('issue_update/<int:pk>/',views.UpdateIssueView.as_view(), name='Issue_update'),
     path('issue_deactivate/<int:pk>/', views.DeactivateIssueview.as_view(), name='issue_delete'),
 
     # Issue detail page--------------
     path('issuedetailpage/<int:pk>/',views.IssueDetailpageview.as_view(),name='issuedetailpage'),
     path('view_issuedetailpagedata/',views.IssueDetaildataview.as_view(),name='viewissuedetaillist'),
-    path('issue_update/<int:pk>/',views.UpdateIssueView.as_view(), name='Issue_update'),
     path('issue_attachement/',views.Issueattachmentview.as_view(), name='Issue_attachview'),
-    path('add_issue_attachement/',views.CreateAttachementview.as_view(), name='Issue_add_attachview'),
+    path('add_issue_attachement/',views.CreateIssueAttachementview.as_view(), name='Issue_add_attachview'),
 
 
     # feedback------------------------

@@ -4,7 +4,7 @@ from django.core import serializers
 import json
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
-from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue,Attachements
+from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue,Attachements,Taskattach,Subtask
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -254,59 +254,112 @@ class Dashtasktableview(View):
             # print(sort_by)
             # print(day)
 
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = task1.objects.exclude(task_activation='deactive').order_by('-task_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            if sort_by=='All':    
-                data = task1.objects.filter(user1=user).exclude(task_activation='deactive').order_by('-task_created')
-                # print(data)
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_created__day=day).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_created__day=day).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_created__month=month,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = task1.objects.filter(user1=user).exclude(task_activation='deactive').order_by('-task_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_created__day=day).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_created__year=year).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
         
@@ -324,35 +377,64 @@ class Dashtaskprogressview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='All':
-                data = task1.objects.filter(user1=user,task_status1='In Progress').exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
+            if user.is_staff:
+                if sort_by=='All':
+                    data = task1.objects.filter(task_status1='In Progress').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_status1='In Progress',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_status1='In Progress',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
 
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_status1='In Progress',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = task1.objects.filter(user1=user,task_status1='In Progress').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_status1='In Progress',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
@@ -370,35 +452,64 @@ class Dashtaskpendingview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='All':
-                data = task1.objects.filter(user1=user,task_status1='Pending').exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
+            if user.is_staff:
+                if sort_by=='All':
+                    data = task1.objects.filter(task_status1='Pending').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_status1='Pending',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_status1='Pending',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_status1='Pending',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_status1='Pending',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
 
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_status1='Pending',task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_status1='Pending',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = task1.objects.filter(user1=user,task_status1='Pending').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_status1='Pending',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_status1='Pending',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_status1='Pending',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
@@ -415,35 +526,64 @@ class Dashtaskfinishedview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='All':
-                data = task1.objects.filter(user1=user,task_status1='Finished').exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
+            if user.is_staff:
+                if sort_by=='All':
+                    data = task1.objects.filter(task_status1='Finished').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_status1='Finished',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_status1='Finished',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_status1='Finished',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_status1='Finished',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
 
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_status1='Finished',task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_status1='Finished',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = task1.objects.filter(user1=user,task_status1='Finished').exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_status1='Finished',task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_status1='Finished',task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_status1='Finished',task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
@@ -460,35 +600,64 @@ class Dashtasknumview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='All':
-                data = task1.objects.filter(user1=user).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
+            if user.is_staff:
+                if sort_by=='All':
+                    data = task1.objects.exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
 
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_created__year=year).exclude(task_activation='deactive').count()
-                response_data = []
-                response_data.append({
-                    'count': data
-                    })
-                
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = task1.objects.filter(user1=user).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_created__day=day,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_created__month=month,task_created__year=year).exclude(task_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_created__year=year).exclude(task_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
@@ -823,8 +992,8 @@ class Feedbackview(View):
 
 
 
-# function to create news in News updates page
-class CreateAttachementview(View):
+# function to add atatchment in issue details page
+class CreateIssueAttachementview(View):
     @method_decorator(login_required(login_url='/log'))
     def post(self,request):
         user=request.user
@@ -834,27 +1003,40 @@ class CreateAttachementview(View):
             Attachements.objects.create(issue=Issue.objects.get(id=issue_id),
                                         attach_issues=image
                                         )
-            activity=Activity.objects.create(user=user,activity_done="news created")
+            activity=Activity.objects.create(user=user,activity_done="Issue attachement added")
             activity.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({"Message":""})
 
 
-# function to view  list inside project data
+# function to view  attachement inside issue details
 class Issueattachmentview(View):
     def get(self,request):
+        user=request.user
         if request.method=='GET':
             issue_id = request.GET.get('issue')
+            check=Issue.objects.filter(id=issue_id,issue_assign=user).exists()
             # print(project_id)
-            data = Attachements.objects.filter(issue=issue_id).order_by("-attach_created")
-            response_data = []
-            for item in data:
-                response_data.append({
-                    'id':item.id,
-                    'image_url': item.attach_issues.url,
-                    })
+            if user.is_staff:
+                data = Attachements.objects.filter(issue=issue_id).order_by("-attach_created")
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'image_url': item.attach_issues.url,
+                        })
+            elif check:
+                data = Attachements.objects.filter(issue=issue_id).order_by("-attach_created")
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'image_url': item.attach_issues.url,
+                        })
+            else:
+                response_data = []           
             # print(response_data)
-        return JsonResponse(response_data, safe=False)
+            return JsonResponse(response_data, safe=False)
 
 
 # function to update issue in issue detail page
@@ -872,7 +1054,7 @@ class UpdateIssueView(View):
             activity.save()
             return JsonResponse({'status': 'success'})
 
-# function to load isseu details in issue detail page
+# function to load issue details in issue detail page
 class IssueDetaildataview(View):
     def get(self,request):
         user=request.user
@@ -899,7 +1081,7 @@ class IssueDetaildataview(View):
                         'id':item.id,
                         'issue_title': item.issue_title,
                         'issue_desc': item.issue_desc,
-                        'issue_assign': item.issue_assign,
+                        'issue_assign': item.issue_assign.username,
                         'issue_status': item.issue_status,
                         'issue_priority': item.issue_priority,
                         })
@@ -958,7 +1140,7 @@ class Issuedataview(View):
                         'id':item.id,
                         'issue_title': item.issue_title,
                         'issue_desc': item.issue_desc,
-                        'issue_assign': item.issue_assign,
+                        'issue_assign': item.issue_assign.username,
                         'issue_status': item.issue_status,
                         'issue_priority': item.issue_priority,
                         })
@@ -1084,6 +1266,7 @@ class Deactivateprojectview(View):
 # function to update project in todo page
 class UpdateProjectView(View):
     def post(self,request,pk):
+        from datetime import date
         user=request.user
         if request.method == 'POST':
             title=request.POST.get('title')
@@ -1093,7 +1276,12 @@ class UpdateProjectView(View):
             hour=request.POST.get('hour')
             protype=request.POST.get('protype')
             status=request.POST.get('status')
-            Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration="10",project_status=status,hours=hour)
+
+            d0 = date(int(start_dte[0:4]), int(start_dte[5:7]), int(start_dte[8:]))
+            d1 = date(int(end_dte[0:4]), int(end_dte[5:7]), int(end_dte[8:]))
+            delta = d1 - d0
+
+            Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour)
             activity=Activity.objects.create(user=user,activity_done="Project updated")
             activity.save()
             return JsonResponse({'status': 'success'})
@@ -1104,6 +1292,7 @@ class UpdateProjectView(View):
 class CreateProject(View):
     def post(self,request):
         user=request.user
+        from datetime import date
         if request.method == "POST":
             title=request.POST.get('protitle')
             desc=request.POST.get('prodesc')
@@ -1113,7 +1302,10 @@ class CreateProject(View):
             protype=request.POST.get('protype')
             status=request.POST.get('prostatus')
 
-            Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration="10",project_status=status,hours=hour,project_activation='active')
+            d0 = date(int(start_dte[0:4]), int(start_dte[5:7]), int(start_dte[8:]))
+            d1 = date(int(end_dte[0:4]), int(end_dte[5:7]), int(end_dte[8:]))
+            delta = d1 - d0
+            Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour,project_activation='active')
             activity=Activity.objects.create(user=user,activity_done="Project created")
             activity.save()
             return JsonResponse({'status': 'success'})
@@ -1133,7 +1325,7 @@ class Projectdataview(View):
 
             # both deos not have values
             if sort_by=='' and sort_by2=='':
-                data = Project.objects.filter(user=user).exclude(project_activation='deactive').order_by('-project_created')
+                data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -1142,13 +1334,14 @@ class Projectdataview(View):
                     'pro_desc': item.project_desc,
                     'pro_start': item.project_start,
                     'pro_end': item.project_end,
+                    'duration':item.duration,
                     'pro_hours': item.hours,
                     'pro_type':item.project_type,
                     'pro_status':item.project_status,
                     })
             # both have values
             elif sort_by!='' and sort_by2!='':
-                data = Project.objects.filter(user=user,project_end__gte=(sort_by),project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
+                data = Project.objects.filter(project_end__gte=(sort_by),project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -1157,13 +1350,14 @@ class Projectdataview(View):
                     'pro_desc': item.project_desc,
                     'pro_start': item.project_start,
                     'pro_end': item.project_end,
+                    'duration':item.duration,
                     'pro_hours': item.hours,
                     'pro_type':item.project_type,
                     'pro_status':item.project_status,
                     })
             # starting date have value
             elif sort_by!='' and sort_by2=='':
-                data = Project.objects.filter(user=user,project_end__gte=(sort_by)).exclude(project_activation='deactive').order_by('-project_created')
+                data = Project.objects.filter(project_end__gte=(sort_by)).exclude(project_activation='deactive').order_by('-project_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -1172,13 +1366,14 @@ class Projectdataview(View):
                     'pro_desc': item.project_desc,
                     'pro_start': item.project_start,
                     'pro_end': item.project_end,
+                    'duration':item.duration,
                     'pro_hours': item.hours,
                     'pro_type':item.project_type,
                     'pro_status':item.project_status,
                     })
             # ending date have value
             elif sort_by=='' and sort_by2!='':
-                data = Project.objects.filter(user=user,project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
+                data = Project.objects.filter(project_end__lte=(sort_by2)).exclude(project_activation='deactive').order_by('-project_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -1187,12 +1382,13 @@ class Projectdataview(View):
                     'pro_desc': item.project_desc,
                     'pro_start': item.project_start,
                     'pro_end': item.project_end,
+                    'duration':item.duration,
                     'pro_hours': item.hours,
                     'pro_type':item.project_type,
                     'pro_status':item.project_status,
                     })
             elif sort_by==None and sort_by2==None:
-                data = Project.objects.filter(user=user).exclude(project_activation='deactive').order_by('-project_created')
+                data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
                 response_data = []
                 for item in data:
                     response_data.append({
@@ -1201,12 +1397,167 @@ class Projectdataview(View):
                     'pro_desc': item.project_desc,
                     'pro_start': item.project_start,
                     'pro_end': item.project_end,
+                    'duration':item.duration,
                     'pro_hours': item.hours,
                     'pro_type':item.project_type,
                     'pro_status':item.project_status,
                     })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
+
+
+# function to update subtask in task detail page
+class UpdateSubtaskview(View):
+    def post(self,request,pk):
+        user=request.user
+        if request.method == 'POST':
+            title=request.POST.get('title')
+            status=request.POST.get('status')
+            Subtask.objects.filter(id=pk).update(subtask_title=title,subtask_status=status)
+            activity=Activity.objects.create(user=user,activity_done="Subtask updated")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        
+
+# function to load subtask details in task detail page
+class Subtaskdataview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            task_id = request.GET.get('task')
+
+            # print(projectlist_id)
+            data = Subtask.objects.filter(task=task_id).order_by('-subtask_created')
+            response_data = []
+            for item in data:
+                response_data.append({
+                    'id':item.id,
+                    'subtask_title': item.subtask_title,
+                    'subtask_status': item.subtask_status,
+                    })
+
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+# function to create subtask in task details page
+class CreateSubtaskview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def post(self,request):
+        user=request.user
+        if request.method=="POST":
+            task_id = request.POST.get('task')
+            title= request.POST.get('subtasktitle')
+            status= request.POST.get('subtaskstatus')
+
+            Subtask.objects.create(task=task1.objects.get(id=task_id),
+                                        subtask_title=title,
+                                        subtask_status=status
+                                        )
+            activity=Activity.objects.create(user=user,activity_done="Sub Task created")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({"Message":""})
+
+
+# function to view  attachement inside task details
+class Taskattachmentview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            task_id = request.GET.get('task')
+            check=task1.objects.filter(id=task_id,user1=user).exists()
+            if user.is_staff:
+                data = Taskattach.objects.filter(task=task_id).order_by("-attachment_created")
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'image_url': item.attach_task.url,
+                        })
+            elif check:
+                data = Taskattach.objects.filter(task=task_id).order_by("-attachment_created")
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'image_url': item.attach_task.url,
+                        })
+            else:
+                response_data = []           
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+
+# function to add atatchment in task details page
+class CreateTaskAttachementview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def post(self,request):
+        user=request.user
+        if request.method=="POST":
+            task_id = request.POST.get('task')
+            image=request.FILES.get('taskimg')
+
+            Taskattach.objects.create(task=task1.objects.get(id=task_id),
+                                        attach_task=image
+                                        )
+            activity=Activity.objects.create(user=user,activity_done="Task attachement added")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+        return JsonResponse({"Message":""})
+
+
+# function to load task details in task detail page
+class TaskDetaildataview(View):
+    def get(self,request):
+        user=request.user
+        if request.method=='GET':
+            task_id = request.GET.get('task')
+            if user.is_staff:
+            # print(projectlist_id)
+                data = task1.objects.filter(id=task_id).exclude(task_activation='deactive').order_by('-task_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+            else:
+                data = task1.objects.filter(id=task_id,user1=user).exclude(task_activation='deactive').order_by('-task_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+# function to load tasks page
+class TaskDetailpageview(View):
+    @method_decorator(login_required(login_url='/log'))
+    def get(self,request,pk):
+        taskname=task1.objects.filter(id=pk).all()
+        # uname=User.objects.all()
+        proname=Projectlist.objects.filter(id=task1.objects.values_list('Projectlist', flat=True).get(id=pk))
+
+        return render(request, "taskdetail.html",{'taskname':taskname,'proname':proname})
+
 
 
 
@@ -1224,58 +1575,112 @@ class Deactivetasklistview(View):
             # print(sort_by)
             # print(day)
 
-            if sort_by=='All':    
-                data = task1.objects.filter(user1=user,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
-                # print(data)
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = task1.objects.filter(task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='Today':
-                data = task1.objects.filter(user1=user,task_updated__day=day,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='Today':
+                    data = task1.objects.filter(task_updated__day=day,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='This Month':
-                data = task1.objects.filter(user1=user,task_updated__month=month,task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(task_updated__month=month,task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
 
-            elif sort_by=='This Year':
-                data = task1.objects.filter(user1=user,task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = task1.objects.filter(user1=user,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+                elif sort_by=='Today':
+                    data = task1.objects.filter(user1=user,task_updated__day=day,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+                elif sort_by=='This Month':
+                    data = task1.objects.filter(user1=user,task_updated__month=month,task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+
+                elif sort_by=='This Year':
+                    data = task1.objects.filter(user1=user,task_updated__year=year,task_activation='deactive',Projectlist=Projectlist.objects.get(id=projectlist_id)).order_by('-task_updated')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
 
@@ -1339,62 +1744,120 @@ class Tasklistview(View):
             print(sort_by)
             print(sort_by2)
 
-            # both deos not have values
-            if sort_by=='' and sort_by2=='':
-                data = task1.objects.filter(user1=user,Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'assignee':item.user1.username,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
-            # both have values
-            elif sort_by!='' and sort_by2!='':
-                data = task1.objects.filter(user1=user,task_due1__gte=(sort_by),task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'assignee':item.user1.username,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
-            # starting date have value
-            elif sort_by!='' and sort_by2=='':
-                data = task1.objects.filter(user1=user,task_due1__gte=(sort_by),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'assignee':item.user1.username,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
-            # ending date have value
-            elif sort_by=='' and sort_by2!='':
-                data = task1.objects.filter(user1=user,task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                    'id':item.id,
-                    'task_title': item.task_title1,
-                    'task_desc': item.task_desc1,
-                    'assignee':item.user1.username,
-                    'task_due': item.task_due1,
-                    'task_priority': item.task_priority1,
-                    'task_status': item.task_status1,
-                    })
+            if user.is_staff:
+                # both deos not have values
+                if sort_by=='' and sort_by2=='':
+                    data = task1.objects.filter(Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # both have values
+                elif sort_by!='' and sort_by2!='':
+                    data = task1.objects.filter(task_due1__gte=(sort_by),task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # starting date have value
+                elif sort_by!='' and sort_by2=='':
+                    data = task1.objects.filter(task_due1__gte=(sort_by),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # ending date have value
+                elif sort_by=='' and sort_by2!='':
+                    data = task1.objects.filter(task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+            else:
+                # both deos not have values
+                if sort_by=='' and sort_by2=='':
+                    data = task1.objects.filter(user1=user,Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # both have values
+                elif sort_by!='' and sort_by2!='':
+                    data = task1.objects.filter(user1=user,task_due1__gte=(sort_by),task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # starting date have value
+                elif sort_by!='' and sort_by2=='':
+                    data = task1.objects.filter(user1=user,task_due1__gte=(sort_by),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
+                # ending date have value
+                elif sort_by=='' and sort_by2!='':
+                    data = task1.objects.filter(user1=user,task_due1__lte=(sort_by2),Projectlist=Projectlist.objects.get(id=projectlist_id)).exclude(task_activation='deactive').order_by('-task_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'task_title': item.task_title1,
+                        'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
+                        'task_due': item.task_due1,
+                        'task_priority': item.task_priority1,
+                        'task_status': item.task_status1,
+                        })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
         

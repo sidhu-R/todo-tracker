@@ -1,0 +1,311 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+    .datatable6 tfoot {
+    display: table-header-group;
+  }
+  
+  .datatable6 tfoot .filter-column {
+    width: 100% !important;
+  
+  }
+  
+  
+  </style>
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Task Details</h1>
+      <nav>
+        <ol class="breadcrumb" id="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
+          {% for i in proname %} 
+          <li class="breadcrumb-item "><a href="/todoproject">{{i.Project}}</a></li>
+          <li class="breadcrumb-item "><a href="/managelist/{{i.Project.id}}/">{{i.list_name}}</a></li>
+          {% endfor %}
+
+          {% for i in taskname %} 
+          <li class="breadcrumb-item "><a href="/todotask/{{i.Projectlist.id}}/">{{i.task_title1}}</a></li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Task Details</li>
+          {% endfor %}
+        </ol>
+      </nav>
+
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Task Details</h5>
+         
+		  
+
+            <!-- taskdetail table -->
+            <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+  
+                  <div class="card-body">
+                    <h5 class="card-title">Task</h5>
+  
+                    <table class="table table-borderless dattable" id="taskdetailtable">
+                      <thead>
+                        <tr>
+                        <th>Task Title</th>
+                        <th>Description</th>
+                        <th>Assignee</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>   	
+                        </tr>
+                      </thead>
+                      <tbody>
+
+  
+                      </tbody>
+                    </table>
+  
+                  </div>
+  
+                </div>
+              </div><!-- End Recent Sales -->
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Attachements</h5>
+                <p></p>
+
+                <div class="card-body">
+        
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                      Add 
+                    </button>
+                    <div class="modal fade" id="basicModal" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Add Attachements</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                           <div class="card-body">
+                    <h5 class="card-title">Add Attachements</h5>
+                    
+          
+                    <!-- Vertical Form -->
+                    <form class="row g-3" action="" id="taskattachform" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="col-12">
+                        <input type="file" id="taskimg" class="btn btn-primary btn-sm" name="taskimg" accept="image/*">
+                      </div>
+                          <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="taskattachclose">Close</button>
+                           <button type="submit" id="" class="btn btn-primary">Add</button>
+                           <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                          </div>
+                    </form><!-- Vertical Form -->
+          
+                  </div>
+                          </div>
+          
+                        </div>
+                      </div>
+                    </div><!-- End Basic Modal-->
+          
+                  </div>
+
+                <hr>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="taskattach">
+  
+                </div>
+
+  
+  
+               </div>
+  
+            </div>
+          </div>
+        </div>
+  
+      </section>
+
+
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-12">
+  
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Sub Tasks</h5>
+                <p></p>
+
+                <div class="card-body">
+        
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal2">
+                      Add 
+                    </button>
+                    <div class="modal fade" id="basicModal2" tabindex="-1">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Add Sub Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                           <div class="card-body">
+                    <h5 class="card-title">Add Sub Task</h5>
+                    
+          
+                    <!-- Vertical Form -->
+                    <form class="row g-3" action="" id="subtaskform" method="post">
+                      {% csrf_token %}
+                      <div class="col-12">
+                        <label for="inputNanme4" class="form-label">Task Title</label>
+                        <input type="text" class="form-control" id="subtasktitle" name="subtasktitle" >
+                      </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Status</label>
+                          <select class="form-select" aria-label="Default select example" name="subtaskstatus" id="subtaskstatus"  >
+                            <option value="In Progress">In Progress</option>
+                            <option value="Finished">Finished</option>
+                            <option value="Pending">Pending</option>
+                          </select>
+                        </div>
+                          <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="subtaskformclose">Close</button>
+                           <button type="submit" id="" class="btn btn-primary">Add</button>
+                           <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                          </div>
+                    </form><!-- Vertical Form -->
+          
+                  </div>
+                          </div>
+          
+                        </div>
+                      </div>
+                    </div><!-- End Basic Modal-->
+          
+                  </div>
+
+                <hr>
+
+                <div class="container-fluid">
+                    <table class="datatable6 table table-hover table-bordered" id="subtasktable">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Task Title</th>
+                            <th>Status</th>   
+                            <th>Actions</th>	
+                            
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>
+                            <!-- <input type="text" class="form-control input-sm filter-column"> -->
+                            </th>
+                            <th>
+                            <!-- <input type="text" class="form-control input-sm filter-column" /> -->
+                            </th>
+                            <th>          
+                            <select class="form-control input-sm filter-column">
+                            <option value="">All</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Finished">Finished</option>
+                            </select>
+                        </th>
+                            <th></th> 
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <!-- table data -->
+    
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal fade" id="basicModal3" tabindex="-1">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Edit Subtask</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                         <div class="card-body">
+                  <h5 class="card-title">Edit Item</h5>
+                  
+        
+                  <!-- Vertical Form -->
+                  <form class="row g-3" action="" id="subtaskedit" method="post">
+                    {% csrf_token %}
+                    <div class="col-12">
+                      <label for="inputNanme4" class="form-label">Task Title</label>
+                      <input type="text" class="form-control" id="subtasktitle2" name="subtasktitle2" >
+                    </div>
+                      <div class="col-12">
+                          <label for="inputAddress" class="form-label">Status</label>
+                        <select class="form-select" aria-label="Default select example" name="subtaskstatus2" id="subtaskstatus2"  >
+                          <option value="In Progress">In Progress</option>
+                          <option value="Finished">Finished</option>
+                          <option value="Pending">Pending</option>
+                        </select>
+                      </div>
+                        <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="subtaskeditclose">Close</button>
+                         <button type="submit" id="" class="btn btn-primary">Update</button>
+                         <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                        </div>
+                  </form><!-- Vertical Form -->
+        
+                </div>
+                        </div>
+        
+                      </div>
+                    </div>
+                  </div><!-- End Basic Modal-->
+
+
+  
+  
+               </div>
+  
+            </div>
+          </div>
+        </div>
+  
+      </section>
+
+  </main><!-- End #main -->
+
+<script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'assets/js/taskdetail.js' %}"></script>
+  
+  {% endblock content %}
