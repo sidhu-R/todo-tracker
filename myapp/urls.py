@@ -48,6 +48,7 @@ urlpatterns = [
     path('project_create_view',views.CreateProject.as_view(), name='create_project'),
     path('project_update/<int:pk>/',views.UpdateProjectView.as_view(), name='project_update'),
     path('project_delete/<int:pk>/', views.Deactivateprojectview.as_view(), name='project_delete'),
+    path('view_deactiveproject/', views.Deactiveprojectshowview.as_view(), name='project_deactivelist'),
 
     # List page-----------------------
     path('managelist/<int:pk>/',views.Listpageview.as_view(),name='managelist'),
@@ -86,6 +87,8 @@ urlpatterns = [
     path('sort_task_prog/',views.Dashtaskprogressview.as_view(),name="dashprog"),
     path('sort_task_table/',views.Dashtasktableview.as_view(),name="dashtaskview"),
     path('sort_activity/',views.Dashactvitylogview.as_view(),name="recentactivity"),
+    path('sort_project_num/',views.Dashprojectnumview.as_view(),name="projectnum"),
+    path('sort_issue_num/',views.Dashissuescountview.as_view(),name="issuenum"),
     
     # announcement---------------------
     path('add_announce/',views.Announcementcreateview.as_view(),name="announce"),

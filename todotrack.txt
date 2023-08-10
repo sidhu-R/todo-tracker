@@ -4,3 +4,33 @@ https://github.com/sidhu-R/todo-tracker.git
 
 
 
+            <!--extra card-->
+            <div class="col-xxl-8">
+
+              <div class="card info-card customers-card time-card">
+                <div class="container">
+                  <div class="display-date">
+                    <span id="day">day</span>,
+                    <span id="daynum">00</span>
+                    <span id="month">month</span>
+                    <span id="year">0000</span>
+                  </div>
+                  <div class="display-time"></div>
+                </div>
+
+                <!-- <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="fa-solid fa-spinner"></i>
+                    </div>
+                    <div class="ps-3">
+
+                    </div>
+                  </div>
+                </div> -->
+
+              </div>
+              
+            </div><!--extra card-->

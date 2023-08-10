@@ -124,13 +124,14 @@
 
             <table border="0" cellspacing="5" cellpadding="5">
               <tbody><tr>
-                  <td>Ending date:</td>
+                  <td>End date start:</td>
                   <td><input type="date" id="min" name="min"></td>
+                  <td><button class="btn btn-outline-primary" type="button" id="task_date_submit">Filter</button></td>
               </tr>
               <tr>
-                  <td>Upto:</td>
+                  <td>End date upto:</td>
                   <td><input type="date" id="max" name="max"></td>
-                  <td><button class="btn btn-outline-primary" type="button" id="task_date_submit">Filter</button></td>
+                  <td><button class="btn btn-outline-danger" type="button" id="clearfilter">clear</button></td>
               </tr>
           </tbody></table>
               <div class="container-fluid">
@@ -244,7 +245,9 @@
                       <div class="modal-footer">
                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="proupclose">Close</button>
                        <button type="submit" id="ddd222" class="btn btn-primary">Update</button>
+                       {% if user.is_staff%}
                        <button type="button" class="btn btn-danger" id="prodeactivate">Deactivate</button>
+                       {% endif %}
                       </div>
                 </form><!-- Vertical Form -->
   
@@ -262,6 +265,67 @@
 
         </div>
       </div>
+    </section>
+
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Deactivated Projects</h5>
+              <p></p>
+              <hr>
+
+              <div class="filter">
+                <!-- <h5 class="card-title">Tasks <span id="taskspan"></span></h5> -->
+                <a class="icon" href="#" data-bs-toggle="dropdown"><span id="prodeactfilter" style="color: grey;">| Today </span><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="prodeactbtn1"><b class="dropdown-item" >Today</b></li>
+                  <li value="This Month" class="prodeactbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="prodeactbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="prodeactbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                
+
+                <table class="table table-borderless datable" id="">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Description</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Duration</th>
+                      <th>Hours</th> 
+                    </tr>
+                  </thead>
+                  <tbody id="prodeactive-table">
+
+
+
+
+                  </tbody>
+                </table>
+
+
+
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     </section>
 
   </main><!-- End #main -->

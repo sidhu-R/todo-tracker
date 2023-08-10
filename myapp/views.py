@@ -364,6 +364,83 @@ class Dashtasktableview(View):
             return JsonResponse(response_data, safe=False)
         
 
+
+# function to view and filter count of issues dahsboard  
+class Dashissuescountview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Issue.objects.exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_created__day=day,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_created__year=year).exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_assign=user).exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
 # function to view and filter count of Tasks in progress in dahsboard  
 class Dashtaskprogressview(View):
     def post(self,request):
@@ -660,6 +737,82 @@ class Dashtasknumview(View):
                         })
             # print(response_data )
             return JsonResponse(response_data , safe=False)
+        
+
+# function to view and filter count of projects in dahsboard  
+class Dashprojectnumview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
 
 
 # function to view and filter featured news dahsboard  
@@ -1250,6 +1403,157 @@ class Listpageview(View):
         proname=Project.objects.filter(id=pk).all()
 
         return render(request, "managelist.html",{"proname":proname})
+
+
+
+
+# function to view deactivated project list in project page
+class Deactiveprojectshowview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = Project.objects.filter(project_activation='deactive').order_by('-project_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = Project.objects.filter(project_activation='deactive').order_by('-project_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year,project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'id':item.id,
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                        })
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
 
 
 # function to deactivate project in todo page

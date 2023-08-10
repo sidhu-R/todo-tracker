@@ -164,7 +164,12 @@ function loadProject(sortBy,sortBy2) {
     var sortBy2 = $('#max').val();
     loadProject(sortBy,sortBy2);
 });
-  
+
+$('#clearfilter').click(function() {
+  $('#min').val('');
+  $('#max').val('');
+  loadProject('','');
+});
 
 
 
@@ -264,6 +269,7 @@ function updateProject() {
     // alert('Task updated');
     $('#proupclose').click();
     loadProject('','');
+
     // location.reload()
     
     alertify.set('notifier','position', 'top-right');
@@ -335,6 +341,7 @@ function deactivatepro() {
       // alert('Task Deactivated');
       // location.reload();
       loadProject('','');
+      fecthproDeactive('All');
       $('#proupclose').click()
       alertify.set('notifier','position', 'top-right');
       alertify.notify('Project Deactivated', 'custom', 2, function(){console.log('dismissed');});
@@ -344,7 +351,100 @@ function deactivatepro() {
     }
   });
   }
-  }
+}
+
+
+
+//deativated projects
+function fecthproDeactive(sortBy) {
+    $.ajax({
+        url: '/view_deactiveproject/',
+        type: 'POST',
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        data: {
+            'sort_by': sortBy,
+        },
+        success: function(data) {
+            var cardsContainer = $('#prodeactive-table');
+            cardsContainer.empty();
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                    <tr>
+                    <td>${item.pro_title}</td>
+                    <td>${item.pro_type}</td>
+                    <td>${item.pro_status}</td>
+                    <td>${item.pro_desc}</td>
+                    <td>${item.pro_start}</td>
+                    <td>${item.pro_end}</td>
+                    <td>${item.duration}</td>
+                    <td>${item.pro_hours}</td>
+                    </tr>
+                `;
+                cardsContainer.append(cardHtml);
+                $('#prodeactive-table td').css('color', 'red');
+                // $('#deactive-table td').css('text-decoration', 'line-through');
+            });
+        }
+    });
+}
+
+fecthproDeactive('All');
+
+var newsfilter=$('#prodeactfilter');
+newsfilter.empty();
+newshtml=`| All `;
+newsfilter.append(newshtml);
+
+
+
+$(".prodeactbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthproDeactive(sortBy);
+    var newsfilter=$('#prodeactfilter');
+    newsfilter.empty();
+    newshtml=`| Today `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".prodeactbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthproDeactive(sortBy);
+    var newsfilter=$('#prodeactfilter');
+    newsfilter.empty();
+    newshtml=`| This Month `;
+    newsfilter.append(newshtml);
+
+});
+
+$(".prodeactbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthproDeactive(sortBy);
+    var newsfilter=$('#prodeactfilter');
+    newsfilter.empty();
+    newshtml=`| This year `;
+    newsfilter.append(newshtml);
+
+      
+});
+
+$(".prodeactbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fecthproDeactive(sortBy);
+    var newsfilter=$('#prodeactfilter');
+    newsfilter.empty();
+    newshtml=`| All `;
+    newsfilter.append(newshtml);
+
+      
+});
+
 
 
 
