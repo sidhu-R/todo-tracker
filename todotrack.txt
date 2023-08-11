@@ -34,3 +34,28 @@ https://github.com/sidhu-R/todo-tracker.git
               </div>
               
             </div><!--extra card-->
+
+
+# function to update project in todo page
+class UpdateProjectView(View):
+    def post(self,request,pk):
+        from datetime import date
+        user=request.user
+        if request.method == 'POST':
+            title=request.POST.get('title')
+            desc=request.POST.get('desc')
+            start_dte=request.POST.get('start_dte')
+            end_dte=request.POST.get('end_dte')
+            hour=request.POST.get('hour')
+            protype=request.POST.get('protype')
+            status=request.POST.get('status')
+
+            d0 = date(int(start_dte[0:4]), int(start_dte[5:7]), int(start_dte[8:]))
+            d1 = date(int(end_dte[0:4]), int(end_dte[5:7]), int(end_dte[8:]))
+            delta = d1 - d0
+            print(delta.days*24)
+
+            Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour)
+            activity=Activity.objects.create(user=user,activity_done="Project updated")
+            activity.save()
+            return JsonResponse({'status': 'success'})

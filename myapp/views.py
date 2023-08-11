@@ -1710,11 +1710,15 @@ class UpdateProjectView(View):
             d0 = date(int(start_dte[0:4]), int(start_dte[5:7]), int(start_dte[8:]))
             d1 = date(int(end_dte[0:4]), int(end_dte[5:7]), int(end_dte[8:]))
             delta = d1 - d0
+            # print(delta.days*24)
 
-            Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour)
-            activity=Activity.objects.create(user=user,activity_done="Project updated")
-            activity.save()
-            return JsonResponse({'status': 'success'})
+            if int(hour)<=delta.days*24:
+                Project.objects.filter(id=pk).update(project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour)
+                activity=Activity.objects.create(user=user,activity_done="Project updated")
+                activity.save()
+                return JsonResponse({'status': 'success'})
+            else:
+                return JsonResponse({'error':'The hours entered is more than project completion dates'}, status=500)
 
 
 
@@ -1735,12 +1739,16 @@ class CreateProject(View):
             d0 = date(int(start_dte[0:4]), int(start_dte[5:7]), int(start_dte[8:]))
             d1 = date(int(end_dte[0:4]), int(end_dte[5:7]), int(end_dte[8:]))
             delta = d1 - d0
-            Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour,project_activation='active')
-            activity=Activity.objects.create(user=user,activity_done="Project created")
-            activity.save()
-            return JsonResponse({'status': 'success'})
+
+            if int(hour)<=delta.days*24:
+                Project.objects.create(user=user,project_title=title,project_type=protype,project_desc=desc,project_start=start_dte,project_end=end_dte,duration=delta.days,project_status=status,hours=hour,project_activation='active')
+                activity=Activity.objects.create(user=user,activity_done="Project created")
+                activity.save()
+                return JsonResponse({'status': 'success'})
+            else:
+                return JsonResponse({'error':'The hours entered is more than project completion dates'}, status=500)
         else:
-            return JsonResponse({"error": ""}, status=400)
+            return JsonResponse({"error": ""}, status=500)
 
 
 # function to view and filter project in todo page

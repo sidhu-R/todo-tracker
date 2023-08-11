@@ -60,7 +60,10 @@ $(document).ready(function() {
             
                 },
                 error: function (response) {
-                    alert('error')
+                    // alert('The hours entered is more than project completion dates')
+                    alert(response.responseJSON.error)
+                    $('#prohours').val('');
+                    $('#prohours').focus();  
                 },
                 cache: false,
                 contentType: false,
@@ -103,7 +106,7 @@ function loadProject(sortBy,sortBy2) {
                         <td>${item.pro_desc}</td>
                         <td>${item.pro_start}</td>
                         <td>${item.pro_end}</td>
-                        <td>${item.duration}</td>
+                        <td>${item.duration} days</td>
                         <td>${item.pro_hours}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
                         <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
@@ -276,7 +279,14 @@ function updateProject() {
     alertify.notify('Project Updated', 'custom', 2, function(){console.log('dismissed');});
       
   
-  }
+  },
+  error: function (response) {
+    // alert('The hours entered is more than project completion dates');
+    alert(response.responseJSON.error)
+    $('#prohours2').val('');
+    $('#prohours2').focus();  
+  },
+
 });
 }
 
@@ -297,7 +307,7 @@ $(document).on('click', '#projecttable tbody tr', function() {
   var desc = $(this).find('td:eq(3)').text();
   var dte = $(this).find('td:eq(4)').text();
   var dte2 = $(this).find('td:eq(5)').text();
-  var hour = $(this).find('td:eq(6)').text();
+  var hour = $(this).find('td:eq(7)').text();
   
   
   $('#protitle2').val(title);
