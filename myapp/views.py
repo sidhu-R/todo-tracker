@@ -264,6 +264,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -277,6 +278,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -290,6 +292,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -303,6 +306,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -317,6 +321,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -330,6 +335,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -343,6 +349,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -356,6 +363,7 @@ class Dashtasktableview(View):
                         'id':item.id,
                         'task_title': item.task_title1,
                         'task_desc': item.task_desc1,
+                        'assignee':item.user1.username,
                         'task_due': item.task_due1,
                         'task_priority': item.task_priority1,
                         'task_status': item.task_status1,
@@ -380,21 +388,21 @@ class Dashissuescountview(View):
 
             if user.is_staff:
                 if sort_by=='All':
-                    data = Issue.objects.exclude(issue_activation='deactive').count()
+                    data = Issue.objects.exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Issue.objects.filter(issue_created__day=day,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
 
                     response_data = []
                     response_data.append({
@@ -402,28 +410,28 @@ class Dashissuescountview(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Issue.objects.filter(issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
             else:
                 if sort_by=='All':
-                    data = Issue.objects.filter(issue_assign=user).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
 
                     response_data = []
                     response_data.append({
@@ -431,7 +439,7 @@ class Dashissuescountview(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year).exclude(issue_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data

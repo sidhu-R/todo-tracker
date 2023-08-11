@@ -21,6 +21,7 @@ function fetchTask(sortBy) {
                         <th scope="row"><a href="#">${num}</a></th>
                         <td>${item.task_title}</td>
                         <td><a href="#" class="text-primary">${item.task_desc}</a></td>
+                        <td><a href="#" class="text-primary">${item.assignee}</a></td>
                         <td>${item.task_due}</td>
                         <td><span class="badg">${item.task_priority}</span></td>
                         <td><span class="badg">${item.task_status}</span></td>
