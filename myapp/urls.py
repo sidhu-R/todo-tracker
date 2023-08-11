@@ -42,6 +42,7 @@ urlpatterns = [
     path('subtask_data/',views.Subtaskdataview.as_view(), name='subtask_view'),
     path('add_subtask/',views.CreateSubtaskview.as_view(), name='subtask_add'),
     path('subtask_update/<int:pk>/',views.UpdateSubtaskview.as_view(), name='Subtask_update'),
+    path('task_atatch_dlt/<int:pk>/', views.Deeletetaskattachview.as_view(), name='task_attach_delete'),
     
     # project page--------------------
     path('data_project_view/',views.Projectdataview.as_view(), name='project_list'),
@@ -70,7 +71,7 @@ urlpatterns = [
     path('view_issuedetailpagedata/',views.IssueDetaildataview.as_view(),name='viewissuedetaillist'),
     path('issue_attachement/',views.Issueattachmentview.as_view(), name='Issue_attachview'),
     path('add_issue_attachement/',views.CreateIssueAttachementview.as_view(), name='Issue_add_attachview'),
-
+    path('issue_atatch_dlt/<int:pk>/', views.Deeleteissueattachview.as_view(), name='issue_attach_delete'),
 
     # feedback------------------------
     path('feed/',views.Feedbackview.as_view(),name="feed"),

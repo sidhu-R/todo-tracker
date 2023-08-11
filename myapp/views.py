@@ -1149,7 +1149,16 @@ class Feedbackview(View):
 
 
 
-
+# function to delete attachement in issue detail page
+class Deeleteissueattachview(View):
+    def post(self,request, pk):
+        user=request.user
+        if request.method == 'POST':
+            instance = Attachements.objects.get(id=pk)
+            instance.delete()
+            activity=Activity.objects.create(user=user,activity_done="Issue atatchment Deleted")
+            activity.save()
+            return JsonResponse({'status': 'success'})
 
 
 
@@ -1897,6 +1906,20 @@ class CreateSubtaskview(View):
             activity.save()
             return JsonResponse({'status': 'success'})
         return JsonResponse({"Message":""})
+
+
+
+# function to delete attachement in task detail page
+class Deeletetaskattachview(View):
+    def post(self,request, pk):
+        user=request.user
+        if request.method == 'POST':
+            instance = Taskattach.objects.get(id=pk)
+            instance.delete()
+            activity=Activity.objects.create(user=user,activity_done="Task atatchment Deleted")
+            activity.save()
+            return JsonResponse({'status': 'success'})
+
 
 
 # function to view  attachement inside task details

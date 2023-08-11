@@ -118,6 +118,7 @@ function fetchTaskattachement() {
                   <div class="col">
                       <div class="card">
                           <img src="${item.image_url}" class="card-img-top" alt="News">
+                          <button class="btn-danger" id="${item.id}" onClick="deletetaskim(this.id)">Delete</button>
                       </div>
                   </div>
               `;
@@ -357,6 +358,30 @@ $(document).on('click', '#subtasktable tbody tr', function() {
 
 });
   
+
+
+// delete attachment
+function deletetaskim(id){
+  if (confirm('Are you sure you want to delete this image ?')) {
+
+    $.ajax({
+      url: '/task_atatch_dlt/' + id + '/',  
+      type: 'POST',
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      dataType: 'json',
+      success: function(response) {
+    
+        fetchTaskattachement();
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Attachement Deleted', 'custom', 2, function(){console.log('dismissed');});
+    
+      
+    }
+  });
+  }
+}
 
 
 

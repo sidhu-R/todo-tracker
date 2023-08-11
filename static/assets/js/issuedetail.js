@@ -71,27 +71,28 @@ function loadIssueDetail() {
 loadIssueDetail();
 
 
+// delete attachment
+function deleteim(id){
+  if (confirm('Are you sure you want to delete this image ?')) {
 
-// // select a row and pass it
-$(document).on('click', '#issuedetailtable tbody tr', function() {
-    $('#issuedetailtable tbody tr').removeClass('selected');
-    $(this).addClass('selected');
+    $.ajax({
+      url: '/issue_atatch_dlt/' + id + '/',  
+      type: 'POST',
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      dataType: 'json',
+      success: function(response) {
     
-    var title = $(this).find('td:eq(0)').text();
-    var desc = $(this).find('td:eq(1)').text();
-    var assignee = $(this).find('td:eq(2)').text();
-    var status = $(this).find('td:eq(3)').text();
-    var prio = $(this).find('td:eq(4)').text();
+        fetchattachement();
+        alertify.set('notifier','position', 'top-right');
+        alertify.notify('Attachement Deleted', 'custom', 2, function(){console.log('dismissed');});
     
-    
-    $('#issuetitle2').val(title);
-    $('#issuedesc2').val(desc);
-    $('#issueassign2').val(assignee);
-    $('#issuestatus2').val(status);
-    $('#issuepriority2').val(prio);
-});
-  
-
+      
+    }
+  });
+  }
+}
 
 
 // fetch attachement
@@ -113,9 +114,10 @@ function fetchattachement() {
           
           $.each(data, function(index, item) {
               var cardHtml = `
-                  <div class="col">
+                  <div class="col" id="issueattachcard" data-id="">
                       <div class="card">
                           <img src="${item.image_url}" class="card-img-top" alt="News">
+                          <button class="btn-danger" id="${item.id}" onClick="deleteim(this.id)">Delete</button>
                       </div>
                   </div>
               `;
