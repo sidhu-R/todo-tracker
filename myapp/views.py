@@ -32,7 +32,7 @@ class Dashactvitylogview(View):
 
             if user.is_staff:
                 if sort_by=='Today':
-                    data = Activity.objects.filter(activity_date__day=day,activity_date__year=year).order_by('-activity_time')
+                    data = Activity.objects.filter(activity_date__day=day,activity_date__year=year).order_by('-activity_time')[::10]
                     response_data = []
                     for item in data:
                         response_data.append({
@@ -239,6 +239,86 @@ class Announcementcreateview(View):
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({"error": ""}, status=400)
+
+
+# function to view and filter project list in dahsboard  
+class Dashprojecttableview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+
+            if sort_by=='All':    
+                data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
+                # print(data)
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                    })
+
+            elif sort_by=='Today':
+                data = Project.objects.filter(project_created__day=day).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                    })
+
+            elif sort_by=='This Month':
+                data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                    })
+
+            elif sort_by=='This Year':
+                data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                response_data = []
+                for item in data:
+                    response_data.append({
+                        'pro_title': item.project_title,
+                        'pro_desc': item.project_desc,
+                        'pro_start': item.project_start,
+                        'pro_end': item.project_end,
+                        'duration':item.duration,
+                        'pro_hours': item.hours,
+                        'pro_type':item.project_type,
+                        'pro_status':item.project_status,
+                    })
+
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
 
 
 # function to view and filter Task list in dahsboard  

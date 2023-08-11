@@ -1,4 +1,101 @@
 
+// fetch project
+$(document).ready(function() {
+  
+function fetchdashproject(sortBy) {
+    $.ajax({
+        url: '/sort_project_table/',
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
+            'sort_by': sortBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#dash-project');
+            cardsContainer.empty();
+
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                    <tr>
+                    <td>${item.pro_title}</td>
+                    <td>${item.pro_type}</td>
+                    <td>${item.pro_status}</td>
+                    <td>${item.pro_desc}</td>
+                    <td>${item.pro_start}</td>
+                    <td>${item.pro_end}</td>
+                    <td>${item.duration} days</td>
+                    <td>${item.pro_hours}</td>
+                    </tr>
+                `;
+                cardsContainer.append(cardHtml);
+                $('td:contains("Pending")').css('color', 'red');
+                $('td:contains("Complete")').css('color', 'green'); 
+            });
+        }
+    });
+}
+
+fetchdashproject('Today');
+
+var newsfilter=$('#projectspan');
+newsfilter.empty();
+newshtml=`| Today`;
+newsfilter.append(newshtml);
+
+
+
+$(".projectbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
+    newsfilter.empty();
+    newshtml=`| Today`;
+    newsfilter.append(newshtml);
+
+});
+
+$(".projectbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
+    newsfilter.empty();
+    newshtml=`| This Month`;
+    newsfilter.append(newshtml);
+
+});
+
+$(".projectbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
+    newsfilter.empty();
+    newshtml=`| This year`;
+    newsfilter.append(newshtml);
+
+        
+});
+
+$(".projectbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
+    newsfilter.empty();
+    newshtml=`| All`;
+    newsfilter.append(newshtml);
+
+        
+});
+
+
+
+});
+
+
+
 
 // fetch task
 $(document).ready(function() {
@@ -638,56 +735,56 @@ const csrftoken = getCookie('csrftoken');
 
 
 // //dashboard date and time
-// const displayTime = document.querySelector(".display-time");
-// // Time
-// function showTime() {
-//   let time = new Date();
-//   displayTime.innerText = time.toLocaleTimeString("en-US", { hour12: false });
-//   setTimeout(showTime, 1000);
-// }
+const displayTime = document.querySelector(".display-time");
+// Time
+function showTime() {
+  let time = new Date();
+  displayTime.innerText = time.toLocaleTimeString("en-US", { hour12: false });
+  setTimeout(showTime, 1000);
+}
 
-// showTime();
+showTime();
 
-// // Date
-// function updateDate() {
-//   let today = new Date();
+// Date
+function updateDate() {
+  let today = new Date();
 
-//   // return number
-//   let dayName = today.getDay(),
-//     dayNum = today.getDate(),
-//     month = today.getMonth(),
-//     year = today.getFullYear();
+  // return number
+  let dayName = today.getDay(),
+    dayNum = today.getDate(),
+    month = today.getMonth(),
+    year = today.getFullYear();
 
-//   const months = [
-//     "January",
-//     "February",
-//     "March",
-//     "April",
-//     "May",
-//     "June",
-//     "July",
-//     "August",
-//     "September",
-//     "October",
-//     "November",
-//     "December",
-//   ];
-//   const dayWeek = [
-//     "Sunday",
-//     "Monday",
-//     "Tuesday",
-//     "Wednesday",
-//     "Thursday",
-//     "Friday",
-//     "Saturday",
-//   ];
-//   // value -> ID of the html element
-//   const IDCollection = ["day", "daynum", "month", "year"];
-//   // return value array with number as a index
-//   const val = [dayWeek[dayName], dayNum, months[month], year];
-//   for (let i = 0; i < IDCollection.length; i++) {
-//     document.getElementById(IDCollection[i]).firstChild.nodeValue = val[i];
-//   }
-// }
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const dayWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  // value -> ID of the html element
+  const IDCollection = ["day", "daynum", "month", "year"];
+  // return value array with number as a index
+  const val = [dayWeek[dayName], dayNum, months[month], year];
+  for (let i = 0; i < IDCollection.length; i++) {
+    document.getElementById(IDCollection[i]).firstChild.nodeValue = val[i];
+  }
+}
 
-// updateDate();
+updateDate();

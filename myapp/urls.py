@@ -91,7 +91,7 @@ urlpatterns = [
     path('sort_activity/',views.Dashactvitylogview.as_view(),name="recentactivity"),
     path('sort_project_num/',views.Dashprojectnumview.as_view(),name="projectnum"),
     path('sort_issue_num/',views.Dashissuescountview.as_view(),name="issuenum"),
-    
+    path('sort_project_table/',views.Dashprojecttableview.as_view(),name="dashprojectview"),
     # announcement---------------------
     path('add_announce/',views.Announcementcreateview.as_view(),name="announce"),
     path('view_announce/',views.AnnounceNotifbarview.as_view(),name="announceview"),
