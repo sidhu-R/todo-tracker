@@ -109,7 +109,7 @@ function loadProject(sortBy,sortBy2) {
                         <td>${item.duration} days</td>
                         <td>${item.pro_hours}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-solid fa-arrow-up"></i></a></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></button>
                         </td>
                       </tr>
                         `;
