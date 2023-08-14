@@ -1,77 +1,72 @@
-
-
-// fetch task
+// fetch issues table
 $(document).ready(function() {
   
-function fetchTask(sortBy) {
+function fetchdashissues(sortBy) {
     $.ajax({
-        url: '/sort_task_table/',
+        url: '/sort_issue_table/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#dash-table');
+            var cardsContainer = $('#issue-table');
             cardsContainer.empty();
-            let num=1;
+
             $.each(data, function(index, item) {
                 var cardHtml = `
                     <tr>
-                        <th scope="row"><a href="#">${num}</a></th>
-                        <td>${item.task_title}</td>
-                        <td><a href="#" class="text-primary">${item.task_desc}</a></td>
-                        <td><a href="#" class="text-primary">${item.assignee}</a></td>
-                        <td>${item.task_due}</td>
-                        <td><span class="badg">${item.task_priority}</span></td>
-                        <td><span class="badg">${item.task_status}</span></td>
+                    <td>${item.issue_title}</td>
+                    <td>${item.issue_desc}</td>
+                    <td>${item.issue_assign}</td>
+                    <td>${item.issue_status}</td>
+                    <td>${item.issue_priority}</td>
                     </tr>
                 `;
                 cardsContainer.append(cardHtml);
-                num++;
                 $('td:contains("Pending")').css('color', 'red');
-                $('td:contains("Finished")').css('color', 'green'); 
+                $('td:contains("Complete")').css('color', 'green'); 
             });
         }
     });
 }
 
-fetchTask('Today');
+fetchdashissues('Today');
 
-var newsfilter=$('#taskspan');
+var newsfilter=$('#issuetablespan');
 newsfilter.empty();
 newshtml=`| Today`;
 newsfilter.append(newshtml);
 
 
 
-$(".taskbtn1").click(function(){
+$(".issuetablebtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashissues(sortBy);
+    var newsfilter=$('#issuetablespan');
     newsfilter.empty();
     newshtml=`| Today`;
     newsfilter.append(newshtml);
 
 });
 
-$(".taskbtn2").click(function(){
+$(".issuetablebtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashissues(sortBy);
+    var newsfilter=$('#issuetablespan');
     newsfilter.empty();
     newshtml=`| This Month`;
     newsfilter.append(newshtml);
 
 });
 
-$(".taskbtn3").click(function(){
+$(".issuetablebtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashissues(sortBy);
+    var newsfilter=$('#issuetablespan');
     newsfilter.empty();
     newshtml=`| This year`;
     newsfilter.append(newshtml);
@@ -79,11 +74,11 @@ $(".taskbtn3").click(function(){
         
 });
 
-$(".taskbtn4").click(function(){
+$(".issuetablebtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashissues(sortBy);
+    var newsfilter=$('#issuetablespan');
     newsfilter.empty();
     newshtml=`| All`;
     newsfilter.append(newshtml);
@@ -96,12 +91,14 @@ $(".taskbtn4").click(function(){
 });
 
 
-// // fetch finished task
+
+
+ // fetch issue num
 $(document).ready(function() {
   
-function fetchFin(sortBy) {
+function issuenum(sortBy) {
     $.ajax({
-        url: '/sort_task_fin/',
+        url: '/sort_issue_num/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
@@ -109,7 +106,7 @@ function fetchFin(sortBy) {
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskfin');
+            var cardsContainer = $('#issuenum');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -122,42 +119,42 @@ function fetchFin(sortBy) {
     });
 }
 
-fetchFin('All');
+issuenum('All');
 
-var newsfilter=$('#finspan');
+var newsfilter=$('#issuespan');
 newsfilter.empty();
 newshtml=`| All`;
 newsfilter.append(newshtml);
 
 
 
-$(".finbtn1").click(function(){
+$(".issuebtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
+    issuenum(sortBy);
+    var taskfilter=$('#issuespan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".finbtn2").click(function(){
+$(".issuebtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
+    issuenum(sortBy);
+    var taskfilter=$('#issuespan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".finbtn3").click(function(){
+$(".issuebtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
+    issuenum(sortBy);
+    var taskfilter=$('#issuespan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -165,11 +162,11 @@ $(".finbtn3").click(function(){
         
 });
 
-$(".finbtn4").click(function(){
+$(".issuebtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
+    issuenum(sortBy);
+    var taskfilter=$('#issuespan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -183,19 +180,20 @@ $(".finbtn4").click(function(){
 
 
 
-// fetch no:of task
+// // fetch issue open count num
 $(document).ready(function() {
-
-function fetchNum(sortBy) {
+  
+function issueopennum(sortBy) {
     $.ajax({
-        url: '/sort_task_num/',
+        url: '/sort_issue_open/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
+
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskNum');
+            var cardsContainer = $('#issueopen');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -208,130 +206,42 @@ function fetchNum(sortBy) {
     });
 }
 
-fetchNum('All');
+issueopennum('All');
 
-var taskfilter=$('#numspan');
-taskfilter.empty();
-newshtml=`| All`;
-taskfilter.append(newshtml);
-
-
-
-$(".numbtn1").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
-    taskfilter.empty();
-    newshtml=`| Today`;
-    taskfilter.append(newshtml);
-
-});
-
-$(".numbtn2").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
-    taskfilter.empty();
-    newshtml=`| This Month`;
-    taskfilter.append(newshtml);
-
-});
-
-$(".numbtn3").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
-    taskfilter.empty();
-    newshtml=`| This year`;
-    taskfilter.append(newshtml);
-
-        
-});
-
-$(".numbtn4").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
-    taskfilter.empty();
-    newshtml=`| All`;
-    taskfilter.append(newshtml);
-
-        
-});
-
-
-
-});
-
-
-
-
-// // fetch pending task
-$(document).ready(function() {
-
-function fetchPen(sortBy) {
-    $.ajax({
-        url: '/sort_task_pen/',
-        type: 'POST',
-        headers: {'X-CSRFToken': csrftoken},
-        data: {
-
-            'sort_by': sortBy
-        },
-        success: function(data) {
-            var cardsContainer = $('#taskpen');
-            cardsContainer.empty();
-            
-            $.each(data, function(index, item) {
-                var cardHtml = `
-                        <h6>${item.count}</h6>
-                `;
-                cardsContainer.append(cardHtml);
-            });
-        }
-    });
-}
-
-fetchPen('All');
-
-var newsfilter=$('#penspan');
+var newsfilter=$('#issueopenspan');
 newsfilter.empty();
 newshtml=`| All`;
 newsfilter.append(newshtml);
 
 
 
-$(".penbtn1").click(function(){
+$(".issueopenbtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    issueopennum(sortBy);
+    var taskfilter=$('#issueopenspan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".penbtn2").click(function(){
+$(".issueopenbtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    issueopennum(sortBy);
+    var taskfilter=$('#issueopenspan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".penbtn3").click(function(){
+$(".issueopenbtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    issueopennum(sortBy);
+    var taskfilter=$('#issueopenspan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -339,11 +249,11 @@ $(".penbtn3").click(function(){
         
 });
 
-$(".penbtn4").click(function(){
+$(".issueopenbtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    issueopennum(sortBy);
+    var taskfilter=$('#issueopenspan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -356,13 +266,13 @@ $(".penbtn4").click(function(){
 });
 
 
-  
-// // fetch inprogress task
+
+// fetch issue inprogress count num
 $(document).ready(function() {
   
-function fetchProg(sortBy) {
+function issueinprogessnum(sortBy) {
     $.ajax({
-        url: '/sort_task_prog/',
+        url: '/sort_issue_inprogess/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
@@ -370,7 +280,7 @@ function fetchProg(sortBy) {
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskprog');
+            var cardsContainer = $('#issueprog');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -383,42 +293,42 @@ function fetchProg(sortBy) {
     });
 }
 
-fetchProg('All');
+issueinprogessnum('All');
 
-var newsfilter=$('#progressspan');
+var newsfilter=$('#issueprogspan');
 newsfilter.empty();
 newshtml=`| All`;
 newsfilter.append(newshtml);
 
 
 
-$(".progressbtn1").click(function(){
+$(".issueprogbtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    issueinprogessnum(sortBy);
+    var taskfilter=$('#issueprogspan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".progressbtn2").click(function(){
+$(".issueprogbtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    issueinprogessnum(sortBy);
+    var taskfilter=$('#issueprogspan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".progressbtn3").click(function(){
+$(".issueprogbtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    issueinprogessnum(sortBy);
+    var taskfilter=$('#issueprogspan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -426,11 +336,11 @@ $(".progressbtn3").click(function(){
         
 });
 
-$(".progressbtn4").click(function(){
+$(".issueprogbtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    issueinprogessnum(sortBy);
+    var taskfilter=$('#issueprogspan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -444,79 +354,87 @@ $(".progressbtn4").click(function(){
 
 
 
+// fetch issue resolved count num
+$(document).ready(function() {
+  
+function issueresolvednum(sortBy) {
+    $.ajax({
+        url: '/sort_issue_resolved/',
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
 
-
-function getCookie(name) {
-let cookieValue = null;
-if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
+            'sort_by': sortBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#issueresolve');
+            cardsContainer.empty();
+            
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                        <h6>${item.count}</h6>
+                `;
+                cardsContainer.append(cardHtml);
+            });
         }
-    }
-}
-return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-  
-  
-
-
-// //dashboard date and time
-const displayTime = document.querySelector(".display-time");
-// Time
-function showTime() {
-  let time = new Date();
-  displayTime.innerText = time.toLocaleTimeString("en-US", { hour12: false });
-  setTimeout(showTime, 1000);
+    });
 }
 
-showTime();
+issueresolvednum('All');
 
-// Date
-function updateDate() {
-  let today = new Date();
+var newsfilter=$('#issueresolvespan');
+newsfilter.empty();
+newshtml=`| All`;
+newsfilter.append(newshtml);
 
-  // return number
-  let dayName = today.getDay(),
-    dayNum = today.getDate(),
-    month = today.getMonth(),
-    year = today.getFullYear();
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const dayWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  // value -> ID of the html element
-  const IDCollection = ["day", "daynum", "month", "year"];
-  // return value array with number as a index
-  const val = [dayWeek[dayName], dayNum, months[month], year];
-  for (let i = 0; i < IDCollection.length; i++) {
-    document.getElementById(IDCollection[i]).firstChild.nodeValue = val[i];
-  }
-}
 
-updateDate();
+$(".issueresolvebtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    issueresolvednum(sortBy);
+    var taskfilter=$('#issueresolvespan');
+    taskfilter.empty();
+    newshtml=`| Today`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".issueresolvebtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    issueresolvednum(sortBy);
+    var taskfilter=$('#issueresolvespan');
+    taskfilter.empty();
+    newshtml=`| This Month`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".issueresolvebtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    issueresolvednum(sortBy);
+    var taskfilter=$('#issueresolvespan');
+    taskfilter.empty();
+    newshtml=`| This year`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+$(".issueresolvebtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    issueresolvednum(sortBy);
+    var taskfilter=$('#issueresolvespan');
+    taskfilter.empty();
+    newshtml=`| All`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+
+
+});

@@ -59,16 +59,15 @@
     <section class="section dashboard">
       <div class="row">
 
+
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
 
 
-            
- 
-
-
-
+            <div class="pagetitle">
+              <h4><u>Project</u></h4>
+            </div><!-- End Page Title -->
 
             <div class="col-xxl-4 col-xl-12">
 
@@ -108,6 +107,212 @@
             </div><!-- projects Card -->
 
 
+           <!-- completed projects Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenue-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="procombtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="procombtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="procombtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="procombtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Completed <span id="procomspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-hand-thumbs-up"></i>
+                  </div>
+                  <div class="ps-3" id="procom">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- completed projects Card -->
+
+
+
+
+           <!-- onhold projects Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="proholdbtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="proholdbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="proholdbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="proholdbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">On Hold <span id="proholdspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="fa-regular fa-hand"></i>
+                  </div>
+                  <div class="ps-3" id="prohold">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- onhold projects Card -->
+
+
+
+           <!-- Pending projects Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="propendingbtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="propendingbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="propendingbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="propendingbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Pending <span id="propendingspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-arrow-clockwise"></i>
+                  </div>
+                  <div class="ps-3" id="propending">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- pending projects Card -->
+
+
+
+           <!-- cancelled projects Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="procancellbtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="procancellbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="procancellbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="procancellbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Cancelled <span id="procancellspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                  <div class="ps-3" id="procancell">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- cancelled projects Card -->
+
+
+
+
+            
+
+            <!-- project table -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li value="Today" class="projectbtn1"><b class="dropdown-item" >Today</b></li>
+                    <li value="This Month" class="projectbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                    <li value="This Year" class="projectbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                    <li value="All" class="projectbtn4"><a class="dropdown-item" href="#">All</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Projects<span id="projectspan"></span></h5>
+
+                  <table class="table table-borderless dattable" id="dashprojecttable">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Duration</th>
+                        <th>Hours</th> 
+                      </tr>
+                    </thead>
+                    <tbody id="dash-project">
+
+
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End project table -->
+
+
+
+            <div class="pagetitle">
+              <h4><u>Task</u></h4>
+            </div><!-- End Page Title -->
 
 
             <!-- no:of tasks Card -->
@@ -223,7 +428,6 @@
 
 
 
-
             <!-- in progress Card -->
             <div class="col-xxl-4 col-xl-12">
 
@@ -262,45 +466,6 @@
 
             </div><!-- in progress Card -->
 
-            
-
-            <!-- issues Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li value="Today" class="issuebtn1"><a class="dropdown-item" href="#">Today</a></li>
-                    <li value="This Month" class="issuebtn2"><a class="dropdown-item" href="#">This Month</a></li>
-                    <li value="This Year" class="issuebtn3"><a class="dropdown-item" href="#">This Year</a></li>
-                    <li value="All" class="issuebtn4"><a class="dropdown-item" href="#">All</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Issues <span id="issuespan">| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-spinner"></i>
-                    </div>
-                    <div class="ps-3" id="issuenum">
-
-                      <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div><!-- issues Card -->
 
 
             <!-- task table -->
@@ -348,7 +513,165 @@
             </div><!-- End Recent Sales -->
 
 
-            <!-- project table -->
+            <div class="pagetitle">
+              <h4><u>Issue</u></h4>
+            </div><!-- End Page Title -->
+
+
+
+            <!-- issues Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li value="Today" class="issuebtn1"><a class="dropdown-item" href="#">Today</a></li>
+                    <li value="This Month" class="issuebtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                    <li value="This Year" class="issuebtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                    <li value="All" class="issuebtn4"><a class="dropdown-item" href="#">All</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Issues <span id="issuespan">| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="fa-solid fa-bug"></i>
+                    </div>
+                    <div class="ps-3" id="issuenum">
+
+                      <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- issues Card -->
+
+
+           <!-- open issues Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="issueopenbtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="issueopenbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="issueopenbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="issueopenbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Open <span id="issueopenspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-laptop-code"></i>
+                  </div>
+                  <div class="ps-3" id="issueopen">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- open issues Card -->
+
+
+           <!-- In progress issues Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="issueprogbtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="issueprogbtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="issueprogbtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="issueprogbtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">In Progress <span id="issueprogspan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-spinner"></i>
+                  </div>
+                  <div class="ps-3" id="issueprog">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- In progress issues Card -->
+
+
+           <!-- Resolved issues Card -->
+           <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li value="Today" class="issueresolvebtn1"><a class="dropdown-item" href="#">Today</a></li>
+                  <li value="This Month" class="issueresolvebtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                  <li value="This Year" class="issueresolvebtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                  <li value="All" class="issueresolvebtn4"><a class="dropdown-item" href="#">All</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Resolved <span id="issueresolvespan"></span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="fa-sharp fa-solid fa-bug-slash"></i>
+                  </div>
+                  <div class="ps-3" id="issueresolve">
+                    
+                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- Resolved issues Card -->
+
+
+
+
+            <!-- issue table -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
@@ -359,30 +682,27 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li value="Today" class="projectbtn1"><b class="dropdown-item" >Today</b></li>
-                    <li value="This Month" class="projectbtn2"><a class="dropdown-item" href="#">This Month</a></li>
-                    <li value="This Year" class="projectbtn3"><a class="dropdown-item" href="#">This Year</a></li>
-                    <li value="All" class="projectbtn4"><a class="dropdown-item" href="#">All</a></li>
+                    <li value="Today" class="issuetablebtn1"><b class="dropdown-item" >Today</b></li>
+                    <li value="This Month" class="issuetablebtn2"><a class="dropdown-item" href="#">This Month</a></li>
+                    <li value="This Year" class="issuetablebtn3"><a class="dropdown-item" href="#">This Year</a></li>
+                    <li value="All" class="issuetablebtn4"><a class="dropdown-item" href="#">All</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Projects<span id="projectspan"></span></h5>
+                  <h5 class="card-title">Issues <span id="issuetablespan"></span></h5>
 
-                  <table class="table table-borderless dattable" id="dashprojecttable">
+                  <table class="table table-borderless dattable" id="issuetable">
                     <thead>
                       <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Status</th>
+                        <th>Issue Title</th>
                         <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Duration</th>
-                        <th>Hours</th> 
+                        <th>Assignee</th>
+                        <th>Status</th>
+                        <th>Priority</th>  
                       </tr>
                     </thead>
-                    <tbody id="dash-project">
+                    <tbody id="issue-table">
 
 
                     </tbody>
@@ -391,7 +711,7 @@
                 </div>
 
               </div>
-            </div><!-- End Recent Sales -->
+            </div><!-- issue table end -->
 
             
 
@@ -480,7 +800,7 @@
             <div class="col-xxl-12">
 
             <div class="card info-card customers-card time-card">
-              <div class="container">
+              <!-- <div class="container">
                 <div class="display-date">
                   <span id="day">day</span>,
                   <span id="daynum">00</span>
@@ -488,7 +808,7 @@
                   <span id="year">0000</span>
                 </div>
                 <div class="display-time"></div>
-              </div>
+              </div> -->
 
             </div>
             
@@ -715,9 +1035,11 @@
     </section>
 
   </main><!-- End #main -->
-
+  
+  <script src="{% static 'assets/js/dashprojectfilter.js' %}"></script>
   <script src="{% static 'assets/js/dashtaskfilter.js' %}"></script>
   <script src="{% static 'assets/js/dashfilternewsact.js' %}"></script>
+  <script src="{% static 'assets/js/dashissuefilter.js' %}"></script>
 
   {% endblock content %}
 

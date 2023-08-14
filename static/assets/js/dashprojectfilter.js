@@ -1,77 +1,75 @@
-
-
-// fetch task
+// fetch project
 $(document).ready(function() {
   
-function fetchTask(sortBy) {
+function fetchdashproject(sortBy) {
     $.ajax({
-        url: '/sort_task_table/',
+        url: '/sort_project_table/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#dash-table');
+            var cardsContainer = $('#dash-project');
             cardsContainer.empty();
-            let num=1;
+
             $.each(data, function(index, item) {
                 var cardHtml = `
                     <tr>
-                        <th scope="row"><a href="#">${num}</a></th>
-                        <td>${item.task_title}</td>
-                        <td><a href="#" class="text-primary">${item.task_desc}</a></td>
-                        <td><a href="#" class="text-primary">${item.assignee}</a></td>
-                        <td>${item.task_due}</td>
-                        <td><span class="badg">${item.task_priority}</span></td>
-                        <td><span class="badg">${item.task_status}</span></td>
+                    <td>${item.pro_title}</td>
+                    <td>${item.pro_type}</td>
+                    <td>${item.pro_status}</td>
+                    <td>${item.pro_desc}</td>
+                    <td>${item.pro_start}</td>
+                    <td>${item.pro_end}</td>
+                    <td>${item.duration} days</td>
+                    <td>${item.pro_hours}</td>
                     </tr>
                 `;
                 cardsContainer.append(cardHtml);
-                num++;
                 $('td:contains("Pending")').css('color', 'red');
-                $('td:contains("Finished")').css('color', 'green'); 
+                $('td:contains("Complete")').css('color', 'green'); 
             });
         }
     });
 }
 
-fetchTask('Today');
+fetchdashproject('Today');
 
-var newsfilter=$('#taskspan');
+var newsfilter=$('#projectspan');
 newsfilter.empty();
 newshtml=`| Today`;
 newsfilter.append(newshtml);
 
 
 
-$(".taskbtn1").click(function(){
+$(".projectbtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
     newsfilter.empty();
     newshtml=`| Today`;
     newsfilter.append(newshtml);
 
 });
 
-$(".taskbtn2").click(function(){
+$(".projectbtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
     newsfilter.empty();
     newshtml=`| This Month`;
     newsfilter.append(newshtml);
 
 });
 
-$(".taskbtn3").click(function(){
+$(".projectbtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
     newsfilter.empty();
     newshtml=`| This year`;
     newsfilter.append(newshtml);
@@ -79,11 +77,11 @@ $(".taskbtn3").click(function(){
         
 });
 
-$(".taskbtn4").click(function(){
+$(".projectbtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchTask(sortBy);
-    var newsfilter=$('#taskspan');
+    fetchdashproject(sortBy);
+    var newsfilter=$('#projectspan');
     newsfilter.empty();
     newshtml=`| All`;
     newsfilter.append(newshtml);
@@ -96,20 +94,21 @@ $(".taskbtn4").click(function(){
 });
 
 
-// // fetch finished task
+
+
+// fetch no:of projects
 $(document).ready(function() {
-  
-function fetchFin(sortBy) {
+
+function projectnum(sortBy) {
     $.ajax({
-        url: '/sort_task_fin/',
+        url: '/sort_project_num/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
-
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskfin');
+            var cardsContainer = $('#projectnum');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -122,128 +121,42 @@ function fetchFin(sortBy) {
     });
 }
 
-fetchFin('All');
+projectnum('All');
 
-var newsfilter=$('#finspan');
-newsfilter.empty();
-newshtml=`| All`;
-newsfilter.append(newshtml);
-
-
-
-$(".finbtn1").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
-    taskfilter.empty();
-    newshtml=`| Today`;
-    taskfilter.append(newshtml);
-
-});
-
-$(".finbtn2").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
-    taskfilter.empty();
-    newshtml=`| This Month`;
-    taskfilter.append(newshtml);
-
-});
-
-$(".finbtn3").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
-    taskfilter.empty();
-    newshtml=`| This year`;
-    taskfilter.append(newshtml);
-
-        
-});
-
-$(".finbtn4").click(function(){
-    var sortBy=$(this).attr("value");
-    // alert(sortBy)
-    fetchFin(sortBy);
-    var taskfilter=$('#finspan');
-    taskfilter.empty();
-    newshtml=`| All`;
-    taskfilter.append(newshtml);
-
-        
-});
-
-
-
-});
-
-
-
-// fetch no:of task
-$(document).ready(function() {
-
-function fetchNum(sortBy) {
-    $.ajax({
-        url: '/sort_task_num/',
-        type: 'POST',
-        headers: {'X-CSRFToken': csrftoken},
-        data: {
-            'sort_by': sortBy
-        },
-        success: function(data) {
-            var cardsContainer = $('#taskNum');
-            cardsContainer.empty();
-            
-            $.each(data, function(index, item) {
-                var cardHtml = `
-                        <h6>${item.count}</h6>
-                `;
-                cardsContainer.append(cardHtml);
-            });
-        }
-    });
-}
-
-fetchNum('All');
-
-var taskfilter=$('#numspan');
+var taskfilter=$('#prospan');
 taskfilter.empty();
 newshtml=`| All`;
 taskfilter.append(newshtml);
 
 
 
-$(".numbtn1").click(function(){
+$(".probtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
+    projectnum(sortBy);
+    var taskfilter=$('#prospan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".numbtn2").click(function(){
+$(".probtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
+    projectnum(sortBy);
+    var taskfilter=$('#prospan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".numbtn3").click(function(){
+$(".probtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
+    projectnum(sortBy);
+    var taskfilter=$('#prospan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -251,11 +164,11 @@ $(".numbtn3").click(function(){
         
 });
 
-$(".numbtn4").click(function(){
+$(".probtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchNum(sortBy);
-    var taskfilter=$('#numspan');
+    projectnum(sortBy);
+    var taskfilter=$('#prospan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -264,26 +177,23 @@ $(".numbtn4").click(function(){
 });
 
 
-
 });
 
 
 
-
-// // fetch pending task
+// fetch project completed
 $(document).ready(function() {
 
-function fetchPen(sortBy) {
+function projectcompleted(sortBy) {
     $.ajax({
-        url: '/sort_task_pen/',
+        url: '/sort_project_com/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
-
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskpen');
+            var cardsContainer = $('#procom');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -296,42 +206,42 @@ function fetchPen(sortBy) {
     });
 }
 
-fetchPen('All');
+projectcompleted('All');
 
-var newsfilter=$('#penspan');
-newsfilter.empty();
+var taskfilter=$('#procomspan');
+taskfilter.empty();
 newshtml=`| All`;
-newsfilter.append(newshtml);
+taskfilter.append(newshtml);
 
 
 
-$(".penbtn1").click(function(){
+$(".procombtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    projectcompleted(sortBy);
+    var taskfilter=$('#procomspan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".penbtn2").click(function(){
+$(".procombtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    projectcompleted(sortBy);
+    var taskfilter=$('#procomspan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".penbtn3").click(function(){
+$(".procombtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    projectcompleted(sortBy);
+    var taskfilter=$('#procomspan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -339,11 +249,11 @@ $(".penbtn3").click(function(){
         
 });
 
-$(".penbtn4").click(function(){
+$(".procombtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchPen(sortBy);
-    var taskfilter=$('#penspan');
+    projectcompleted(sortBy);
+    var taskfilter=$('#procomspan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -352,25 +262,23 @@ $(".penbtn4").click(function(){
 });
 
 
-
 });
 
 
-  
-// // fetch inprogress task
+
+// fetch project on hold count
 $(document).ready(function() {
-  
-function fetchProg(sortBy) {
+
+function projectonhold(sortBy) {
     $.ajax({
-        url: '/sort_task_prog/',
+        url: '/sort_project_hold/',
         type: 'POST',
         headers: {'X-CSRFToken': csrftoken},
         data: {
-
             'sort_by': sortBy
         },
         success: function(data) {
-            var cardsContainer = $('#taskprog');
+            var cardsContainer = $('#prohold');
             cardsContainer.empty();
             
             $.each(data, function(index, item) {
@@ -383,42 +291,42 @@ function fetchProg(sortBy) {
     });
 }
 
-fetchProg('All');
+projectonhold('All');
 
-var newsfilter=$('#progressspan');
-newsfilter.empty();
+var taskfilter=$('#proholdspan');
+taskfilter.empty();
 newshtml=`| All`;
-newsfilter.append(newshtml);
+taskfilter.append(newshtml);
 
 
 
-$(".progressbtn1").click(function(){
+$(".proholdbtn1").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    projectonhold(sortBy);
+    var taskfilter=$('#proholdspan');
     taskfilter.empty();
     newshtml=`| Today`;
     taskfilter.append(newshtml);
 
 });
 
-$(".progressbtn2").click(function(){
+$(".proholdbtn2").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    projectonhold(sortBy);
+    var taskfilter=$('#proholdspan');
     taskfilter.empty();
     newshtml=`| This Month`;
     taskfilter.append(newshtml);
 
 });
 
-$(".progressbtn3").click(function(){
+$(".proholdbtn3").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    projectonhold(sortBy);
+    var taskfilter=$('#proholdspan');
     taskfilter.empty();
     newshtml=`| This year`;
     taskfilter.append(newshtml);
@@ -426,11 +334,11 @@ $(".progressbtn3").click(function(){
         
 });
 
-$(".progressbtn4").click(function(){
+$(".proholdbtn4").click(function(){
     var sortBy=$(this).attr("value");
     // alert(sortBy)
-    fetchProg(sortBy);
-    var taskfilter=$('#progressspan');
+    projectonhold(sortBy);
+    var taskfilter=$('#proholdspan');
     taskfilter.empty();
     newshtml=`| All`;
     taskfilter.append(newshtml);
@@ -439,84 +347,175 @@ $(".progressbtn4").click(function(){
 });
 
 
-
 });
 
 
 
 
+// fetch project pending count
+$(document).ready(function() {
 
-function getCookie(name) {
-let cookieValue = null;
-if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
+function projectpending(sortBy) {
+    $.ajax({
+        url: '/sort_project_pending/',
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
+            'sort_by': sortBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#propending');
+            cardsContainer.empty();
+            
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                        <h6>${item.count}</h6>
+                `;
+                cardsContainer.append(cardHtml);
+            });
         }
-    }
-}
-return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-  
-  
-
-
-// //dashboard date and time
-const displayTime = document.querySelector(".display-time");
-// Time
-function showTime() {
-  let time = new Date();
-  displayTime.innerText = time.toLocaleTimeString("en-US", { hour12: false });
-  setTimeout(showTime, 1000);
+    });
 }
 
-showTime();
+projectpending('All');
 
-// Date
-function updateDate() {
-  let today = new Date();
+var taskfilter=$('#propendingspan');
+taskfilter.empty();
+newshtml=`| All`;
+taskfilter.append(newshtml);
 
-  // return number
-  let dayName = today.getDay(),
-    dayNum = today.getDate(),
-    month = today.getMonth(),
-    year = today.getFullYear();
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const dayWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  // value -> ID of the html element
-  const IDCollection = ["day", "daynum", "month", "year"];
-  // return value array with number as a index
-  const val = [dayWeek[dayName], dayNum, months[month], year];
-  for (let i = 0; i < IDCollection.length; i++) {
-    document.getElementById(IDCollection[i]).firstChild.nodeValue = val[i];
-  }
+
+$(".propendingbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectpending(sortBy);
+    var taskfilter=$('#propendingspan');
+    taskfilter.empty();
+    newshtml=`| Today`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".propendingbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectpending(sortBy);
+    var taskfilter=$('#propendingspan');
+    taskfilter.empty();
+    newshtml=`| This Month`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".propendingbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectpending(sortBy);
+    var taskfilter=$('#propendingspan');
+    taskfilter.empty();
+    newshtml=`| This year`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+$(".propendingbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectpending(sortBy);
+    var taskfilter=$('#propendingspan');
+    taskfilter.empty();
+    newshtml=`| All`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+
+});
+
+
+
+// fetch project cancelled count
+$(document).ready(function() {
+
+function projectcancelled(sortBy) {
+    $.ajax({
+        url: '/sort_project_cancelled/',
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
+            'sort_by': sortBy
+        },
+        success: function(data) {
+            var cardsContainer = $('#procancell');
+            cardsContainer.empty();
+            
+            $.each(data, function(index, item) {
+                var cardHtml = `
+                        <h6>${item.count}</h6>
+                `;
+                cardsContainer.append(cardHtml);
+            });
+        }
+    });
 }
 
-updateDate();
+projectcancelled('All');
+
+var taskfilter=$('#procancellspan');
+taskfilter.empty();
+newshtml=`| All`;
+taskfilter.append(newshtml);
+
+
+
+$(".procancellbtn1").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectcancelled(sortBy);
+    var taskfilter=$('#procancellspan');
+    taskfilter.empty();
+    newshtml=`| Today`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".procancellbtn2").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectcancelled(sortBy);
+    var taskfilter=$('#procancellspan');
+    taskfilter.empty();
+    newshtml=`| This Month`;
+    taskfilter.append(newshtml);
+
+});
+
+$(".procancellbtn3").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectcancelled(sortBy);
+    var taskfilter=$('#procancellspan');
+    taskfilter.empty();
+    newshtml=`| This year`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+$(".procancellbtn4").click(function(){
+    var sortBy=$(this).attr("value");
+    // alert(sortBy)
+    projectcancelled(sortBy);
+    var taskfilter=$('#procancellspan');
+    taskfilter.empty();
+    newshtml=`| All`;
+    taskfilter.append(newshtml);
+
+        
+});
+
+
+});

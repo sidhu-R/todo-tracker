@@ -321,6 +321,385 @@ class Dashprojecttableview(View):
 
 
 
+# function to view and filter count of projects in dahsboard  
+class Dashprojectnumview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+# function to view and filter count of projects completed in dahsboard  
+class Dashprojectcompletednum(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Completed').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Completed',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Completed',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Completed',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Completed').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Completed',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Completed',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Completed',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
+# function to view and filter count of projects onhold in dahsboard  
+class Dashprojectonholdnum(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='On Hold').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='On Hold',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='On Hold',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='On Hold',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='On Hold').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='On Hold',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='On Hold',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='On Hold',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+# function to view and filter count of projects pending in dahsboard  
+class Dashprojectpendingnum(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Pending').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Pending',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Pending',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Pending',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Pending').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Pending',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Pending',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Pending',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
+# function to view and filter count of projects pending in dahsboard  
+class Dashprojectcancellnum(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Cancelled').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Project.objects.filter(project_status='Cancelled').exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_status='Cancelled',project_created__year=year).exclude(project_activation='deactive').count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
+
 # function to view and filter Task list in dahsboard  
 class Dashtasktableview(View):
     def post(self,request):
@@ -451,81 +830,6 @@ class Dashtasktableview(View):
             # print(response_data)
             return JsonResponse(response_data, safe=False)
         
-
-
-# function to view and filter count of issues dahsboard  
-class Dashissuescountview(View):
-    def post(self,request):
-        user=request.user
-        if request.method == 'POST':
-            sort_by = request.POST.get('sort_by')
-            today = datetime.today()
-            year = today.year
-            month = today.month
-            day = today.day
-            # print(sort_by)
-            # print(day)
-
-            if user.is_staff:
-                if sort_by=='All':
-                    data = Issue.objects.exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-
-                elif sort_by=='Today':
-                    data = Issue.objects.filter(issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-                    
-                elif sort_by=='This Month':
-                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-                    
-                elif sort_by=='This Year':
-                    data = Issue.objects.filter(issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-            else:
-                if sort_by=='All':
-                    data = Issue.objects.filter(issue_assign=user).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-
-                elif sort_by=='Today':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-                    
-                elif sort_by=='This Month':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-                    
-                elif sort_by=='This Year':
-                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
-                    response_data = []
-                    response_data.append({
-                        'count': data
-                        })
-            # print(response_data )
-            return JsonResponse(response_data , safe=False)
 
 
 
@@ -678,6 +982,7 @@ class Dashtaskpendingview(View):
             # print(response_data )
             return JsonResponse(response_data , safe=False)
 
+
 # function to view and filter count of Finished tasks in dahsboard  
 class Dashtaskfinishedview(View):
     def post(self,request):
@@ -827,8 +1132,124 @@ class Dashtasknumview(View):
             return JsonResponse(response_data , safe=False)
         
 
-# function to view and filter count of projects in dahsboard  
-class Dashprojectnumview(View):
+
+# function to view and filter issue table in dahsboard  
+class Dashissuetableview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = Issue.objects.exclude(issue_activation='deactive').order_by('-issue_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_created__day=day).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_created__year=year).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = Issue.objects.filter(user1=user).exclude(issue_activation='deactive').order_by('-issue_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(user1=user,issue_created__day=day).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(user1=user,issue_created__month=month,issue_created__year=year).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(user1=user,issue_created__year=year).exclude(issue_activation='deactive').order_by('-issue_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                        'issue_title': item.issue_title,
+                        'issue_desc': item.issue_desc,
+                        'issue_assign': item.issue_assign.username,
+                        'issue_status': item.issue_status,
+                        'issue_priority': item.issue_priority,
+                        })
+            # print(response_data)
+            return JsonResponse(response_data, safe=False)
+
+
+# function to view and filter count of issues dahsboard  
+class Dashissuescountview(View):
     def post(self,request):
         user=request.user
         if request.method == 'POST':
@@ -842,21 +1263,21 @@ class Dashprojectnumview(View):
 
             if user.is_staff:
                 if sort_by=='All':
-                    data = Project.objects.exclude(project_activation='deactive').count()
+                    data = Issue.objects.exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
 
                     response_data = []
                     response_data.append({
@@ -864,28 +1285,28 @@ class Dashprojectnumview(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
 
                     response_data = []
                     response_data.append({
@@ -893,7 +1314,234 @@ class Dashprojectnumview(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Issue.objects.filter(issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+# function to view and filter count of issues open dahsboard  
+class Dashissueopenview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='Open').exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='Open',issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='Open',issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='Open',issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='Open',issue_assign=user).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='Open',issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='Open',issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='Open',issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive') | Q(issue_status='Resolved')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
+# function to view and filter count of issues inprogress dahsboard  
+class Dashissueinprogressview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='In Progress').exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_assign=user).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='In Progress',issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            # print(response_data )
+            return JsonResponse(response_data , safe=False)
+
+
+
+# function to view and filter count of issues resolved dahsboard  
+class Dashissueresolvedview(View):
+    def post(self,request):
+        user=request.user
+        if request.method == 'POST':
+            sort_by = request.POST.get('sort_by')
+            today = datetime.today()
+            year = today.year
+            month = today.month
+            day = today.day
+            # print(sort_by)
+            # print(day)
+
+            if user.is_staff:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='Resolved').exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+            else:
+                if sort_by=='All':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_assign=user).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+
+                elif sort_by=='Today':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_assign=user,issue_created__day=day,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Month':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_assign=user,issue_created__month=month,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
+
+                    response_data = []
+                    response_data.append({
+                        'count': data
+                        })
+                    
+                elif sort_by=='This Year':
+                    data = Issue.objects.filter(issue_status='Resolved',issue_assign=user,issue_created__year=year).exclude(Q(issue_activation='deactive')).count()
                     response_data = []
                     response_data.append({
                         'count': data

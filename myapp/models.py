@@ -89,7 +89,7 @@ class Project(models.Model):
     PROJECT_STATUS=[
         ('Pending',"Pending"),
         ('On Hold',"On Hold"),
-        ('Complete,',"Complete,"),
+        ('Completed',"Completed"),
         ('Cancelled',"Cancelled")
     ]
     user=models.ForeignKey(User,on_delete=models.CASCADE)

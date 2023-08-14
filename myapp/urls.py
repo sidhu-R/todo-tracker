@@ -89,9 +89,24 @@ urlpatterns = [
     path('sort_task_prog/',views.Dashtaskprogressview.as_view(),name="dashprog"),
     path('sort_task_table/',views.Dashtasktableview.as_view(),name="dashtaskview"),
     path('sort_activity/',views.Dashactvitylogview.as_view(),name="recentactivity"),
-    path('sort_project_num/',views.Dashprojectnumview.as_view(),name="projectnum"),
     path('sort_issue_num/',views.Dashissuescountview.as_view(),name="issuenum"),
+
+
+    # Dashboard project---------------
     path('sort_project_table/',views.Dashprojecttableview.as_view(),name="dashprojectview"),
+    path('sort_project_num/',views.Dashprojectnumview.as_view(),name="projectnum"),
+    path('sort_project_com/',views.Dashprojectcompletednum.as_view(),name="projectcompleted"),
+    path('sort_project_hold/',views.Dashprojectonholdnum.as_view(),name="projectonhold"),
+    path('sort_project_pending/',views.Dashprojectpendingnum.as_view(),name="projectpending"),
+    path('sort_project_cancelled/',views.Dashprojectcancellnum.as_view(),name="projectcancelled"),
+
+    # Dashboard issues---------------
+    path('sort_issue_table/',views.Dashissuetableview.as_view(),name="dashissueview"),
+    path('sort_issue_num/',views.Dashissuescountview.as_view(),name="issuenum"),
+    path('sort_issue_open/',views.Dashissueopenview.as_view(),name="issueopennum"),
+    path('sort_issue_inprogess/',views.Dashissueinprogressview.as_view(),name="issueinprogressnum"),
+    path('sort_issue_resolved/',views.Dashissueresolvedview.as_view(),name="issueresolvednum"),
+
     # announcement---------------------
     path('add_announce/',views.Announcementcreateview.as_view(),name="announce"),
     path('view_announce/',views.AnnounceNotifbarview.as_view(),name="announceview"),
