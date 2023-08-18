@@ -58,6 +58,14 @@ urlpatterns = [
     path('list_update/<int:pk>/',views.UpdateListView.as_view(), name='List_update'),
     path('list_deactivate/<int:pk>/', views.DeactivateListview.as_view(), name='list_delete'),
 
+    # list page project details-------
+    path('assignee_add',views.assigneeaddview.as_view(),name="addassignee"),
+    path('project_detail/<int:pk>/',views.ProjectDetailview.as_view(),name="projectdetails"),
+    path('assigneetask/<int:pk>/',views.assigneetaskview.as_view(),name='getassigneetask'),
+    path('assignee_dlt',views.assigneedltview.as_view(),name='assigneedlt'),
+
+
+
     # Issue page----------------------
     path('issuepage/<int:pk>/',views.Issuepageview.as_view(),name='issuepage'),
     path('create_issue/',views.CreateIssue.as_view(),name='createissue'),
@@ -99,6 +107,7 @@ urlpatterns = [
     path('sort_project_hold/',views.Dashprojectonholdnum.as_view(),name="projectonhold"),
     path('sort_project_pending/',views.Dashprojectpendingnum.as_view(),name="projectpending"),
     path('sort_project_cancelled/',views.Dashprojectcancellnum.as_view(),name="projectcancelled"),
+    path('project_popup/',views.Dashprojectpopupsview.as_view(),name='projectpopup'),
 
     # Dashboard issues---------------
     path('sort_issue_table/',views.Dashissuetableview.as_view(),name="dashissueview"),
@@ -112,7 +121,6 @@ urlpatterns = [
     path('view_announce/',views.AnnounceNotifbarview.as_view(),name="announceview"),
     path('send_view_announce/',views.AnnouceSendview.as_view(),name="announcesendview"),
     path('recieve_view_announce/',views.AnnounceRecieveview.as_view(),name="announcerecieveview"),
-
 
 
 

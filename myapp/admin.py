@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue,Attachements,Taskattach,Subtask
+from .models import user_profile3,task1,faq,feedback,news_updates,Announce,Activity,Project,Projectlist,Issue,Attachements,Taskattach,Subtask,ProjectAssignee
 # Register your models here.
 
 admin.site.register(user_profile3),
@@ -15,3 +15,4 @@ admin.site.register(Issue),
 admin.site.register(Attachements),
 admin.site.register(Taskattach),
 admin.site.register(Subtask),
+admin.site.register(ProjectAssignee),

@@ -80,7 +80,112 @@ $(document).ready(function() {
 
 
 // load project
-function loadProject(sortBy,sortBy2) {
+// function loadProject(sortBy,sortBy2) {
+//   $('#projecttable').DataTable().clear().destroy();
+
+//   $.ajax({
+//     url: '/data_project_view/',
+//     type: 'GET',
+//     headers: {
+//       "X-CSRFToken": getCookie("csrftoken")
+//     },
+//     data: {
+//       'sort_by': sortBy,
+//       'sort_by2':sortBy2,
+//   },
+//     success: function(data) {
+     
+//       var tbody = $('#projecttable tbody');
+//       tbody.empty();
+  
+//       $.each(data, function(index, item) {  
+//         var row = `<tr data-id="${item.id}" onclick="showHideRow('hidden_row1${item.id}');">
+//                         <td>${item.pro_title}</td>
+//                         <td>${item.pro_type}</td>
+//                         <td>${item.pro_status}</td>
+//                         <td>${item.pro_desc}</td>
+//                         <td>${item.pro_start}</td>
+//                         <td>${item.pro_end}</td>
+//                         <td>${item.duration} days</td>
+//                         <td>${item.pro_hours}</td>
+//                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
+//                         <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></button>
+//                         <button class="btn btn-primary">T</button>
+//                         <button class="btn btn-primary">I</button>
+//                         </td>
+//                       </tr>
+//                       <tr id="hidden_row1${item.id}" class="hidden_row">
+//                       <td colspan=9>
+//                       ${item.pro_desc}
+//                       </td>
+                      
+//                       </tr>
+//                         `;
+//         tbody.append(row);
+  
+  
+//       });
+  
+//       var dataTable = $('.datatable1').DataTable({
+//         "destroy": true,
+//         "retrieve": true,
+//         "info": false,
+//         "aaSorting": [],
+//         "language": {
+//           "emptyTable": "No Projects started yet"
+//         },
+
+//         drawCallback: function(settings) {
+//         var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+//         pagination.toggle(this.api().page.info().pages > 1);
+//         },
+        
+
+  
+//       });
+      
+  
+//       dataTable.columns().every(function() {
+//       var column = this;
+  
+//       $('.filter-column', this.footer()).on('keyup change', function() {
+//         if (column.search() !== this.value) {
+//           column
+//             .search(this.value)
+//             .draw();
+//           this.focus();
+//         }
+//       });
+
+
+//       });
+      
+  
+  
+//     }
+  
+    
+//   });
+
+//   }
+  
+//   loadProject('','');
+//   $('#task_date_submit').click(function() {
+//     var sortBy = $('#min').val();
+//     var sortBy2 = $('#max').val();
+//     loadProject(sortBy,sortBy2);
+// });
+
+// $('#clearfilter').click(function() {
+//   $('#min').val('');
+//   $('#max').val('');
+//   loadProject('','');
+// });
+
+
+
+// load project
+function loadProject(sortBy, sortBy2) {
   $('#projecttable').DataTable().clear().destroy();
 
   $.ajax({
@@ -91,15 +196,15 @@ function loadProject(sortBy,sortBy2) {
     },
     data: {
       'sort_by': sortBy,
-      'sort_by2':sortBy2,
-  },
+      'sort_by2': sortBy2,
+    },
     success: function(data) {
-     
+
       var tbody = $('#projecttable tbody');
       tbody.empty();
-  
-      $.each(data, function(index, item) {  
-        var row = `<tr data-id="${item.id}">
+
+      $.each(data, function(index, item) {
+        var row = `<tr data-id="${item.id}" onclick="showHideRow('hidden_row1${item.id}');">
                         <td>${item.pro_title}</td>
                         <td>${item.pro_type}</td>
                         <td>${item.pro_status}</td>
@@ -109,15 +214,24 @@ function loadProject(sortBy,sortBy2) {
                         <td>${item.duration} days</td>
                         <td>${item.pro_hours}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></button>
+                        <button class="btn btn-primary" id="pageopenbtn"><a href="/managelist/${item.id}/"><i class="fa-regular fa-folder-open"></i></a></button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
                         </td>
                       </tr>
-                        `;
+                      <tr id="hidden_row1${item.id}" class="hidden_row">
+                        <td colspan="3">${item.pro_desc}</td>
+                        <td style="display:none;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                        <td style="visibility:collapse;"></td>
+                      </tr>`;
         tbody.append(row);
-  
-  
       });
-  
+
       var dataTable = $('.datatable1').DataTable({
         "destroy": true,
         "retrieve": true,
@@ -128,51 +242,57 @@ function loadProject(sortBy,sortBy2) {
         },
 
         drawCallback: function(settings) {
-        var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
-        pagination.toggle(this.api().page.info().pages > 1);
+          var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+          pagination.toggle(this.api().page.info().pages > 1);
         },
-        
 
-  
       });
-      
-  
+
       dataTable.columns().every(function() {
-      var column = this;
-  
-      $('.filter-column', this.footer()).on('keyup change', function() {
-        if (column.search() !== this.value) {
-          column
-            .search(this.value)
-            .draw();
-          this.focus();
-        }
-      });
+        var column = this;
 
-
+        $('.filter-column', this.footer()).on('keyup change', function() {
+          if (column.search() !== this.value) {
+            column
+              .search(this.value)
+              .draw();
+            this.focus();
+          }
+        });
       });
-      
-  
-  
     }
-  
-    
   });
+}
 
-  }
-  
-  loadProject('','');
-  $('#task_date_submit').click(function() {
-    var sortBy = $('#min').val();
-    var sortBy2 = $('#max').val();
-    loadProject(sortBy,sortBy2);
+loadProject('', '');
+$('#task_date_submit').click(function() {
+  var sortBy = $('#min').val();
+  var sortBy2 = $('#max').val();
+  loadProject(sortBy, sortBy2);
 });
 
 $('#clearfilter').click(function() {
   $('#min').val('');
   $('#max').val('');
-  loadProject('','');
+  loadProject('', '');
 });
+
+
+function showHideRow(row) {
+  $("#" + row).toggle();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

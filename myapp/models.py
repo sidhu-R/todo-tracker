@@ -92,7 +92,7 @@ class Project(models.Model):
         ('Completed',"Completed"),
         ('Cancelled',"Cancelled")
     ]
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    assignee=models.ManyToManyField(User,through='ProjectAssignee')
     project_title=models.CharField(max_length=150)
     project_type=models.CharField(max_length=100,choices=TYPE_CHOICES)
     project_desc=models.CharField(max_length=300)
@@ -105,6 +105,13 @@ class Project(models.Model):
     project_activation=models.CharField(max_length=30,blank=True,null=True)
     def __str__(self):
         return str(self.project_title)
+
+
+class ProjectAssignee(models.Model):
+    assignee=models.ForeignKey(User,on_delete=models.CASCADE)
+    project=models.ForeignKey(Project,on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.project.project_title)
 
 
 class Projectlist(models.Model):

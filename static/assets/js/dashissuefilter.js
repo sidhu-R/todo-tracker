@@ -24,8 +24,7 @@ function fetchdashissues(sortBy) {
                     </tr>
                 `;
                 cardsContainer.append(cardHtml);
-                $('td:contains("Pending")').css('color', 'red');
-                $('td:contains("Complete")').css('color', 'green'); 
+                $('td:contains("Resolved")').css('color', 'green'); 
             });
         }
     });

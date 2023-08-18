@@ -258,6 +258,60 @@ function deactivatelist() {
 
 
 
+// load project
+function loadProjectDetail() {
+  let dataId = $(".breadcrumb .active").data('id');
+  $.ajax({
+    url: '/project_detail/' + dataId + '/',
+    type: 'GET',
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    data: {
+      // 'project': dataId,
+  },
+    success: function(data) {
+      $.each(data, function(index, item) { 
+        // alert('ssss')
+
+        $('#protitle').html(item.pro_title);
+        $('#prodesc').html(item.pro_desc);
+        $('#protype').html(item.pro_type);
+        $('#prostart').html(item.pro_start);
+        $('#proend').html(item.pro_end);
+        $('#prohour').html(item.pro_hours);
+        $('#prosatus').html(item.pro_status);
+        $('#produr').html(item.duration+' days');
+        var array = [item.assignee];
+        $('#proassign').html(array);
+        $('#protaskcount').html(item.taskcount);
+        $('#proissuecount').html(item.issuecount);
+        
+
+
+  
+      });
+      
+  
+  
+    }
+  
+    
+  });
+
+}
+loadProjectDetail();
+
+
+
+
+
+
+
+
+  
+
+
 function getCookie(name) {
 let cookieValue = null;
 if (document.cookie && document.cookie !== '') {

@@ -29,7 +29,7 @@ function deleteData() {
   
       // alert('Task Deactivated');
       // location.reload();
-      loadData('','');
+      loadData('','','');
       fecthDeactive('All')
       $('#Closebtn2').click()
       alertify.set('notifier','position', 'top-right');
@@ -46,7 +46,7 @@ function deleteData() {
 
 // load task
 // $(document).ready(function() {
-  function loadData(sortBy,sortBy2) {
+  function loadData(sortBy,sortBy2,proid) {
   let dataId = $(".breadcrumb .active").data('id');
   $('#tasktable').DataTable().clear().destroy();
 
@@ -60,6 +60,7 @@ function deleteData() {
       'sort_by': sortBy,
       'sort_by2':sortBy2,
       'projectlist': dataId,
+      'project':proid,
   },
     success: function(data) {
      
@@ -74,7 +75,9 @@ function deleteData() {
                         <td>${item.task_desc}</td>
                         <td>${item.assignee}</td>
                         <td>${item.task_due}</td>
+
                         <td>${item.task_priority}</td>
+
                         <td>${item.task_status}</td>
                         <td> <button id='but1' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#basicModal2'><i class="fa-solid fa-pen-to-square"></i></button>
                         <button class="btn btn-primary" id="pageopenbtn"><a href="/taskdetails/${item.id}/"><i class="fa-solid fa-arrow-up-from-bracket"></i></a></button>
@@ -132,13 +135,21 @@ function deleteData() {
 
   }
   
-  loadData('','');
+  loadData('','','');
   $('#task_date_submit').click(function() {
     var sortBy = $('#min').val();
     var sortBy2 = $('#max').val();
-    loadData(sortBy,sortBy2);
+    var proid = $('#taskprojectselect').val();
+    loadData(sortBy,sortBy2,proid);
   });
   
+  $('#taskprojectselect').change(function() {
+    var sortBy = $('#min').val();
+    var sortBy2 = $('#max').val()
+    var proid = $(this).val();
+    loadData(sortBy,sortBy2,proid);
+});
+
 
   
   
@@ -226,7 +237,7 @@ $.ajax({
     // location.reload()
     alertify.set('notifier','position', 'top-right');
     alertify.notify('Task Created', 'custom', 2, function(){console.log('dismissed');});
-    loadData('','');
+    loadData('','','');
   }
 });
 }
@@ -314,7 +325,7 @@ $.ajax({
     // alert('Task updated');
     $('#Closebtn2').click();
     // location.reload()
-    loadData('','');
+    loadData('','','');
     
     alertify.set('notifier','position', 'top-right');
     alertify.notify('Task Updated', 'custom', 2, function(){console.log('dismissed');});

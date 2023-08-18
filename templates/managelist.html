@@ -8,6 +8,13 @@
 
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
 
+
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="{% static 'assets/multjs/jquery.multiselect.css' %}" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'assets/multjs/jquery.multiselect.js' %}"></script>
+
 <style>
   .datatable2 tfoot {
   display: table-header-group;
@@ -16,6 +23,11 @@
 .datatable2 tfoot .filter-column {
   width: 100% !important;
 
+}
+
+.assignee-container {
+  display: flex;
+  align-items: center;
 }
 
 
@@ -29,12 +41,164 @@
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
           {% for i in proname %}          
           <li class="breadcrumb-item "><a href="/todoproject">{{i.project_title}}</a></li>
-          <li class="breadcrumb-item active" data-id="{{i.id}}">Manage List</li>
+          <li class="breadcrumb-item active" data-id="{{i.id}}">Project detail & List</li>
           {% endfor %}
         </ol>
       </nav>
 
     </div><!-- End Page Title -->
+
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> Project Details</h5>
+  
+              <div class="card-body">
+
+                <h6 class="card-title" id="protitle"> Project Details</h6>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Description</div>
+                  <div class="col-lg-9 col-md-8" ><p id="prodesc"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Type</div>
+                  <div class="col-lg-9 col-md-8"><p id="protype"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Start date</div>
+                  <div class="col-lg-9 col-md-8" ><p id="prostart"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">End date</div>
+                  <div class="col-lg-9 col-md-8" ><p id="proend"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Duration</div>
+                  <div class="col-lg-9 col-md-8"><p id="produr"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Hours</div>
+                  <div class="col-lg-9 col-md-8"><p id="prohour"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Status</div>
+                  <div class="col-lg-9 col-md-8"><p id="prosatus"></p></div>
+                </div><br>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Assignees</div>
+                  <div class="col-lg-9 col-md-8"><p id="proassign"></p></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">No:of Tasks</div>
+                  <div class="col-lg-9 col-md-8"><p id="protaskcount"></p></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">No:of Issues</div>
+                  <div class="col-lg-9 col-md-8"><p id="proissuecount"></p></div>
+                </div><br>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    {% if user.is_staff %}
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Assignees</h5>
+              <p></p>
+
+              <div class="card-body">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assigneeModal">
+                  Add 
+                </button>
+                <div class="modal fade" id="assigneeModal" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Add assignee</h5>
+                        <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                       <div class="card-body">
+                <h5 class="card-title">Add assignee</h5>
+  
+                <!-- Vertical Form -->
+                <form class="row g-3" id="assigneeform">                
+                  <div class="col-12">
+                    <select name="basic[]" multiple="multiple" class="3col active" id="selectassignee" name="selectassignee">
+                      {% for i in uname %}
+                      <option value="{{i.id}}">{{i.username}}</option>
+                      {% endfor %}
+                  </select>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="">Close</button>
+                        <button type="button" id="assignbtn" class="btn btn-primary">Create</button>
+                  </div>
+                </form><!-- Vertical Form -->
+  
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+  
+              </div>
+              <hr>
+              
+              <!-- assignee data -->
+
+              <div class="card" >
+                <div class="card-body">
+                  <!-- <h5 class="card-title">Card title</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a> -->
+
+                  <div id="task-list"></div>
+
+                  
+                </div>
+
+              </div>
+
+
+
+              
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </section>
+    {% endif %}
+
+
+
 
     <section class="section">
       <div class="row">
@@ -160,9 +324,26 @@
       </div>
     </section>
 
+
+
   </main><!-- End #main -->
+
+<script>
+    $(function () {
+        $('select[multiple].active.3col').multiselect({
+            columns: 3,
+            placeholder: 'Add Assignee',
+            search: true,
+            searchOptions: {
+                'default': 'Add Assignee'
+            },
+            selectAll: true
+        });
+      });
+</script>
 
 <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="{% static 'assets/js/managelist.js' %}"></script>
-  
+<script src="{% static 'assets/js/assigneeactions.js' %}"></script>
+
   {% endblock content %}

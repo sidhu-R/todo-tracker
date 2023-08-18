@@ -60,13 +60,46 @@
       <div class="row">
 
 
+
+
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="card-body">
+                <h5 class="card-title modal-title">Projects<span id=""></span></h5>
+
+                <table class="table table-borderless dattable" id="">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th>Description</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Duration</th>
+                      <th>Hours</th> 
+                    </tr>
+                  </thead>
+                  <tbody id="project-modal-table">
+
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
         <!-- Left side columns -->
         <div class="col-lg-8">
           <div class="row">
 
 
             <div class="pagetitle">
-              <h4><u>Project</u></h4>
+              <h4 style="color: #012970;"><b>Project Overview</b></h4>
             </div><!-- End Page Title -->
 
             <div class="col-xxl-4 col-xl-12">
@@ -92,7 +125,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-diagram-project"></i>
+                      <i class="fa-solid fa-diagram-project" id="Project" onclick="projectpopup(this.id)"></i>
                     </div>
                     <div class="ps-3" id="projectnum">
 
@@ -130,7 +163,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-hand-thumbs-up"></i>
+                    <i class="bi bi-hand-thumbs-up" id="Completed" onclick="projectpopup(this.id)"></i>
                   </div>
                   <div class="ps-3" id="procom">
                     
@@ -169,7 +202,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="fa-regular fa-hand"></i>
+                    <i class="fa-regular fa-hand" id="On Hold" onclick="projectpopup(this.id)"></i>
                   </div>
                   <div class="ps-3" id="prohold">
                     
@@ -207,7 +240,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-arrow-clockwise"></i>
+                    <i class="bi bi-arrow-clockwise" id="Pending" onclick="projectpopup(this.id)"></i>
                   </div>
                   <div class="ps-3" id="propending">
                     
@@ -245,7 +278,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-xmark" id="Cancelled" onclick="projectpopup(this.id)"></i>
                   </div>
                   <div class="ps-3" id="procancell">
                     
@@ -311,7 +344,7 @@
 
 
             <div class="pagetitle">
-              <h4><u>Task</u></h4>
+              <h4 style="color: #012970;"><b>Task Overview</b></h4>
             </div><!-- End Page Title -->
 
 
@@ -338,7 +371,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-list-check"></i>
+                      <i class="fa-solid fa-list-check" id="Tasks" onclick="taskpopup(this.id)"></i>
                     </div>
                     <div class="ps-3" id="taskNum">
                       
@@ -374,7 +407,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-hand-thumbs-up"></i>
+                      <i class="bi bi-hand-thumbs-up" id="Finished" onclick="taskpopup(this.id)"></i>
                     </div>
                     <div class="ps-3" id="taskfin">
 
@@ -411,7 +444,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-arrow-clockwise"></i>
+                      <i class="bi bi-arrow-clockwise" id="Pending" onclick="taskpopup(this.id)"></i>
                     </div>
                     <div class="ps-3" id="taskpen">
 
@@ -452,7 +485,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-spinner"></i>
+                      <i class="fa-solid fa-spinner" id="In Progress" onclick="taskpopup(this.id)"></i>
                     </div>
                     <div class="ps-3" id="taskprog">
 
@@ -514,7 +547,7 @@
 
 
             <div class="pagetitle">
-              <h4><u>Issue</u></h4>
+              <h4 style="color: #012970;"><b>Issue Overview</b></h4>
             </div><!-- End Page Title -->
 
 
@@ -543,7 +576,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="fa-solid fa-bug"></i>
+                      <i class="fa-solid fa-bug" onclick="modalshow()"></i>
                     </div>
                     <div class="ps-3" id="issuenum">
 
@@ -581,7 +614,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-laptop-code"></i>
+                    <i class="fa-solid fa-laptop-code" onclick="modalshow()"></i>
                   </div>
                   <div class="ps-3" id="issueopen">
                     
@@ -618,7 +651,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-spinner"></i>
+                    <i class="fa-solid fa-spinner" onclick="modalshow()"></i>
                   </div>
                   <div class="ps-3" id="issueprog">
                     
@@ -655,7 +688,7 @@
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="fa-sharp fa-solid fa-bug-slash"></i>
+                    <i class="fa-sharp fa-solid fa-bug-slash" onclick="modalshow()"></i>
                   </div>
                   <div class="ps-3" id="issueresolve">
                     
@@ -678,7 +711,7 @@
                 <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
+                    <li class="dropdown-header text-start" onclick="modalshow()">
                       <h6>Filter</h6>
                     </li>
 
@@ -794,13 +827,14 @@
 
         <!-- Right side columns -->
         <div class="col-lg-4">
-
+          <br>
+          <br>
 
             <!--Time card-->
             <div class="col-xxl-12">
 
             <div class="card info-card customers-card time-card">
-              <!-- <div class="container">
+              <div class="container">
                 <div class="display-date">
                   <span id="day">day</span>,
                   <span id="daynum">00</span>
@@ -808,8 +842,7 @@
                   <span id="year">0000</span>
                 </div>
                 <div class="display-time"></div>
-              </div> -->
-
+              </div>
             </div>
             
           </div><!--extra card-->
@@ -1040,6 +1073,7 @@
   <script src="{% static 'assets/js/dashtaskfilter.js' %}"></script>
   <script src="{% static 'assets/js/dashfilternewsact.js' %}"></script>
   <script src="{% static 'assets/js/dashissuefilter.js' %}"></script>
+  <script src="{% static 'assets/js/dashclickers.js' %}"></script>
 
   {% endblock content %}
 

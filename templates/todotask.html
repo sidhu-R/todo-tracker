@@ -23,7 +23,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>To Do List</h1>
+      <h1>Task List</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>          
@@ -44,14 +44,16 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">To Do</h5>
+              {% if listname %}
               <p>Add your tasks here</p>
-
+              {% endif %}
           
             <div class="card-body">
-            
+              {% if listname %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
                 Add 
               </button>
+              {% endif %}
               <hr>
               <div class="modal fade" id="basicModal" tabindex="-1">
                 <div class="modal-dialog">
@@ -133,6 +135,21 @@
                   <td><input type="date" id="max" name="max"></td>
                   <td><button class="btn btn-outline-primary" type="button" id="task_date_submit">Filter</button></td>
               </tr>
+              <tr>
+                {% if projectname%}
+                <td>Project:</td>
+                {% endif %}
+                <td>
+                  {% if projectname%}
+                  <select id="taskprojectselect">
+                    <option value="">select project</option>
+                    {% for i in projectname%}
+                    <option value="{{i.id}}">{{i.project_title}}</option>
+                    {% endfor %}
+                    </select>
+                  {% endif %}
+                </td>
+            </tr>
           </tbody></table>
               <div class="container-fluid">
                 <table class="datatable table table-hover table-bordered" id="tasktable">
@@ -164,7 +181,7 @@
                           <option value="{{i.username}}">{{i.username}}</option>
                           {% endfor %}
                           </select>
-                          {% endif %}
+                        {% endif %}
                       </th>
                       <th></th>
                       <th>
