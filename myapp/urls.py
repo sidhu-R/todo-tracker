@@ -64,6 +64,7 @@ urlpatterns = [
     path('project_detail/<int:pk>/',views.ProjectDetailview.as_view(),name="projectdetails"),
     path('assigneetask/<int:pk>/',views.assigneetaskview.as_view(),name='getassigneetask'),
     path('assignee_dlt',views.assigneedltview.as_view(),name='assigneedlt'),
+    path('priority_change',views.Selectboxchangepriority.as_view(),name='changepriority'),
 
 
     # Issue page----------------------

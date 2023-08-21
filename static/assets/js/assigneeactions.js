@@ -35,8 +35,9 @@ function assigneeadd() {
   
 
 
-
+// assignee task and details
 $(document).ready(function() {
+  
   let dataId = $(".breadcrumb .active").data('id');
   $.ajax({
     url: '/assigneetask/' + dataId + '/',
@@ -81,15 +82,24 @@ $(document).ready(function() {
 
         tasks.forEach(function(task) {
           var taskRow = `
-            <tr data-id="${task.fields.task_id}">
+            <tr data-id="${task.pk}">
               <td>${task.fields.task_title1}</td>
               <td>${task.fields.task_desc1}</td>
               <td>${task.fields.task_due1}</td>
-              <td>${task.fields.task_priority1}</td>
+              <td>
+              <select class="form-select assignpriority" aria-label="Default select example" id="assignpriority${task.pk}" data-id="${task.pk}" onChange="changes(this.id)">
+                <option value="${task.fields.task_priority1}">${task.fields.task_priority1}</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+              </td>
               <td>${task.fields.task_status1}</td>
             </tr>
           `;
+          
           assigneeTbody.append(taskRow);
+          // $('#assignpriority'+task.fields.task_id).val(task.fields.task_priority1);
         });
 
         assigneeTable.append(assigneeTbody);
@@ -139,4 +149,35 @@ $(document).ready(function() {
     });
 
   }
+
+  
 });
+
+function changes(id) {
+  // console.log('Select option changed');
+  var boxvalue=$('#'+id).val()
+  var taskId=$('#'+id).data('id')
+
+  $.ajax({
+    url: '/priority_change',
+    type: 'POST',
+    dataType: 'json',
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    data: {
+      task_id: taskId,
+      priority:boxvalue,
+    },
+    success: function(response) {
+  
+      
+      alertify.set('notifier','position', 'top-right');
+      alertify.notify('Task priority Updated', 'custom', 2, function(){console.log('dismissed');});
+      
+  
+  
+    }
+  });
+
+}

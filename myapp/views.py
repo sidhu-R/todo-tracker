@@ -2394,7 +2394,17 @@ class assigneeaddview(View):
                 
                 
         return JsonResponse({'status': 'success'})
-    
+
+class Selectboxchangepriority(View):
+    def post(self,request):
+        if request.method == "POST":
+            id=request.POST.get('task_id')
+            priority=request.POST.get('priority')
+            print(id,priority)
+            task1.objects.filter(id=id).update(task_priority1=priority)
+            return JsonResponse({'status': 'success'})
+
+
 # funtcion to fetch assigne and their task in project details for admin
 class assigneetaskview(View):
     def get(self,request,pk):
@@ -2609,12 +2619,11 @@ class UploadProject(View):
             for index, row in df.iterrows():
                 if type(row['project_start'])!=float:
                     # print(row.head())
-                    # f=row['project_start']
-                    # d=f.strip()
-                    print(int(row['id']))
-
+                    # print(int(row['id']))
+                    
                     if int(row['id']) in ids:
                         print('repeat')
+                        # return JsonResponse({'error':'Some repeated projects are skipped'}, status=500)
                     else:
                         print(row['id'])
                         Project.objects.create(project_title=row['project_title'],project_type=row['project_type'],project_desc=row['project_desc'],project_start=row['project_start'].strip(),project_end=row['project_end'].strip(),duration=row['duration'],project_status=row['project_status'],hours=row['hours'],project_activation=row['project_activation'])

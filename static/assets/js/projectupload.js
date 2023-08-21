@@ -36,6 +36,7 @@ $(document).ready(function() {
         
             },
             error: function (response) {
+                alert(response.responseJSON.error)
                 alert('error')
             },
             cache: false,
