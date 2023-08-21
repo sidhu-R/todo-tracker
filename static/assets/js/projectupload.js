@@ -1,4 +1,4 @@
-// Upload project
+// Upload project from csv
 $(document).ready(function() {
   $("#projectuploadform").validate({
   rules: {
@@ -26,10 +26,14 @@ $(document).ready(function() {
             },
             data: formData,
             success: function (response) {
-              loadProject('', '');
+            loadProject('', '');
             $('#projectuploadform')[0].reset();
 
             $('#fileuploadclose').click()
+            
+            if(response!=0){
+              alert(response+' Already existing projects detected and skipped')
+            }
 
             alertify.set('notifier','position', 'top-right');
             alertify.notify('Project Uploaded', 'custom', 2, function(){console.log('dismissed');});
@@ -50,3 +54,25 @@ $(document).ready(function() {
 });
 
 });
+
+
+
+// function initdata(callback) {
+//   $.ajax({
+//     url: '/',
+//     type: 'POST',
+//     data: {
+//       name:"name",
+//     },
+//       success: function(result) { // or just success: callback,
+//           callback(result);
+//       }
+//   });
+// }
+
+// $(document).ready(function() {
+//   initdata(function(data) {
+//       console.log(data.length);
+//       console.log(data[0]);
+//   });
+// })

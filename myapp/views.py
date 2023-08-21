@@ -2395,13 +2395,25 @@ class assigneeaddview(View):
                 
         return JsonResponse({'status': 'success'})
 
+# function to change priority value from the table itself
 class Selectboxchangepriority(View):
     def post(self,request):
         if request.method == "POST":
             id=request.POST.get('task_id')
             priority=request.POST.get('priority')
-            print(id,priority)
+            # print(id,priority)
             task1.objects.filter(id=id).update(task_priority1=priority)
+            return JsonResponse({'status': 'success'})
+
+
+# function to change status value from the table itself
+class Selectboxchangestatus(View):
+    def post(self,request):
+        if request.method == "POST":
+            id=request.POST.get('task_id')
+            status=request.POST.get('status')
+            # print(id,status)
+            task1.objects.filter(id=id).update(task_status1=status)
             return JsonResponse({'status': 'success'})
 
 
@@ -2427,6 +2439,7 @@ class assigneetaskview(View):
             data.append(assignee_data)
         
         return JsonResponse(data, safe=False)
+
 
 # function to load Manage list page
 class Listpageview(View):
@@ -2593,7 +2606,7 @@ class Deactiveprojectshowview(View):
 
 
 
-# function to deactivate project in todo page
+# function to deactivate project in project page
 class Deactivateprojectview(View):
     def post(self,request, pk):
         user=request.user
@@ -2604,6 +2617,9 @@ class Deactivateprojectview(View):
             return JsonResponse({'status': 'success'})
 
 
+
+
+#function to upload projects from csv file 
 class UploadProject(View):
     def post(self,request):
         if request.method == 'POST':
@@ -2613,16 +2629,17 @@ class UploadProject(View):
             # print(df.head())
 
             data=Project.objects.all()
-            ids=[]
-            for item in data:
-                ids.append(item.id)
+            ids=[item.id for item in data]
+            existing=[]
+
             for index, row in df.iterrows():
                 if type(row['project_start'])!=float:
                     # print(row.head())
                     # print(int(row['id']))
-                    
+
                     if int(row['id']) in ids:
                         print('repeat')
+                        existing.append(1)
                         # return JsonResponse({'error':'Some repeated projects are skipped'}, status=500)
                     else:
                         print(row['id'])
@@ -2630,13 +2647,14 @@ class UploadProject(View):
 
                 else:
                     print('nan found')
+            print(existing)
 
-            return JsonResponse({'status': 'success'})
+            return JsonResponse(len(existing),safe=False)
         else:
             return JsonResponse({'status': 'error'})
 
      
-# function to update project in todo page
+# function to update project in project page
 class UpdateProjectView(View):
     def post(self,request,pk):
         from datetime import date
@@ -2665,7 +2683,7 @@ class UpdateProjectView(View):
 
 
 
-# function to create project in todo page
+# function to create project in project page
 class CreateProject(View):
     def post(self,request):
         user=request.user
@@ -2702,7 +2720,7 @@ class CreateProject(View):
             return JsonResponse({"error": ""}, status=500)
 
 
-# function to view and filter project in todo page
+# function to view and filter project in project page
 class Projectdataview(View):
     def get(self,request):
         user=request.user

@@ -37,7 +37,9 @@ function assigneeadd() {
 
 // assignee task and details
 $(document).ready(function() {
-  
+  let dataId = $(".breadcrumb .active").data('id');
+  assigneeDetail()
+  function assigneeDetail(){
   let dataId = $(".breadcrumb .active").data('id');
   $.ajax({
     url: '/assigneetask/' + dataId + '/',
@@ -87,19 +89,27 @@ $(document).ready(function() {
               <td>${task.fields.task_desc1}</td>
               <td>${task.fields.task_due1}</td>
               <td>
-              <select class="form-select assignpriority" aria-label="Default select example" id="assignpriority${task.pk}" data-id="${task.pk}" onChange="changes(this.id)">
+              <select class="form-select assignpriority" aria-label="Default select example" id="assignpriority${task.pk}" data-id="${task.pk}" onChange="Priochanges(this.id)">
                 <option value="${task.fields.task_priority1}">${task.fields.task_priority1}</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
               </select>
               </td>
-              <td>${task.fields.task_status1}</td>
+
+              <td>
+            <select class="form-select" aria-label="Default select example" name="" id="assignstatus${task.pk}"  data-id="${task.pk}" onChange="Statuschanges(this.id)">
+              <option value="${task.fields.task_status1}">${task.fields.task_status1}</option>
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Finished">Finished</option>
+            </select>
+              </td>
             </tr>
           `;
           
           assigneeTbody.append(taskRow);
-          // $('#assignpriority'+task.fields.task_id).val(task.fields.task_priority1);
+
         });
 
         assigneeTable.append(assigneeTbody);
@@ -111,7 +121,7 @@ $(document).ready(function() {
       console.error('Error fetching data:', error);
     }
   });
-
+  }
   $(document).on('change', '.myCheckbox', function() {
     if (!this.checked) {
       if (!confirm("Are you sure you want remove this asignee ?")) {
@@ -153,7 +163,7 @@ $(document).ready(function() {
   
 });
 
-function changes(id) {
+function Priochanges(id) {
   // console.log('Select option changed');
   var boxvalue=$('#'+id).val()
   var taskId=$('#'+id).data('id')
@@ -171,9 +181,38 @@ function changes(id) {
     },
     success: function(response) {
   
-      
       alertify.set('notifier','position', 'top-right');
       alertify.notify('Task priority Updated', 'custom', 2, function(){console.log('dismissed');});
+      
+  
+  
+    }
+  });
+
+}
+
+
+function Statuschanges(id) {
+  // console.log('Select option changed');
+  var boxvalue=$('#'+id).val()
+  var taskId=$('#'+id).data('id')
+
+  $.ajax({
+    url: '/status_change',
+    type: 'POST',
+    dataType: 'json',
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    data: {
+      task_id: taskId,
+      status:boxvalue,
+    },
+    success: function(response) {
+  
+      
+      alertify.set('notifier','position', 'top-right');
+      alertify.notify('Task Status Updated', 'custom', 2, function(){console.log('dismissed');});
       
   
   

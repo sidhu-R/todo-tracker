@@ -91,7 +91,6 @@ $(document).ready(function() {
 
 
 
-
 // load project
 function loadProject(sortBy, sortBy2) {
   $('#projecttable').DataTable().clear().destroy();
@@ -137,6 +136,7 @@ function loadProject(sortBy, sortBy2) {
                         <td style="visibility:collapse;"></td>
                       </tr>`;
         tbody.append(row);
+        
       });
 
       var dataTable = $('.datatable1').DataTable({
@@ -411,6 +411,8 @@ function fecthproDeactive(sortBy) {
                     </tr>
                 `;
                 cardsContainer.append(cardHtml);
+                
+
                 $('#prodeactive-table td').css('color', 'red');
                 // $('#deactive-table td').css('text-decoration', 'line-through');
             });
