@@ -325,7 +325,14 @@ $.ajax({
     // alert('Task updated');
     $('#Closebtn2').click();
     // location.reload()
-    loadData('','','');
+    var proid = $('#taskprojectselect').val();
+    if(proid==undefined){
+      loadData('','','');
+    }
+    else{
+
+      loadData('','',proid);
+    }
     
     alertify.set('notifier','position', 'top-right');
     alertify.notify('Task Updated', 'custom', 2, function(){console.log('dismissed');});

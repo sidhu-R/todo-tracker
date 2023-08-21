@@ -50,6 +50,7 @@ urlpatterns = [
     path('project_update/<int:pk>/',views.UpdateProjectView.as_view(), name='project_update'),
     path('project_delete/<int:pk>/', views.Deactivateprojectview.as_view(), name='project_delete'),
     path('view_deactiveproject/', views.Deactiveprojectshowview.as_view(), name='project_deactivelist'),
+    path('upload_project/',views.UploadProject.as_view(),name='Uploadproject'),
 
     # List page-----------------------
     path('managelist/<int:pk>/',views.Listpageview.as_view(),name='managelist'),
@@ -63,7 +64,6 @@ urlpatterns = [
     path('project_detail/<int:pk>/',views.ProjectDetailview.as_view(),name="projectdetails"),
     path('assigneetask/<int:pk>/',views.assigneetaskview.as_view(),name='getassigneetask'),
     path('assignee_dlt',views.assigneedltview.as_view(),name='assigneedlt'),
-
 
 
     # Issue page----------------------

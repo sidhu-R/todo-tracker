@@ -9,7 +9,7 @@ function assigneeadd() {
     return;
   }
   $.ajax({
-    url: '/assignee_add',  
+    url: '/assignee_add',
     type: 'POST',
     data: {
       name:selectedRow,

@@ -7,6 +7,12 @@
 
 
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="{% static 'assets/multjs/jquery.multiselect.css' %}" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'assets/multjs/jquery.multiselect.js' %}"></script>
+
 
 <style>
   .datatable1 tfoot {
@@ -48,13 +54,17 @@
               <p>Add new project here</p>
               {% endif %}
 
-          
+
             <div class="card-body">
               {% if user.is_staff %}
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
                 Add 
               </button>
+
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#prouploadmodal">Upload</button>
+
               {% endif %}
+
               <hr>
               <div class="modal fade" id="basicModal" tabindex="-1">
                 <div class="modal-dialog">
@@ -91,6 +101,16 @@
                   <label for="inputPassword4" class="form-label">Estimated Hours</label>
                  <input type="text" class="form-control" name="prohours" id="prohours" >
                 </div>
+
+                <div class="col-12">
+                  <label for="" class="form-label">Assignee</label>
+                  <select name="basic[]" multiple="multiple" class="3col active" id="proassignee">
+                    {% for i in uname %}
+                    <option value="{{i.id}}">{{i.username}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+
                 <div class="col-12">
                   <label for="inputAddress" class="form-label">Type</label>
                   <select class="form-select" aria-label="Default select example" name="protype" id="protype" >
@@ -121,6 +141,42 @@
                   </div>
                 </div>
               </div><!-- End Basic Modal-->
+
+
+              <!-- project upload model -->
+              <div class="modal fade" id="prouploadmodal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Upload Project</h5>
+                      <button type="button" class="btn-close" id="btnclose1" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <div class="card-body">
+              <h5 class="card-title">Upload Project</h5>
+            
+                    <!-- Vertical Form -->
+                    <form class="row g-3" action="" id="projectuploadform" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="col-12">
+                        <input type="file" id="ulpoadfile" class="btn btn-primary btn-sm" name="ulpoadfile">
+                      </div>
+                          <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="fileuploadclose">Close</button>
+                           <button type="submit" id="" class="btn btn-primary">Upload</button>
+                           <!-- <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button> -->
+                          </div>
+                    </form><!-- Vertical Form -->
+            
+                      </div>
+                    </div>
+            
+                  </div>
+                </div>
+              </div><!-- End upload project Modal-->
+
+
+
 
             </div>
          
@@ -333,8 +389,23 @@
     </section>
 
   </main><!-- End #main -->
+  
+<script>
+    $(function () {
+        $('select[multiple].active.3col').multiselect({
+            columns: 3,
+            placeholder: 'Add Assignee',
+            search: true,
+            searchOptions: {
+                'default': 'Add Assignee'
+            },
+            selectAll: true
+        });
+      });
+</script>
 
 <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="{% static 'assets/js/project.js' %}"></script>
-  
+<script src="{% static 'assets/js/projectupload.js' %}"></script>
+
   {% endblock content %}
