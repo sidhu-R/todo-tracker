@@ -23,6 +23,7 @@ import pandas as pd
 class Dashactvitylogview(View):
     def post(self,request):
         user=request.user
+
         if request.method == 'POST':
             sort_by = request.POST.get('sort_by')
             today = datetime.today()

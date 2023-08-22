@@ -66,7 +66,7 @@ $(document).ready(function() {
 
         assigneeCard.append(assigneeContainer);
 
-        var assigneeTable = $('<table class="table table-borderless datable">');
+        var assigneeTable = $('<table class="table table-borderless assigneetable">');
         var tableHead = `
           <thead>
             <tr>
@@ -116,6 +116,16 @@ $(document).ready(function() {
         assigneeCard.append(assigneeTable);
         taskList.append(assigneeCard);
       });
+      
+      var dataTable = $('.assigneetable').DataTable({
+        "info": false,
+        drawCallback: function(settings) {
+          var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+          pagination.toggle(this.api().page.info().pages > 1);
+          },
+          
+      })
+
     },
     error: function(xhr, status, error) {
       console.error('Error fetching data:', error);
@@ -162,6 +172,7 @@ $(document).ready(function() {
 
   
 });
+
 
 function Priochanges(id) {
   // console.log('Select option changed');

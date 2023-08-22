@@ -117,7 +117,7 @@ function fetchTaskattachement() {
               var cardHtml = `
                   <div class="col">
                       <div class="card">
-                          <img src="${item.image_url}" class="card-img-top" alt="News">
+                          <img src="${item.image_url}" class="card-img-top" alt="News" height="250">
                           <button class="btn-danger" id="${item.id}" onClick="deletetaskim(this.id)">Delete</button>
                       </div>
                   </div>

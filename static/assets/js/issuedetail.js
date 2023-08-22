@@ -116,7 +116,7 @@ function fetchattachement() {
               var cardHtml = `
                   <div class="col" id="issueattachcard" data-id="">
                       <div class="card">
-                          <img src="${item.image_url}" class="card-img-top" alt="News">
+                          <img src="${item.image_url}" class="card-img-top" alt="News" height="250">
                           <button class="btn-danger" id="${item.id}" onClick="deleteim(this.id)">Delete</button>
                       </div>
                   </div>

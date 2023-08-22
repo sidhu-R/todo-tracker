@@ -86,7 +86,7 @@ function fetchData(searchQuery, sortBy,sortBy2,userBy) {
                 var cardHtml = `
                     <div class="col">
                         <div class="card">
-                            <img src="${item.image_url}" class="card-img-top" alt="News">
+                            <img src="${item.image_url}" class="card-img-top" alt="News" height="250>
                             <div class="card-body">
                                 <h5 class="card-title"> ${item.news_title}</h5>
                                 <p class="card-text">${item.news_created}</p>
@@ -166,7 +166,7 @@ function fetchFeat(searchQuery, sortBy,sortBy2,userBy) {
                 var cardHtml = `
                     <div class="col">
                         <div class="card">
-                            <img src="${item.image_url}" class="card-img-top" alt="News">
+                            <img src="${item.image_url}" class="card-img-top" alt="News" height="250>
                             <div class="card-body">
                                 <h5 class="card-title"> ${item.news_title}</h5>
                                 <p class="card-text">${item.news_created}</p>

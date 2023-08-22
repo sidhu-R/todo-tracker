@@ -1,0 +1,116 @@
+
+{% load static %}
+
+{% block content %}
+
+<div class="modal fade" id="notifannouncement" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Announcements <span id="announspan" style="font-size: medium;"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+         <!-- <div class="card-body">
+          <div class="filter">
+            <a class="icon" style="color: grey;" href="#" data-bs-toggle="dropdown" ><i class="bi bi-three-dots"><span style="color: black;">Filter</span></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
+
+              <li value="Today" class="annbtn1"><b class="dropdown-item" >Today</b></li>
+              <li value="This Month" class="annbtn2"><b class="dropdown-item" >This Month</b></li>
+              <li value="This Year" class="annbtn3"><b class="dropdown-item" >This Year</b></li>
+            </ul>
+          </div>
+  
+
+
+        <div class="card" style="width: 18rem;" id="bigann">
+
+        </div>
+
+        </div>
+         -->
+
+         <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+      
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#Send-ann">Send</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#Recieved-ann">Recieved</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+            <div class="tab-pane fade show active Send-ann" id="Send-ann">
+      
+              <div class="card-body">
+                  <div class="filter">
+                    <a class="icon" style="color: grey;" href="#" data-bs-toggle="dropdown" ><i class="bi bi-three-dots"><span style="color: black;">Filter</span></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                      <li class="dropdown-header text-start">
+                        <h6>Filter</h6>
+                      </li>
+        
+                      <li value="Today" class="annbtn1"><b class="dropdown-item" >Today</b></li>
+                      <li value="This Month" class="annbtn2"><b class="dropdown-item" >This Month</b></li>
+                      <li value="This Year" class="annbtn3"><b class="dropdown-item" >This Year</b></li>
+                    </ul>
+                  </div>
+                  <div class="ajaxspinner">
+                    <img src="{% static 'assets/img/Spinner.gif' %}" alt="">
+                  </div>
+
+                <div class="card" style="width: 18rem;" id="sendann">
+        
+                </div>
+        
+                </div>
+                
+            </div>
+      
+      
+            <div class="tab-pane fade Recieved-ann pt-3" id="Recieved-ann">
+              
+              <div class="card-body">
+                <div class="filter">
+                  <a class="icon" style="color: grey;" href="#" data-bs-toggle="dropdown" ><i class="bi bi-three-dots"><span style="color: black;">Filter</span></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+      
+                    <li value="Today" class="annbtn4"><b class="dropdown-item" >Today</b></li>
+                    <li value="This Month" class="annbtn5"><b class="dropdown-item" >This Month</b></li>
+                    <li value="This Year" class="annbtn6"><b class="dropdown-item" >This Year</b></li>
+                  </ul>
+                </div>
+
+                <div class="ajaxspinner">
+                  <img src="{% static 'assets/img/Spinner.gif' %}" alt="">
+                </div>
+                
+              <div class="card" style="width: 18rem;" id="recieveann">
+      
+              </div>
+      
+              </div>
+              
+          </div>
+      
+          </div>
+      
+        </div>
+      </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- End Basic Modal-->
+
+  {% endblock content %}
