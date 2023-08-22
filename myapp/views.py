@@ -247,35 +247,64 @@ class Dashprojectpopupsview(View):
     def get(self,request):
             user=request.user
             sort_by = request.GET.get('sort_by')
-            if sort_by=='Project':
-                data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
-            elif sort_by!='Project' and sort_by!=None:
-                data = Project.objects.filter(project_status=sort_by).exclude(project_activation='deactive').order_by('-project_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
-
+            if user.is_staff:
+                if sort_by=='Project':
+                    data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+                elif sort_by!='Project' and sort_by!=None:
+                    data = Project.objects.filter(project_status=sort_by).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+            else:
+                if sort_by=='Project':
+                    data = Project.objects.filter(assignee=user).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+                elif sort_by!='Project' and sort_by!=None:
+                    data = Project.objects.filter(assignee=user,project_status=sort_by).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
             # print(response_data)
             return JsonResponse(response_data, safe=False)
 
@@ -293,67 +322,128 @@ class Dashprojecttableview(View):
             # print(sort_by)
             # print(day)
 
+            if user.is_staff:
+                if sort_by=='All':    
+                    data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
 
-            if sort_by=='All':    
-                data = Project.objects.exclude(project_activation='deactive').order_by('-project_created')
-                # print(data)
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
+                elif sort_by=='Today':
+                    data = Project.objects.filter(project_created__day=day).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
 
-            elif sort_by=='Today':
-                data = Project.objects.filter(project_created__day=day).exclude(project_activation='deactive').order_by('-project_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
 
-            elif sort_by=='This Month':
-                data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+            else:
+                if sort_by=='All':    
+                    data = Project.objects.filter(assignee=user).exclude(project_activation='deactive').order_by('-project_created')
+                    # print(data)
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
 
-            elif sort_by=='This Year':
-                data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
-                response_data = []
-                for item in data:
-                    response_data.append({
-                        'pro_title': item.project_title,
-                        'pro_desc': item.project_desc,
-                        'pro_start': item.project_start,
-                        'pro_end': item.project_end,
-                        'duration':item.duration,
-                        'pro_hours': item.hours,
-                        'pro_type':item.project_type,
-                        'pro_status':item.project_status,
-                    })
+                elif sort_by=='Today':
+                    data = Project.objects.filter(assignee=user,project_created__day=day).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Month':
+                    data = Project.objects.filter(assignee=user,project_created__month=month,project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
+
+                elif sort_by=='This Year':
+                    data = Project.objects.filter(assignee=user,project_created__year=year).exclude(project_activation='deactive').order_by('-project_created')
+                    response_data = []
+                    for item in data:
+                        response_data.append({
+                            'pro_title': item.project_title,
+                            'pro_desc': item.project_desc,
+                            'pro_start': item.project_start,
+                            'pro_end': item.project_end,
+                            'duration':item.duration,
+                            'pro_hours': item.hours,
+                            'pro_type':item.project_type,
+                            'pro_status':item.project_status,
+                        })
 
             # print(response_data)
             return JsonResponse(response_data, safe=False)
@@ -404,21 +494,21 @@ class Dashprojectnumview(View):
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
 
                     response_data = []
                     response_data.append({
@@ -426,7 +516,7 @@ class Dashprojectnumview(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
@@ -480,21 +570,21 @@ class Dashprojectcompletednum(View):
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.filter(project_status='Completed').exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Completed').exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_status='Completed',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Completed',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_status='Completed',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Completed',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
 
                     response_data = []
                     response_data.append({
@@ -502,7 +592,7 @@ class Dashprojectcompletednum(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_status='Completed',project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Completed',project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
@@ -556,21 +646,21 @@ class Dashprojectonholdnum(View):
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.filter(project_status='On Hold').exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='On Hold').exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_status='On Hold',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='On Hold',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_status='On Hold',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='On Hold',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
 
                     response_data = []
                     response_data.append({
@@ -578,7 +668,7 @@ class Dashprojectonholdnum(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_status='On Hold',project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='On Hold',project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
@@ -631,21 +721,21 @@ class Dashprojectpendingnum(View):
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.filter(project_status='Pending').exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Pending').exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_status='Pending',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Pending',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_status='Pending',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Pending',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
 
                     response_data = []
                     response_data.append({
@@ -653,7 +743,7 @@ class Dashprojectpendingnum(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_status='Pending',project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Pending',project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
@@ -707,21 +797,21 @@ class Dashprojectcancellnum(View):
                         })
             else:
                 if sort_by=='All':
-                    data = Project.objects.filter(project_status='Cancelled').exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Cancelled').exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
 
                 elif sort_by=='Today':
-                    data = Project.objects.filter(project_status='Cancelled',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Cancelled',project_created__day=day,project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
                         })
                     
                 elif sort_by=='This Month':
-                    data = Project.objects.filter(project_status='Cancelled',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Cancelled',project_created__month=month,project_created__year=year).exclude(project_activation='deactive').count()
 
                     response_data = []
                     response_data.append({
@@ -729,7 +819,7 @@ class Dashprojectcancellnum(View):
                         })
                     
                 elif sort_by=='This Year':
-                    data = Project.objects.filter(project_status='Cancelled',project_created__year=year).exclude(project_activation='deactive').count()
+                    data = Project.objects.filter(assignee=user,project_status='Cancelled',project_created__year=year).exclude(project_activation='deactive').count()
                     response_data = []
                     response_data.append({
                         'count': data
@@ -2622,6 +2712,7 @@ class Deactivateprojectview(View):
 #function to upload projects from csv file 
 class UploadProject(View):
     def post(self,request):
+        user=request.user
         if request.method == 'POST':
             excel=request.FILES['ulpoadfile']
 
@@ -2646,8 +2737,9 @@ class UploadProject(View):
                         Project.objects.create(project_title=row['project_title'],project_type=row['project_type'],project_desc=row['project_desc'],project_start=row['project_start'].strip(),project_end=row['project_end'].strip(),duration=row['duration'],project_status=row['project_status'],hours=row['hours'],project_activation=row['project_activation'])
 
                 else:
-                    print('nan found')
+                    print('NaN found')
             print(existing)
+            Activity.objects.create(user=user,activity_done="Project uploaded")
 
             return JsonResponse(len(existing),safe=False)
         else:

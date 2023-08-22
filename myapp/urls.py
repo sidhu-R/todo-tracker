@@ -93,13 +93,15 @@ urlpatterns = [
 
     # dashboard-----------------------
     path('sort_news_dash/',views.Dashnewsfilterview.as_view(),name="dashnews"),
+    path('sort_activity/',views.Dashactvitylogview.as_view(),name="recentactivity"),
+
+
+    # dashboard task------------------
     path('sort_task_num/',views.Dashtasknumview.as_view(),name="dashnum"),
     path('sort_task_fin/',views.Dashtaskfinishedview.as_view(),name="dashfin"),
     path('sort_task_pen/',views.Dashtaskpendingview.as_view(),name="dashpen"),
     path('sort_task_prog/',views.Dashtaskprogressview.as_view(),name="dashprog"),
     path('sort_task_table/',views.Dashtasktableview.as_view(),name="dashtaskview"),
-    path('sort_activity/',views.Dashactvitylogview.as_view(),name="recentactivity"),
-    path('sort_issue_num/',views.Dashissuescountview.as_view(),name="issuenum"),
 
 
     # Dashboard project---------------
