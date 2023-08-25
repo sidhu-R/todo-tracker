@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cron',
     'myapp',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'dashboard.urls'
@@ -143,3 +145,9 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 # ADMIN_EMAIL=<your-username@gmail.com>
 
+
+INTERNAL_IPS = [
+    
+    "127.0.0.1",
+
+]
